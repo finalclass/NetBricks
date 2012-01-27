@@ -22,5 +22,10 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract {
 
         _::services()->login->setNamespace('\NetBricks\User\Service\Login');
 
+        _::stage()->addCase('login', '\NetBricks\User\Component\Login\LoginPage')
+                ->addCase('logout', '\NetBricks\User\Component\Login\Logout');
+
+        _::router()->addRoute('login', 'login', array('stage' => 'login'))
+                ->addRoute('logout', 'logout', array('stage' => 'logout'));
     }
 }
