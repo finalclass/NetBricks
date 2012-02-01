@@ -1,13 +1,14 @@
 <?php
 
-namespace NetBricks\Common\ContentSwitcher;
+namespace NetBricks\Common;
 
 use \NetCore\Component\ComponentAbstract;
 use \NetCore\Component\Event\ComponentEvent;
-use \NetCore\Component\Event\ContentSwitcherEvent;
+use \NetBricks\Event\ContentSwitcherEvent;
 use \NetCore\Component\Container;
 use \NetCore\Factory\Factory;
 use \NetBricks\Facade as _;
+use \NetBricks\Common\ContentSwitcher\SwitcherCase;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -76,10 +77,8 @@ class ContentSwitcher extends Container
         if(!$this->selectedCase) {
             $this->dispatchEvent(new ContentSwitcherEvent(ContentSwitcherEvent::CONTENT_NOT_FOUND));
         } else {
-
             $className = $this->selectedCase->getContentClassName();
-            $factory = _::factory()->findFactoryByNamespace($className);
-            $this->content = $factory();
+            $this->content = _::loader($className)->create();
             $this->addChild($this->content);
             $this->dispatchEvent(new ContentSwitcherEvent(ContentSwitcherEvent::AFTER_SWITCH, $this->getContent()));
         }

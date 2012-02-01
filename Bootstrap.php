@@ -24,6 +24,11 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
         return _::config()->setTarget($cnf);
     }
 
+    protected function _initStaticResource()
+    {
+
+    }
+
     protected function _initSession()
     {
         session_start();
@@ -38,9 +43,15 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
 
     public function run()
     {
-        if (_::loader('/' . $_SERVER['REQUEST_URI'])->isStaticResource()) {
-            _::loader()->sendToClient();
+        try {
+            if(_::loader('/' . $_SERVER['REQUEST_URI'])->isStaticResource()) {
+                _::loader()->sendToClient();
+            }
+        } catch (\NetCore\Loader\Exception\NotAllowed $e) {
+            header("HTTP/1.0 404 Not Found");
+            exit;
         }
+
         /**
          * For "get layout" requests:
          * /stage-admin/content-articles/crud-form
@@ -93,7 +104,10 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
                 _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_AFTER_RENDER));
 
             } catch (\NetCore\Factory\Exception\NotAllowed $e) {
+                //deprecated
                 echo _::factory()->netBricks->user->component->login->loginPage();
+            } catch (\NetCore\Loader\Exception\NotAllowed $e) {
+                echo _::loader('/NetBricks/User/Component/Login/LoginPage')->create();
             }
         }
 

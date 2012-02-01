@@ -4,7 +4,7 @@ namespace NetBricks\Article\Component;
 
 use \NetBricks\Article\Model\ArticleModel;
 use \NetCore\Component\Container;
-use \NetBricks\Common\ContentSwitcher\ContentSwitcher;
+use \NetBricks\Common\ContentSwitcher;
 use \NetCore\Component\RelativeLink;
 use \NetBricks\Facade as _;
 

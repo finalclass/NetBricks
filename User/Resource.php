@@ -20,6 +20,8 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract {
             UserModel::setDir($cnf['users_dir']);
         }
 
+        _::loader()->setRoles(_::user()->getRoles());
+
         _::services()->login->setNamespace('\NetBricks\User\Service\Login');
 
         _::stage()->addCase('login', '\NetBricks\User\Component\Login\LoginPage')

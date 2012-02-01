@@ -10,7 +10,7 @@ use \Doctrine\ORM\EntityManager;
 use \NetCore\Configurable\DynamicObject\Reader;
 use \NetCore\Configurable\DynamicObject\Writer;
 use \NetBricks\Request;
-use \NetBricks\Common\ContentSwitcher\ContentSwitcher;
+use \NetBricks\Common\Stage;
 use \NetCore\Factory\Factory;
 use \NetBricks\User\Model\CurrentUser;
 use NetCore\Router\Router;
@@ -293,7 +293,7 @@ class Facade
     static public function stage()
     {
         if (!isset(self::$options[__FUNCTION__])) {
-            self::$options[__FUNCTION__] = new ContentSwitcher(self::config()->stage->getValue());
+            self::$options[__FUNCTION__] = new Stage(self::config()->stage->getValue());
         }
         return self::$options[__FUNCTION__];
     }
