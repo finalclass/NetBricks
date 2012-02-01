@@ -39,7 +39,7 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
     public function run()
     {
         if (_::loader('/' . $_SERVER['REQUEST_URI'])->isStaticResource()) {
-            _::loader('/' . $_SERVER['REQUEST_URI'])->sendToClient();
+            _::loader()->sendToClient();
         }
         /**
          * For "get layout" requests:
