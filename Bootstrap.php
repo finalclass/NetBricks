@@ -15,26 +15,32 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
         unset($this->_pluginResources['FrontController']);
     }
 
+    protected function _initConfig()
+    {
+        $cnf = $this->getOptions();
+        if (isset($cnf['loader'])) {
+            _::loader()->setOptions($cnf['loader']);
+        }
+        return _::config()->setTarget($cnf);
+    }
+
     protected function _initSession()
     {
         session_start();
     }
 
-    protected function _initConfig()
-    {
-        $cnf = $this->getOptions();
-        return _::config()->setTarget($cnf);
-    }
-
     protected function _initDate()
     {
-        if(isset(_::config()->settings->application->datetime)) {
+        if (isset(_::config()->settings->application->datetime)) {
             \date_default_timezone_set(_::config()->settings->application->datetime);
         }
     }
 
     public function run()
     {
+        if (_::loader('/' . $_SERVER['REQUEST_URI'])->isStaticResource()) {
+            _::loader('/' . $_SERVER['REQUEST_URI'])->sendToClient();
+        }
         /**
          * For "get layout" requests:
          * /stage-admin/content-articles/crud-form
@@ -45,21 +51,21 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
 
         $params = _::request()->getAllParams();
 
-        if(isset($params['service'])) {
+        if (isset($params['service'])) {
             @list($serviceName, $method) = explode('-', $params['service']);
-            if(empty($method)) {
+            if (empty($method)) {
                 $method = _::request()->getMethod();
             }
 
             $result = _::services()->$serviceName()->$method();
             $response = array();
 
-            if(is_array($result)) {
-                if(!isset($result[0])) {
+            if (is_array($result)) {
+                if (!isset($result[0])) {
                     $response = $result;
                 }
-                else if(!empty($result) && is_object(reset($result))) {
-                    foreach($result as $model) {
+                else if (!empty($result) && is_object(reset($result))) {
+                    foreach ($result as $model) {
                         $response[] = is_array($model) ? $model : $model->toArray();
                     }
                 } else {
@@ -75,18 +81,18 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
         }
 
         $currentStage = _::request()->getParam('stage', 'default');
-        if(!empty($currentStage)) {
+        if (!empty($currentStage)) {
             try {
-            _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_BEFORE_CONSTRUCTION));
-            _::stage()->switchTo($currentStage);
-            _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_AFTER_CONSTRUCTION));
+                _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_BEFORE_CONSTRUCTION));
+                _::stage()->switchTo($currentStage);
+                _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_AFTER_CONSTRUCTION));
 
-            //Rendering
-            _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_BEFORE_RENDER));
-            echo _::stage();
-            _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_AFTER_RENDER));
+                //Rendering
+                _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_BEFORE_RENDER));
+                echo _::stage();
+                _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_AFTER_RENDER));
 
-            } catch(\NetCore\Factory\Exception\NotAllowed $e) {
+            } catch (\NetCore\Factory\Exception\NotAllowed $e) {
                 echo _::factory()->netBricks->user->component->login->loginPage();
             }
         }

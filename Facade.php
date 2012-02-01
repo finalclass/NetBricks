@@ -32,11 +32,30 @@ use NetCore\Router\Router;
  * @property \NetBricks\Factory\Factory $services
  * @property \NetCore\Router\Router $router
  * @property \NetCore\Router\Router $mail
+ * @property \NetCore\Loader $loader
  */
 class Facade
 {
 
     static private $options;
+
+    /**
+     * @static
+     * @param string $resource
+     * @return \NetCore\Loader
+     */
+    static public function loader($resource = null)
+    {
+        if (!isset(self::$options[__FUNCTION__])) {
+            require_once realpath(__DIR__ . '/../NetCore/Loader/Loader.php');
+            self::$options[__FUNCTION__] = new \NetCore\Loader(__DIR__ . '/../');
+        }
+        $loader = self::$options[__FUNCTION__];
+        if($resource) {
+            $loader->find($resource);
+        }
+        return $loader;
+    }
 
     /**
      * @static
@@ -87,9 +106,12 @@ class Facade
             /** @define "self::sourcePath()" "../" */
             set_include_path(get_include_path()
                     . PATH_SEPARATOR . self::sourcePath());
-            require_once self::sourcePath() . 'NetCore/AutoLoader.php';
+
+            self::loader()->registerAutoloader();
+
+            /*require_once self::sourcePath() . 'NetCore/AutoLoader.php';
             \NetCore\Autoloader::addIncludePath(self::sourcePath());
-            \NetCore\Autoloader::register();
+            \NetCore\Autoloader::register();*/
 
             $application = new \Zend_Application(self::env(), $config);
             self::$options[__FUNCTION__] = $application->bootstrap();
@@ -180,7 +202,7 @@ class Facade
     {
         $params = $get;
         $params['get'] = $get;
-        switch( strtolower($_SERVER['REQUEST_METHOD']) ) {
+        switch (strtolower($_SERVER['REQUEST_METHOD'])) {
             case 'put':
                 parse_str(file_get_contents("php://input"), $putVars);
                 $params['put'] = $putVars;
@@ -219,7 +241,6 @@ class Facade
 
     /**
      * @static
-     * @param null $item
      * @return \NetCore\Configurable\DynamicObject\Writer
      */
     static public function session()
