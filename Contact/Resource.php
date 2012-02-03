@@ -17,6 +17,7 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
     public function init()
     {
         _::services()->contact->setNamespace('\NetBricks\Contact\Service\Contact');
+        _::config()->contact->setTarget($this->getOptions());
     }
 
 }

@@ -35,11 +35,11 @@ class Contact
 
     public function post()
     {
-        $cfg = _::config()->email;
+        $cfg = _::config()->contact;
         $data = $this->getValidatedAndFilteredPostData();
 
         $to = $cfg->adminEmail->getString();
-        $subject = 'Wiadomość ze strony fathers-village.pl';
+        $subject = $cfg->subject->getString();
         $body = $data['body'];
         $headers = 'From: ' . $data['name'] . ' <' . $data['email'] . '>' . "\r\n";
 
