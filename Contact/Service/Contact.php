@@ -38,7 +38,7 @@ class Contact
         $cfg = _::config()->contact;
         $data = $this->getValidatedAndFilteredPostData();
 
-        $to = $cfg->adminEmail->getString();
+        $to = $cfg->email->getString();
         $subject = $cfg->subject->getString();
         $body = $data['body'];
         $headers = 'From: ' . $data['name'] . ' <' . $data['email'] . '>' . "\r\n";
