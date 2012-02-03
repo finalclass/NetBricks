@@ -43,7 +43,7 @@ class Contact
         $body = $data['body'];
         $headers = 'From: ' . $data['name'] . ' <' . $data['email'] . '>' . "\r\n";
 
-        $result = mail($to, $subject, $body, $headers);
+        $result = @mail($to, $subject, $body, $headers);
 
         if(!$result) {
             $data['errors']['mail'] = 'Send mail failed';
@@ -54,7 +54,7 @@ class Contact
 
     private function getValidatedAndFilteredPostData()
     {
-        $data = array('errors' => array());
+        $data = array();
         $post = _::request()->post;
         $emailValidator = new \Zend_Validate_EmailAddress();
         $strLenValidator = new \Zend_Validate_StringLength(array('min' => 10));
@@ -65,6 +65,7 @@ class Contact
         $data['email'] = $filter->filter($post->email->getString());
         $data['name'] = $filter->filter($post->name->getString());
         $data['body'] = $filter->filter($post->body->getString());
+        $data['errors'] = array();
 
         if(!$emailValidator->isValid($data['email'])) {
             $data['errors']['email'] = 'Email address invalid';
@@ -72,6 +73,8 @@ class Contact
         if(!$strLenValidator->isValid($data['body'])) {
             $data['errors']['body'] = 'Please insert at least 10 characters';
         }
+
+
 
         return $data;
     }

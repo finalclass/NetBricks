@@ -44,13 +44,16 @@ class Contact extends Form
         parent::__construct($options);
         $ns = '/NetCore/Component/Form/';
         $f = _::factory()->core->form;
-        $this->nameInput = _::loader($ns . 'TextInput')->create()->setName('contact[name]');
-        $this->emailInput = _::loader($ns . 'TextInput')->create()->setName('contact[email]');
-        $this->bodyTextArea = _::loader($ns . 'TextArea')->create()->setName('contact[body]');
-        $this->submitButton = _::loader($ns . 'Submit')->create()->setLabel('Send');
-        $this->errorsList = _::loader('/NetCore/Component/UnorderedList')->create();
+        $this->nameInput = _::loader($ns . 'TextInput')->create()->setName('name');
+        $this->emailInput = _::loader($ns . 'TextInput')->create()->setName('email');
+        $this->bodyTextArea = _::loader($ns . 'TextArea')->create()->setName('body');
+        $this->submitButton = _::loader($ns . 'Submit')->create()
+                ->setLabel('Send')
+                ->setName('form')
+                ->setValue('contact');
+        $this->errorsList = _::loader('/NetCore/Component/UnorderedList')->create()->setClass('errors');
 
-        if(_::request()->isPost() && _::request()->post->contact->exists()) {
+        if(_::request()->isPost() && _::request()->post->form == 'contact') {
             $result = _::services()->contact()->post();
             $this->setValues($result);
             if(empty($result['errors'])) {
