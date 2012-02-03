@@ -42,14 +42,15 @@ class Contact extends Form
     public function __construct($options = array())
     {
         parent::__construct($options);
+        $ns = '/NetCore/Component/Form/';
         $f = _::factory()->core->form;
-        $this->nameInput = $f->textInput()->setName('name');
-        $this->emailInput = $f->textInput()->setName('email');
-        $this->bodyTextArea = $f->textArea()->setName('body');
-        $this->submitButton = $f->submit()->setLabel('Send');
-        $this->errorsList = _::factory()->core->unorderedList();
+        $this->nameInput = _::loader($ns . 'TextInput')->create()->setName('contact[name]');
+        $this->emailInput = _::loader($ns . 'TextInput')->create()->setName('contact[email]');
+        $this->bodyTextArea = _::loader($ns . 'TextArea')->create()->setName('contact[body]');
+        $this->submitButton = _::loader($ns . 'Submit')->create()->setLabel('Send');
+        $this->errorsList = _::loader('/NetCore/Component/UnorderedList')->create();
 
-        if(_::request()->isPost()) {
+        if(_::request()->isPost() && _::request()->post->contact->exists()) {
             $result = _::services()->contact()->post();
             $this->setValues($result);
             if(empty($result['errors'])) {
