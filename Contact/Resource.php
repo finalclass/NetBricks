@@ -19,8 +19,10 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
         /**
          * options are email and subject
          */
-        _::services()->contact->setNamespace('\NetBricks\Contact\Service\Contact');
-        _::config()->contact->setTarget($this->getOptions());
+        $cfg = $this->getOptions();
+        _::services()->contact
+            ->setNamespace('\NetBricks\Contact\Service\Contact')
+            ->setOptions($cfg);
     }
 
 }

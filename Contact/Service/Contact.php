@@ -30,16 +30,14 @@ use \NetBricks\Facade as _;
  * @date: 27.12.11
  * @time: 15:03
  */
-class Contact
+class Contact extends \NetCore\Configurable\OptionsAbstract
 {
 
     public function post()
     {
-        $cfg = _::config()->contact;
         $data = $this->getValidatedAndFilteredPostData();
-
-        $to = $cfg->email->getString();
-        $subject = $cfg->subject->getString();
+        $to = $this->getEmail();
+        $subject = $this->getSubject();
         $body = $data['body'];
         $headers = 'From: ' . $data['name'] . ' <' . $data['email'] . '>' . "\r\n";
 
@@ -73,10 +71,43 @@ class Contact
         if(!$strLenValidator->isValid($data['body'])) {
             $data['errors']['body'] = 'Please insert at least 10 characters';
         }
-
-
-
         return $data;
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Contact\Service\Contact
+     */
+    public function setEmail($value)
+    {
+        $this->options['email'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return empty($this->options['email']) ? '' : $this->options['email'];
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Contact\Service\Contact
+     */
+    public function setSubject($value)
+    {
+        $this->options['subject'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubject()
+    {
+        return empty($this->options['subject']) ? '' : $this->options['subject'];
     }
 
 }
