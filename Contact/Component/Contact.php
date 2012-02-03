@@ -38,6 +38,7 @@ class Contact extends Form
 {
 
     public $isSent = false;
+    public $hasErrors = false;
 
     public function __construct($options = array())
     {
@@ -58,8 +59,11 @@ class Contact extends Form
             $this->setValues($result);
             if(empty($result['errors'])) {
                 $this->isSent = true;
+            } else {
+                $this->hasErrors = true;
+                $this->errorsList->setArrayAsContent($result['errors']);
             }
-            $this->errorsList->setArrayAsContent($result['errors']);
+
         }
     }
 
