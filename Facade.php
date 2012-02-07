@@ -109,10 +109,6 @@ class Facade
 
             self::loader()->registerAutoloader();
 
-            /*require_once self::sourcePath() . 'NetCore/AutoLoader.php';
-            \NetCore\Autoloader::addIncludePath(self::sourcePath());
-            \NetCore\Autoloader::register();*/
-
             $application = new \Zend_Application(self::env(), $config);
             self::$options[__FUNCTION__] = $application->bootstrap();
         }
@@ -288,7 +284,7 @@ class Facade
 
     /**
      * @static
-     * @return \NetBricks\Common\ContentSwitcher\ContentSwitcher
+     * @return \NetBricks\Common\ContentSwitcher
      */
     static public function stage()
     {
