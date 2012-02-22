@@ -118,6 +118,11 @@ class Request extends Reader
         return empty($this->options['uri']) ? $_SERVER['REQUEST_URI'] : $this->options['uri'];
     }
 
+    public function getHost()
+    {
+        return $_SERVER['SERVER_NAME'];
+    }
+
     public function getUriExploded($separator = '/')
     {
         $uri = $this->getUri();

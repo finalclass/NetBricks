@@ -37,7 +37,7 @@ use NetCore\Router\Router;
 class Facade
 {
 
-    static private $options;
+    static protected $options;
 
     /**
      * @static
@@ -46,11 +46,11 @@ class Facade
      */
     static public function loader($resource = null)
     {
-        if (!isset(self::$options[__FUNCTION__])) {
+        if (!isset(static::$options[__FUNCTION__])) {
             require_once realpath(__DIR__ . '/../NetCore/Loader/Loader.php');
-            self::$options[__FUNCTION__] = new \NetCore\Loader(__DIR__ . '/../');
+            static::$options[__FUNCTION__] = new \NetCore\Loader(__DIR__ . '/../');
         }
-        $loader = self::$options[__FUNCTION__];
+        $loader = static::$options[__FUNCTION__];
         if($resource) {
             $loader->find($resource);
         }
@@ -64,7 +64,7 @@ class Facade
      */
     static public function mail()
     {
-        if (!isset(self::$options[__FUNCTION__])) {
+        if (!isset(static::$options[__FUNCTION__])) {
             $mailConfig = self::config()->email;
             if (!$mailConfig->exists()) {
                 throw new \Exception('config entry: email.* does not exists');
@@ -74,7 +74,7 @@ class Facade
                     $mailConfig->smtp->host->getString(),
                     $mailConfig->smtp->options->getArray()));
 
-            self::$options[__FUNCTION__] = 'initialized';
+            static::$options[__FUNCTION__] = 'initialized';
         }
         return new \Sel\Mail();
     }
@@ -82,12 +82,12 @@ class Facade
     static public function env($value = null)
     {
         if ($value) {
-            self::$options[__FUNCTION__] = $value;
+            static::$options[__FUNCTION__] = $value;
         }
-        if (!isset(self::$options[__FUNCTION__])) {
-            self::$options[__FUNCTION__] = 'development';
+        if (!isset(static::$options[__FUNCTION__])) {
+            static::$options[__FUNCTION__] = 'development';
         }
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 
     static public function sourcePath()
@@ -102,7 +102,7 @@ class Facade
      */
     static public function bootstrap($config = array())
     {
-        if (!isset(self::$options[__FUNCTION__])) {
+        if (!isset(static::$options[__FUNCTION__])) {
             /** @define "self::sourcePath()" "../" */
             set_include_path(get_include_path()
                     . PATH_SEPARATOR . self::sourcePath());
@@ -110,9 +110,9 @@ class Facade
             self::loader()->registerAutoloader();
 
             $application = new \Zend_Application(self::env(), $config);
-            self::$options[__FUNCTION__] = $application->bootstrap();
+            static::$options[__FUNCTION__] = $application->bootstrap();
         }
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 
     /**
@@ -121,12 +121,12 @@ class Facade
      */
     static public function services()
     {
-        if (!isset(self::$options[__FUNCTION__])) {
+        if (!isset(static::$options[__FUNCTION__])) {
             $s = new Factory(self::config()->services->getArray());
             $s->setRoles(self::user()->getRoles());
-            self::$options[__FUNCTION__] = $s;
+            static::$options[__FUNCTION__] = $s;
         }
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 
     /**
@@ -135,10 +135,10 @@ class Facade
      */
     static public function dispatcher()
     {
-        if (!isset(self::$options[__FUNCTION__])) {
-            self::$options[__FUNCTION__] = new \NetCore\Event\EventDispatcher();
+        if (!isset(static::$options[__FUNCTION__])) {
+            static::$options[__FUNCTION__] = new \NetCore\Event\EventDispatcher();
         }
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 
     /**
@@ -147,7 +147,7 @@ class Facade
      */
     static public function factory()
     {
-        if (!isset(self::$options[__FUNCTION__])) {
+        if (!isset(static::$options[__FUNCTION__])) {
             $options = self::config()->factory->getValue();
             if (!isset($options['core']) || !is_array($options['core'])) {
                 $options['core'] = array();
@@ -155,9 +155,9 @@ class Facade
             $options['core']['namespace'] = '\NetCore\Component';
             $factory = new Factory($options);
             $factory->setRoles(self::user()->getRoles());
-            self::$options[__FUNCTION__] = $factory;
+            static::$options[__FUNCTION__] = $factory;
         }
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 
     /**
@@ -166,7 +166,7 @@ class Facade
      */
     static public function request()
     {
-        if (!isset(self::$options[__FUNCTION__])) {
+        if (!isset(static::$options[__FUNCTION__])) {
             $request = new Request();
             $uri = $_SERVER['REQUEST_URI'];
 
@@ -188,10 +188,10 @@ class Facade
 
             $request->setUri($uri);
             $request->setParams($params);
-            self::$options[__FUNCTION__] = $request;
+            static::$options[__FUNCTION__] = $request;
         }
 
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 
     static private function createParams($get, $post = null, $put = null)
@@ -217,7 +217,7 @@ class Facade
      */
     static public function router()
     {
-        if (!isset(self::$options[__FUNCTION__])) {
+        if (!isset(static::$options[__FUNCTION__])) {
             $r = new Router();
 
             $r->addRoute('default', '/{stage}/{content}/{action}',
@@ -229,10 +229,10 @@ class Facade
             $r->addRoute('service', '/-{service}');
             $r->addRoute('service_with_id', '/-{service}/{id}');
 
-            self::$options[__FUNCTION__] = $r;
+            static::$options[__FUNCTION__] = $r;
         }
 
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 
     /**
@@ -241,11 +241,11 @@ class Facade
      */
     static public function session()
     {
-        if (!isset(self::$options[__FUNCTION__])) {
-            self::$options[__FUNCTION__] = new Writer($_SESSION);
+        if (!isset(static::$options[__FUNCTION__])) {
+            static::$options[__FUNCTION__] = new Writer($_SESSION);
         }
         ;
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 
     /**
@@ -256,14 +256,14 @@ class Facade
      */
     static public function config($data = array())
     {
-        if (!isset(self::$options[__FUNCTION__])) {
-            self::$options[__FUNCTION__] = new Reader();
+        if (!isset(static::$options[__FUNCTION__])) {
+            static::$options[__FUNCTION__] = new Reader();
         }
         if ($data) {
-            self::$options[__FUNCTION__]->setTarget($data);
+            static::$options[__FUNCTION__]->setTarget($data);
         }
 
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 
     /**
@@ -272,14 +272,14 @@ class Facade
      */
     static public function em()
     {
-        if (!isset(self::$options[__FUNCTION__])) {
+        if (!isset(static::$options[__FUNCTION__])) {
             $em = EntityManager::create(static::config()->connection->getOptions(), static::config()->doctrine);
             $em->getEventManager()->addEventSubscriber(
                 new MysqlSessionInit('utf8', 'utf8_unicode_ci')
             );
-            self::$options[__FUNCTION__] = $em;
+            static::$options[__FUNCTION__] = $em;
         }
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 
     /**
@@ -288,10 +288,10 @@ class Facade
      */
     static public function stage()
     {
-        if (!isset(self::$options[__FUNCTION__])) {
-            self::$options[__FUNCTION__] = new Stage(self::config()->stage->getValue());
+        if (!isset(static::$options[__FUNCTION__])) {
+            static::$options[__FUNCTION__] = new Stage(self::config()->stage->getValue());
         }
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 
     /**
@@ -300,9 +300,9 @@ class Facade
      */
     static public function user()
     {
-        if (!isset(self::$options[__FUNCTION__])) {
-            self::$options[__FUNCTION__] = \NetBricks\User\Model\CurrentUser::getInstance();
+        if (!isset(static::$options[__FUNCTION__])) {
+            static::$options[__FUNCTION__] = \NetBricks\User\Model\CurrentUser::getInstance();
         }
-        return self::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__];
     }
 }

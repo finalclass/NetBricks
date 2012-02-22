@@ -15,6 +15,18 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
         unset($this->_pluginResources['FrontController']);
     }
 
+    protected function _initStaticResources()
+    {
+        try {
+            if (_::loader('/' . $_SERVER['REQUEST_URI'])->isStaticResource()) {
+                _::loader()->sendToClient();
+            }
+        } catch (\NetCore\Loader\Exception\NotAllowed $e) {
+            header("HTTP/1.0 404 Not Found");
+            exit;
+        }
+    }
+
     protected function _initConfig()
     {
         $cnf = $this->getOptions();
@@ -43,14 +55,6 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
 
     public function run()
     {
-        try {
-            if(_::loader('/' . $_SERVER['REQUEST_URI'])->isStaticResource()) {
-                _::loader()->sendToClient();
-            }
-        } catch (\NetCore\Loader\Exception\NotAllowed $e) {
-            header("HTTP/1.0 404 Not Found");
-            exit;
-        }
 
         /**
          * For "get layout" requests:
