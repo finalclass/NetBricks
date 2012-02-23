@@ -27,6 +27,23 @@ namespace NetBricks\I18n;
 use \NetBricks\Facade as _;
 
 /**
+ *
+ * This class is responsible for setting the right language and domain.
+ *
+ * Resource works as follows.
+ * Let's say available languages are: pl, en, fr
+ * default: pl
+ * domainPrefix: www
+ * topLevelDomain: pl
+ * secondLevelDomain: example
+ * So the default website base url is: www.example.pl
+ * If user hits this url then _::languages()->getCurrent() will return the default language: "pl"
+ * if the user hits this address example.pl he will be redirected to www.example.pl
+ * If he hits this address: en.example.pl
+ * he will be redirected to www.en.example.pl and after that current language will be set to "en"
+ * so _::languages()->getCurrent() should return "en".
+ * Each redirection sends "301 Moved Permanently" header
+ *
  * @author: Sel <s@finalclass.net>
  * @date: 07.02.12
  * @time: 14:27
@@ -36,8 +53,16 @@ use \NetBricks\Facade as _;
 class LanguageSubDomainResource extends \Zend_Application_Resource_ResourceAbstract
 {
 
+    /**
+     * @var \NetBricks\I18n\Model\Language[]
+     */
     protected $availableLanguages = array();
+
+    /**
+     * @var string 2 letters country code
+     */
     protected $defaultLanguage = '';
+
     protected $topLevelDomain = '';
     protected $secondLevelDomain = '';
     protected $domainPrefix = '';
@@ -45,8 +70,8 @@ class LanguageSubDomainResource extends \Zend_Application_Resource_ResourceAbstr
     protected function initConfig()
     {
         $configArray = $this->getOptions();
-        $this->availableLanguages = (array)@$configArray['available_languages'];
-        $this->defaultLanguage = (string)@$configArray['default_language'];
+        $this->availableLanguages = _::languages()->getAvailable();
+        $this->defaultLanguage = _::languages()->getDefault();
         $this->topLevelDomain = (string)@$configArray['top_level_domain'];
         $this->secondLevelDomain = (string)@$configArray['second_level_domain'];
         $this->domainPrefix = (string)@$configArray['domain_prefix'];
@@ -55,25 +80,26 @@ class LanguageSubDomainResource extends \Zend_Application_Resource_ResourceAbstr
     public function init()
     {
         $this->initConfig();
-        $lang = $this->findLanguageFromUri();
+        $lang = $this->findLanguageCodeFromUri();
         if($lang) {
-            _::request()->lang = $lang;
+            _::languages()->setCurrent($lang);
         } else {
             $this->repairUrl($this->secondLevelDomain, _::request()->getHost(), $this->topLevelDomain);
         }
     }
 
-    public function findLanguageFromUri()
+    public function findLanguageCodeFromUri()
     {
         $siteName = $this->secondLevelDomain;
         $suffix = $this->topLevelDomain;
         $host = _::request()->getHost();
 
         foreach($this->availableLanguages as $lang) {
-            $langWithDot = $lang == $this->defaultLanguage ? '' : $lang . '.';
+            $langCode = $lang->getCode();
+            $langWithDot = $langCode == $this->defaultLanguage ? '' : $langCode . '.';
             $prefix = empty($this->domainPrefix) ? '' : $this->domainPrefix . '.';
             if($host == $prefix . $langWithDot . $siteName . '.' . $suffix) {
-                return $lang;
+                return $langCode;
             }
         }
         return null;

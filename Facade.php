@@ -14,6 +14,7 @@ use \NetBricks\Common\Stage;
 use \NetCore\Factory\Factory;
 use \NetBricks\User\Model\CurrentUser;
 use NetCore\Router\Router;
+use \NetBricks\I18n\Model\Languages;
 
 /**
  * @author: Szymon Wygnański
@@ -33,6 +34,7 @@ use NetCore\Router\Router;
  * @property \NetCore\Router\Router $router
  * @property \NetCore\Router\Router $mail
  * @property \NetCore\Loader $loader
+ * @property \NetBricks\I18n\Model\Languages $languages
  */
 class Facade
 {
@@ -65,7 +67,7 @@ class Facade
     static public function mail()
     {
         if (!isset(static::$options[__FUNCTION__])) {
-            $mailConfig = self::config()->email;
+            $mailConfig = static::config()->email;
             if (!$mailConfig->exists()) {
                 throw new \Exception('config entry: email.* does not exists');
             }
@@ -103,13 +105,13 @@ class Facade
     static public function bootstrap($config = array())
     {
         if (!isset(static::$options[__FUNCTION__])) {
-            /** @define "self::sourcePath()" "../" */
+            /** @define "static::sourcePath()" "../" */
             set_include_path(get_include_path()
-                    . PATH_SEPARATOR . self::sourcePath());
+                    . PATH_SEPARATOR . static::sourcePath());
 
-            self::loader()->registerAutoloader();
+            static::loader()->registerAutoloader();
 
-            $application = new \Zend_Application(self::env(), $config);
+            $application = new \Zend_Application(static::env(), $config);
             static::$options[__FUNCTION__] = $application->bootstrap();
         }
         return static::$options[__FUNCTION__];
@@ -122,8 +124,8 @@ class Facade
     static public function services()
     {
         if (!isset(static::$options[__FUNCTION__])) {
-            $s = new Factory(self::config()->services->getArray());
-            $s->setRoles(self::user()->getRoles());
+            $s = new Factory(static::config()->services->getArray());
+            $s->setRoles(static::user()->getRoles());
             static::$options[__FUNCTION__] = $s;
         }
         return static::$options[__FUNCTION__];
@@ -148,14 +150,27 @@ class Facade
     static public function factory()
     {
         if (!isset(static::$options[__FUNCTION__])) {
-            $options = self::config()->factory->getValue();
+            $options = static::config()->factory->getValue();
             if (!isset($options['core']) || !is_array($options['core'])) {
                 $options['core'] = array();
             }
             $options['core']['namespace'] = '\NetCore\Component';
             $factory = new Factory($options);
-            $factory->setRoles(self::user()->getRoles());
+            $factory->setRoles(static::user()->getRoles());
             static::$options[__FUNCTION__] = $factory;
+        }
+        return static::$options[__FUNCTION__];
+    }
+
+    /**
+     * @static
+     * @return \NetBricks\I18n\Model\Languages
+     */
+    static public function languages()
+    {
+        if (!isset(static::$options[__FUNCTION__])) {
+            $languages = new Languages(static::config()->languages->getArray());
+            static::$options[__FUNCTION__] = $languages;
         }
         return static::$options[__FUNCTION__];
     }
@@ -176,14 +191,14 @@ class Facade
                 $uriWithoutParams = substr($uri, 0, $questionMarkPosition);
             }
 
-            $router = self::router();
+            $router = static::router();
             $route = $router->findRouteByUri($uri);
 
             if ($route) {
                 $get = array_merge($route->getParamsForUri($uriWithoutParams), $_GET);
-                $params = self::createParams($get);
+                $params = static::createParams($get);
             } else {
-                $params = self::createParams($_GET);
+                $params = static::createParams($_GET);
             }
 
             $request->setUri($uri);
@@ -289,7 +304,7 @@ class Facade
     static public function stage()
     {
         if (!isset(static::$options[__FUNCTION__])) {
-            static::$options[__FUNCTION__] = new Stage(self::config()->stage->getValue());
+            static::$options[__FUNCTION__] = new Stage(static::config()->stage->getValue());
         }
         return static::$options[__FUNCTION__];
     }
