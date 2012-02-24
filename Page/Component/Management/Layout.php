@@ -22,29 +22,47 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\User\Service;
-use \NetBricks\Facade as _;
-use \NetBricks\User\Model\CurrentUser;
+namespace NetBricks\Page\Component\Management;
 
-/*
+use \NetCore\Component\Container;
+use \NetBricks\Facade as _;
+
+/**
  * @author: Sel <s@finalclass.net>
- * @date: 29.12.11
- * @time: 23:35
+ * @date: 24.02.12
+ * @time: 09:50
+ *
+ * @property \NetBricks\Page\Component\Management\Menu $menu
+ * @property \NetCore\Component\Container $content
  */
-class Login
+class Layout extends Container
 {
 
-    public function post()
+
+    public function __construct($options = array())
     {
-        $u = CurrentUser::getInstance();
-        $post = _::request()->post;
-        $u->login($post->email->getString(), $post->password->getString());
-        $out = $u->toArray();
-        $out['email'] = $post->email->getString();
-        if(!$u->isLogged()) {
-            $out['errors'] = array('Wrong username or password');
+        $this->menu = _::loader($this)->find('../Menu')->create();
+
+        switch(_::request()->page_management->toString())
+        {
+            default:
+            case 'list':
+                $this->content = _::loader($this)->find('../ListMany')->create();
+                break;
+            case 'add':
+                $this->content = _::loader($this)->find('../Form')->create();
+                break;
         }
-        return $out;
+
+        parent::__construct($options);
+    }
+
+    public function render()
+    {
+?>
+        <?php echo $this->menu; ?>
+        <?php echo $this->content; ?>
+<?php
     }
 
 }

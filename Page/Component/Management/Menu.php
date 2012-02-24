@@ -22,29 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\User\Service;
-use \NetBricks\Facade as _;
-use \NetBricks\User\Model\CurrentUser;
+namespace NetBricks\Page\Component\Management;
 
-/*
+use \NetCore\Component\UnorderedList;
+use \NetBricks\Facade as _;
+/**
  * @author: Sel <s@finalclass.net>
- * @date: 29.12.11
- * @time: 23:35
+ * @date: 24.02.12
+ * @time: 09:53
+ *
+ * @property \Drobgen\Page\Component\Management\ListButton $list
+ * @property \Drobgen\Page\Component\Management\AddButton $add
  */
-class Login
+class Menu extends UnorderedList
 {
 
-    public function post()
+    public function __construct($options = array())
     {
-        $u = CurrentUser::getInstance();
-        $post = _::request()->post;
-        $u->login($post->email->getString(), $post->password->getString());
-        $out = $u->toArray();
-        $out['email'] = $post->email->getString();
-        if(!$u->isLogged()) {
-            $out['errors'] = array('Wrong username or password');
-        }
-        return $out;
+        $this->list = _::loader($this)->find('../ListButton')->create();
+        $this->add = _::loader($this)->find('../AddButton')->create();
+        parent::__construct($options);
     }
 
 }

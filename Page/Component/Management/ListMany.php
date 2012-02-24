@@ -22,29 +22,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\User\Service;
-use \NetBricks\Facade as _;
-use \NetBricks\User\Model\CurrentUser;
+namespace NetBricks\Page\Component\Management;
 
-/*
+use \NetCore\Component\Table;
+
+/**
  * @author: Sel <s@finalclass.net>
- * @date: 29.12.11
- * @time: 23:35
+ * @date: 24.02.12
+ * @time: 10:03
  */
-class Login
+class ListMany extends Table
 {
 
-    public function post()
+
+    public function __construct($options = array())
     {
-        $u = CurrentUser::getInstance();
-        $post = _::request()->post;
-        $u->login($post->email->getString(), $post->password->getString());
-        $out = $u->toArray();
-        $out['email'] = $post->email->getString();
-        if(!$u->isLogged()) {
-            $out['errors'] = array('Wrong username or password');
-        }
-        return $out;
+        parent::__construct($options);
     }
+
+    public function render()
+    {
+        echo 'list all';
+    }
+
 
 }

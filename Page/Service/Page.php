@@ -22,29 +22,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\User\Service;
+namespace NetBricks\Page\Service;
 use \NetBricks\Facade as _;
-use \NetBricks\User\Model\CurrentUser;
+use \NetBricks\Page\Model\Page as PageModel;
 
-/*
+/**
  * @author: Sel <s@finalclass.net>
- * @date: 29.12.11
- * @time: 23:35
+ * @date: 24.02.12
+ * @time: 10:04
  */
-class Login
+class Page
 {
 
-    public function post()
+    public function all()
     {
-        $u = CurrentUser::getInstance();
-        $post = _::request()->post;
-        $u->login($post->email->getString(), $post->password->getString());
-        $out = $u->toArray();
-        $out['email'] = $post->email->getString();
-        if(!$u->isLogged()) {
-            $out['errors'] = array('Wrong username or password');
+        $pagesArray = _::couchdb()->get('_design/page_couchapp/_view/pages');
+        $pagesArray = $pagesArray['rows'];
+        $models = array();
+        foreach($pagesArray as $p) {
+            $model = new PageModel();
+            $model->fromArray($p['value']);
+            $models[] = $model;
         }
-        return $out;
+        return $models;
     }
 
 }

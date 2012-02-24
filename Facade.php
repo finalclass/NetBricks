@@ -43,6 +43,20 @@ class Facade
 
     /**
      * @static
+     * @return \Object_Freezer_Storage_CouchDB
+     */
+    static public function couchdb()
+    {
+        if (!isset(static::$options[__FUNCTION__])) {
+            $config = static::config()->couchdb;
+            $couchdb = new \NetCore\Couchdb($config->getArray());
+            static::$options[__FUNCTION__] = $couchdb;
+        }
+        return static::$options[__FUNCTION__];
+    }
+
+    /**
+     * @static
      * @param string $resource
      * @return \NetCore\Loader
      */
@@ -53,7 +67,7 @@ class Facade
             static::$options[__FUNCTION__] = new \NetCore\Loader(__DIR__ . '/../');
         }
         $loader = static::$options[__FUNCTION__];
-        if($resource) {
+        if ($resource) {
             $loader->find($resource);
         }
         return $loader;
