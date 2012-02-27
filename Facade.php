@@ -43,14 +43,40 @@ class Facade
 
     /**
      * @static
-     * @return \Object_Freezer_Storage_CouchDB
+     * @return \Doctrine\ODM\CouchDB\Configuration
+     */
+    static public function couchdbConfig()
+    {
+        if (!isset(static::$options[__FUNCTION__])) {
+            $config = static::config()->couchdb;
+            $documentPaths = $config->document_paths->getArray();
+            $proxyDir = $config->proxy_dir->getString();
+
+            $config = new \Doctrine\ODM\CouchDB\Configuration();
+            $metadataDriver = $config->newDefaultAnnotationDriver($documentPaths);
+
+            $config->setProxyDir($proxyDir);
+            $config->setMetadataDriverImpl($metadataDriver);
+            $config->setLuceneHandlerName('_fti');
+
+
+            static::$options[__FUNCTION__] = $config;
+        }
+        return static::$options[__FUNCTION__];
+    }
+
+    /**
+     * @static
+     * @return \Doctrine\ODM\CouchDB\DocumentManager
      */
     static public function couchdb()
     {
         if (!isset(static::$options[__FUNCTION__])) {
             $config = static::config()->couchdb;
-            $couchdb = new \NetCore\Couchdb($config->getArray());
-            static::$options[__FUNCTION__] = $couchdb;
+            $databaseName = $config->database->getString();
+            $httpClient = new \Doctrine\CouchDB\HTTP\SocketClient();
+            $dbClient = new Doctrine\CouchDB\CouchDBClient($httpClient, $databaseName);
+            static::$options[__FUNCTION__] = new \Doctrine\ODM\CouchDB\DocumentManager($dbClient, static::couchdbConfig());
         }
         return static::$options[__FUNCTION__];
     }
