@@ -24,10 +24,7 @@ use \NetBricks\I18n\Model\Languages;
  * @property \NetCore\Event\EventDispatcher $dispatcher
  * @property \NetCore\Configurable\DynamicObject\Writer $session
  * @property \NetCore\Configurable\DynamicObject\Reader $config
- * @property EntityManager $em
  * @property \NetBricks\Request $request
- * @property \NetCore\Response $response
- * @property \NetBricks\Common\ContentSwitcher\ContentSwitcher $layout
  * @property \NetCore\Factory\Factory $factory
  * @property \NetBricks\User\Model\CurrentUser $user
  * @property \NetBricks\Factory\Factory $services
@@ -35,6 +32,7 @@ use \NetBricks\I18n\Model\Languages;
  * @property \NetCore\Router\Router $mail
  * @property \NetCore\Loader $loader
  * @property \NetBricks\I18n\Model\Languages $languages
+ * @property \NetCore\CouchDB $couchdb
  */
 class Facade
 {
@@ -43,40 +41,24 @@ class Facade
 
     /**
      * @static
-     * @return \Doctrine\ODM\CouchDB\Configuration
+     * @return \NetBricks\Config
      */
-    static public function couchdbConfig()
+    static public function cfg()
     {
         if (!isset(static::$options[__FUNCTION__])) {
-            $config = static::config()->couchdb;
-            $documentPaths = $config->document_paths->getArray();
-            $proxyDir = $config->proxy_dir->getString();
-
-            $config = new \Doctrine\ODM\CouchDB\Configuration();
-            $metadataDriver = $config->newDefaultAnnotationDriver($documentPaths);
-
-            $config->setProxyDir($proxyDir);
-            $config->setMetadataDriverImpl($metadataDriver);
-            $config->setLuceneHandlerName('_fti');
-
-
-            static::$options[__FUNCTION__] = $config;
+            static::$options[__FUNCTION__] = new \NetBricks\Config(static::config()->getArray());
         }
         return static::$options[__FUNCTION__];
     }
 
     /**
      * @static
-     * @return \Doctrine\ODM\CouchDB\DocumentManager
+     * @return \NetCore\CouchDB
      */
     static public function couchdb()
     {
         if (!isset(static::$options[__FUNCTION__])) {
-            $config = static::config()->couchdb;
-            $databaseName = $config->database->getString();
-            $httpClient = new \Doctrine\CouchDB\HTTP\SocketClient();
-            $dbClient = new Doctrine\CouchDB\CouchDBClient($httpClient, $databaseName);
-            static::$options[__FUNCTION__] = new \Doctrine\ODM\CouchDB\DocumentManager($dbClient, static::couchdbConfig());
+            static::$options[__FUNCTION__] = new \NetCore\CouchDB(static::cfg()->getCouchdb());
         }
         return static::$options[__FUNCTION__];
     }
@@ -121,10 +103,18 @@ class Facade
         return new \Sel\Mail();
     }
 
+    /**
+     * envirement is always lower cased
+     * strtolower() is called each time you set the envirement
+     *
+     * @static
+     * @param string $value = null
+     * @return mixed
+     */
     static public function env($value = null)
     {
         if ($value) {
-            static::$options[__FUNCTION__] = $value;
+            static::$options[__FUNCTION__] = strtolower($value);
         }
         if (!isset(static::$options[__FUNCTION__])) {
             static::$options[__FUNCTION__] = 'development';
@@ -146,11 +136,7 @@ class Facade
     {
         if (!isset(static::$options[__FUNCTION__])) {
             /** @define "static::sourcePath()" "../" */
-            set_include_path(get_include_path()
-                    . PATH_SEPARATOR . static::sourcePath());
-
-            static::loader()->registerAutoloader();
-
+            set_include_path(get_include_path() . PATH_SEPARATOR . static::sourcePath());
             $application = new \Zend_Application(static::env(), $config);
             static::$options[__FUNCTION__] = $application->bootstrap();
         }
@@ -318,22 +304,6 @@ class Facade
             static::$options[__FUNCTION__]->setTarget($data);
         }
 
-        return static::$options[__FUNCTION__];
-    }
-
-    /**
-     * @static
-     * @return \Doctrine\ORM\EntityManager
-     */
-    static public function em()
-    {
-        if (!isset(static::$options[__FUNCTION__])) {
-            $em = EntityManager::create(static::config()->connection->getOptions(), static::config()->doctrine);
-            $em->getEventManager()->addEventSubscriber(
-                new MysqlSessionInit('utf8', 'utf8_unicode_ci')
-            );
-            static::$options[__FUNCTION__] = $em;
-        }
         return static::$options[__FUNCTION__];
     }
 

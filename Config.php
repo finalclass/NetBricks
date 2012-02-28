@@ -22,48 +22,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Component\Management;
+namespace NetBricks;
 
-use \NetCore\Component\Form\Form as CoreForm;
-use \NetBricks\Facade as _;
+use \NetCore\DependencyInjection\ConfigurableContainer;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.02.12
- * @time: 10:11
- *
- * @property \NetBricks\Common\Form\MultiLang\TextInput $title
- * @property \NetCore\Component\Form\Submit $submit
+ * @date: 28.02.12
+ * @time: 10:31
  */
-class Form extends CoreForm
+class Config extends ConfigurableContainer
 {
 
-    public function __construct($options = array())
+    private $couchdb;
+
+    /**
+     * @return \NetCore\CouchDB\Config
+     */
+    public function getCouchdb()
     {
-        parent::__construct($options);
-        $this->title = _::loader('/NetBricks/Common/Form/MultiLang/TextInput')->create()
-                            ->setName('title');
-
-        $this->submit = _::loader('/NetCore/Component/Form/Submit')->create();
-    }
-
-
-    public function render()
-    {
-?>
-<form <?php echo $this->renderTagAttributes($this->defaultAttributes); ?>>
-    
-    <p>
-        <label for="page_title">
-            Tytuł
-        </label>
-        <?php echo $this->title->setId('page_title'); ?>
-    </p>
-
-    <?php echo $this->submit->setLabel('Save'); ?>
-
-</form>
-<?php
+        if(!$this->couchdb) {
+            $this->couchdb = new \NetCore\CouchDB\Config((array)@$this->options['doctrine']);
+        }
+        return $this->couchdb;
     }
 
 }

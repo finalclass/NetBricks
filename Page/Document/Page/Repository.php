@@ -22,48 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Component\Management;
+namespace NetBricks\Page\Document\Page;
 
-use \NetCore\Component\Form\Form as CoreForm;
 use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.02.12
- * @time: 10:11
- *
- * @property \NetBricks\Common\Form\MultiLang\TextInput $title
- * @property \NetCore\Component\Form\Submit $submit
+ * @date: 28.02.12
+ * @time: 16:32
  */
-class Form extends CoreForm
+class Repository
 {
-
-    public function __construct($options = array())
+    public function findAll()
     {
-        parent::__construct($options);
-        $this->title = _::loader('/NetBricks/Common/Form/MultiLang/TextInput')->create()
-                            ->setName('title');
-
-        $this->submit = _::loader('/NetCore/Component/Form/Submit')->create();
+        $result = _::couchdb()->get('_design/page_couchapp/_view/pages');
+        var_dump($result);
     }
 
-
-    public function render()
+    public function find($id)
     {
-?>
-<form <?php echo $this->renderTagAttributes($this->defaultAttributes); ?>>
-    
-    <p>
-        <label for="page_title">
-            Tytuł
-        </label>
-        <?php echo $this->title->setId('page_title'); ?>
-    </p>
 
-    <?php echo $this->submit->setLabel('Save'); ?>
-
-</form>
-<?php
     }
-
 }

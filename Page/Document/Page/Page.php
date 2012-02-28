@@ -22,48 +22,58 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Component\Management;
+namespace NetBricks\Page\Document;
 
-use \NetCore\Component\Form\Form as CoreForm;
+use \NetCore\Configurable\OptionsAbstract;
+
 use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.02.12
- * @time: 10:11
+ * @date: 28.02.12
+ * @time: 11:12
  *
- * @property \NetBricks\Common\Form\MultiLang\TextInput $title
- * @property \NetCore\Component\Form\Submit $submit
  */
-class Form extends CoreForm
+class Page extends OptionsAbstract
 {
 
-    public function __construct($options = array())
-    {
-        parent::__construct($options);
-        $this->title = _::loader('/NetBricks/Common/Form/MultiLang/TextInput')->create()
-                            ->setName('title');
+    protected $options = array(
+        'type' => '\\NetBricks\\Page\\Document\\Page'
+    );
 
-        $this->submit = _::loader('/NetCore/Component/Form/Submit')->create();
+    /**
+     * @param array $value
+     * @return \NetBricks\Page\Document\Page
+     */
+    public function setWidgets($value)
+    {
+        $this->options['widgets'] = (array) $value;
+        return $this;
     }
 
-
-    public function render()
+    /**
+     * @return array
+     */
+    public function getWidgets()
     {
-?>
-<form <?php echo $this->renderTagAttributes($this->defaultAttributes); ?>>
-    
-    <p>
-        <label for="page_title">
-            Tytuł
-        </label>
-        <?php echo $this->title->setId('page_title'); ?>
-    </p>
-
-    <?php echo $this->submit->setLabel('Save'); ?>
-
-</form>
-<?php
+        return empty($this->options['widgets']) ? array() : $this->options['widgets'];
     }
 
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Document\Page
+     */
+    public function setTitle($value)
+    {
+        $this->options['title'] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return empty($this->options['title']) ? '' : $this->options['title'];
+    }
 }
