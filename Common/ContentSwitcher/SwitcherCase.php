@@ -39,7 +39,7 @@ class SwitcherCase
     }
 
     /**
-     * @return stirng
+     * @return string
      */
     public function getContentClassName()
     {

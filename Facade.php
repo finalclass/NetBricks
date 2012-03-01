@@ -3,10 +3,6 @@
 namespace NetBricks;
 
 use \NetCore\DependencyInjection\MutualContainer;
-use \Doctrine\ORM\Configuration;
-use \NetCore\Doctrine\ConnectionOptions;
-use \Doctrine\DBAL\Event\Listeners\MysqlSessionInit;
-use \Doctrine\ORM\EntityManager;
 use \NetCore\Configurable\DynamicObject\Reader;
 use \NetCore\Configurable\DynamicObject\Writer;
 use \NetBricks\Request;
@@ -47,6 +43,18 @@ class Facade
     {
         if (!isset(static::$options[__FUNCTION__])) {
             static::$options[__FUNCTION__] = new \NetBricks\Config(static::config()->getArray());
+        }
+        return static::$options[__FUNCTION__];
+    }
+
+    /**
+     * @static
+     * @return \NetBricks\Common\Header
+     */
+    static public function head()
+    {
+        if (!isset(static::$options[__FUNCTION__])) {
+            static::$options[__FUNCTION__] = static::loader('/NetBricks/Common/Header')->create();
         }
         return static::$options[__FUNCTION__];
     }
@@ -180,7 +188,7 @@ class Facade
             if (!isset($options['core']) || !is_array($options['core'])) {
                 $options['core'] = array();
             }
-            $options['core']['namespace'] = '\NetCore\Component';
+            $options['core']['namespace'] = '\NetBricks\Common';
             $factory = new Factory($options);
             $factory->setRoles(static::user()->getRoles());
             static::$options[__FUNCTION__] = $factory;

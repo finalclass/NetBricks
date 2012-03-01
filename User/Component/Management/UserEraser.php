@@ -2,7 +2,7 @@
 
 namespace NetBricks\User\Component\Management;
 
-use \NetCore\Component\ComponentAbstract;
+use \NetBricks\Common\ComponentAbstract;
 use \NetBricks\User\Model\UserModel;
 use \NetBricks\Facade as _;
 

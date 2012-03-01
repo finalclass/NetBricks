@@ -24,8 +24,8 @@ SOFTWARE.
 
 namespace NetBricks\Common\Form\MultiLang;
 
-use \NetCore\Component\Form\FormElementAbstract;
-use NetCore\Component\Form\TextInput as TextInputNormal;
+use \NetBricks\Common\Form\FormElementAbstract;
+use NetBricks\Common\Form\TextInput as TextInputNormal;
 
 use \NetBricks\Facade as _;
 
@@ -40,7 +40,7 @@ class TextInput extends FormElementAbstract
 {
 
     /**
-     * @var \NetCore\Component\Form\TextInput
+     * @var \NetBricks\Common\Form\TextInput
      */
     private $inputs = array();
 
@@ -60,7 +60,7 @@ class TextInput extends FormElementAbstract
     {
         parent::setName($value);
         foreach($this->inputs as $lang=>$input) {
-            /** @var \NetCore\Component\Form\TextInput $input */
+            /** @var \NetBricks\Common\Form\TextInput $input */
             $input->setName($value . '[' . $lang . ']');
         }
         return $this;

@@ -3,7 +3,7 @@
 namespace NetBricks;
 
 use \NetBricks\Facade as _;
-use \NetCore\Component\Event\ComponentEvent;
+use \NetBricks\Common\Event\ComponentEvent;
 use \NetCore\AutoLoader;
 use \NetBricks\Event\BootstrapEvent;
 

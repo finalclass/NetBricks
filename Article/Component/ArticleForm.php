@@ -4,12 +4,12 @@ namespace NetBricks\Article\Component;
 
 use \NetBricks\Facade as _;
 use \NetBricks\Article\Model\ArticleModel;
-use \NetCore\Component\ComponentAbstract;
-use \NetCore\Component\Form\TextInput;
-use \NetCore\Component\Form\Submit;
-use \NetCore\Component\Form\TextArea;
-use \NetCore\Component\Container;
-use \NetCore\Component\Form\Form;
+use \NetBricks\Common\ComponentAbstract;
+use \NetBricks\Common\Form\TextInput;
+use \NetBricks\Common\Form\Submit;
+use \NetBricks\Common\Form\TextArea;
+use \NetBricks\Common\Container;
+use \NetBricks\Common\Form\Form;
 
 /**
  * ArticleForm
@@ -22,7 +22,7 @@ class ArticleForm extends Form {
 
     /**
      *
-     * @var \NetCore\Component\UnorderedList
+     * @var \NetBricks\Common\UnorderedList
      */
     public $errors = '';
     public $id;
@@ -31,7 +31,7 @@ class ArticleForm extends Form {
 
         parent::__construct();
 
-        $this->id = \NetCore\Component\Form\Hidden::factory()->setName('id');
+        $this->id = \NetBricks\Common\Form\Hidden::factory()->setName('id');
         $this->name = new TextInput;
         $this->metaDescription = new TextInput;
         $this->metaKeywords = new TextInput;
@@ -82,9 +82,9 @@ class ArticleForm extends Form {
             return true;
         }
 
-        $this->errors = new \NetCore\Component\UnorderedList();
+        $this->errors = new \NetBricks\Common\UnorderedList();
         $this->errors->addChild(
-                \NetCore\Component\Tag::factory('span')->setContent('Fill in TITLE field')
+                \NetBricks\Common\Tag::factory('span')->setContent('Fill in TITLE field')
         );
 
         $this->addChild($this->errors);

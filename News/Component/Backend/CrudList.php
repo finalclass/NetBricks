@@ -2,7 +2,7 @@
 
 namespace NetBricks\News\Component\Backend;
 
-use \NetCore\Component\Table;
+use \NetBricks\Common\Table;
 use \NetBricks\Facade as _;
 use \NetBricks\News\Model\NewsModel;
 

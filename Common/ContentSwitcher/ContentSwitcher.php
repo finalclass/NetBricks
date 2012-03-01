@@ -2,10 +2,10 @@
 
 namespace NetBricks\Common;
 
-use \NetCore\Component\ComponentAbstract;
-use \NetCore\Component\Event\ComponentEvent;
+use \NetBricks\Common\ComponentAbstract;
+use \NetBricks\Common\Event\ComponentEvent;
 use \NetBricks\Event\ContentSwitcherEvent;
-use \NetCore\Component\Container;
+use \NetBricks\Common\Container;
 use \NetCore\Factory\Factory;
 use \NetBricks\Facade as _;
 use \NetBricks\Common\ContentSwitcher\SwitcherCase;
@@ -49,7 +49,7 @@ class ContentSwitcher extends Container
     /**
      * @static
      * @param array $options
-     * @return \NetBricks\Common\ContentSwitcher\ContentSwitcher
+     * @return \NetBricks\Common\ContentSwitcher
      */
     static public function factory($options = array())
     {
@@ -107,7 +107,7 @@ class ContentSwitcher extends Container
 
     /**
      * @param \NetBricks\Common\ContentSwitcher\SwitcherCase[] $value
-     * @return \NetBricks\Common\ContentSwitcher\ContentSwitcher
+     * @return \NetBricks\Common\ContentSwitcher
      */
     public function setCases(array $value)
     {
@@ -158,7 +158,7 @@ class ContentSwitcher extends Container
 
     /**
      * @param string|array $caseNameOrArray You can provide an array of possibilities to switch to.
-     * @return ContentSwitcher
+     * @return \NetBricks\Common\ContentSwitcher
      */
     public function switchTo($caseNameOrArray)
     {

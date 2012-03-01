@@ -2,7 +2,7 @@
 
 namespace NetBricks\Article\Model;
 
-use \NetCore\Component\Tag;
+use \NetBricks\Common\Tag;
 use \NetCore\FileSystem\Model;
 
 /**

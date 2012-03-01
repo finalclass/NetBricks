@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace NetBricks\Page\Component\Management;
 
-use \NetCore\Component\Form\Form as CoreForm;
+use \NetBricks\Common\Form\Form as CoreForm;
 use \NetBricks\Facade as _;
 
 /**
@@ -33,7 +33,7 @@ use \NetBricks\Facade as _;
  * @time: 10:11
  *
  * @property \NetBricks\Common\Form\MultiLang\TextInput $title
- * @property \NetCore\Component\Form\Submit $submit
+ * @property \NetBricks\Common\Form\Submit $submit
  */
 class Form extends CoreForm
 {
@@ -44,7 +44,7 @@ class Form extends CoreForm
         $this->title = _::loader('/NetBricks/Common/Form/MultiLang/TextInput')->create()
                             ->setName('title');
 
-        $this->submit = _::loader('/NetCore/Component/Form/Submit')->create();
+        $this->submit = _::loader('/NetBricks/Common/Form/Submit')->create();
     }
 
 

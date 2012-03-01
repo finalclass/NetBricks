@@ -25,14 +25,14 @@ SOFTWARE.
 namespace NetBricks\Contact\Component;
 
 use \NetBricks\Facade as _;
-use \NetCore\Component\Form\Form;
+use \NetBricks\Common\Form\Form;
 
 /**
- * @property \NetCore\Component\Form\TextInput $nameInput
- * @property \NetCore\Component\Form\TextInput $emailInput
- * @property \NetCore\Component\Form\TextArea $bodyTextArea
- * @property \NetCore\Component\Form\Submit $submitButton
- * @property \NetCore\Component\UnorderedList $errorsList
+ * @property \NetBricks\Common\Form\TextInput $nameInput
+ * @property \NetBricks\Common\Form\TextInput $emailInput
+ * @property \NetBricks\Common\Form\TextArea $bodyTextArea
+ * @property \NetBricks\Common\Form\Submit $submitButton
+ * @property \NetBricks\Common\UnorderedList $errorsList
  */
 class Contact extends Form
 {

@@ -2,12 +2,12 @@
 
 namespace NetBricks\User\Component\Management;
 
-use \NetCore\Component\Container;
+use \NetBricks\Common\Container;
 use \NetCore\FileSystem\Model;
 use \NetBricks\User\Model\UserModel;
-use \NetCore\Component\Table;
+use \NetBricks\Common\Table;
 use \NetBricks\Facade as _;
-use \NetCore\Component\UnorderedList;
+use \NetBricks\Common\UnorderedList;
 
 /**
  * UserList

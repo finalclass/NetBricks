@@ -2,7 +2,7 @@
 
 namespace NetBricks\News\Component\Backend;
 
-use \NetCore\Component\Container;
+use \NetBricks\Common\Container;
 use \NetBricks\Facade as _;
 
 /**

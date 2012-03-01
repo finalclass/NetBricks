@@ -2,10 +2,10 @@
 
 namespace NetBricks\Common;
 
-use \NetCore\Component\Tag;
+use \NetBricks\Common\Tag;
 use \NetBricks\Facade as _;
 use \NetCore\Router\Exception\RouteNotFound;
-use NetCore\Router\Exception as RouterException;
+use \NetCore\Router\Exception as RouterException;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -63,7 +63,7 @@ class Link extends Tag
         try {
             $route = _::router()->getRoute($this->getRouteName());
             $params = array_merge(_::request()->get->getArray(), $this->params);
-            if(!$route) {
+            if (!$route) {
                 $route = _::router()->findRoute($params);
             }
 

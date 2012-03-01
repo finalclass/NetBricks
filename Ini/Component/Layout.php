@@ -8,13 +8,13 @@
 namespace NetBricks\Ini\Component;
 
 use \NetBricks\Ini\Component\ManagementList;
-use \NetCore\Component\Container;
-use \NetCore\Component\Event\ComponentEvent;
-use \NetCore\Component\Title;
+use \NetBricks\Common\Container;
+use \NetBricks\Common\Event\ComponentEvent;
+use \NetBricks\Common\Title;
 use \NetBricks\Common\ContentSwitcher;
 use \NetBricks\Facade as _;
-use \NetCore\Component\Link;
-use \NetCore\Component\RelativeLink;
+use \NetBricks\Common\Link;
+use \NetBricks\Common\RelativeLink;
 
 /**
  *

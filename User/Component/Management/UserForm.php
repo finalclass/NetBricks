@@ -2,10 +2,10 @@
 
 namespace NetBricks\User\Component\Management;
 
-use \NetCore\Component\Form\Form;
-use \NetCore\Component\Form\TextInput;
-use \NetCore\Component\Form\Password;
-use \NetCore\Component\Form\Submit;
+use \NetBricks\Common\Form\Form;
+use \NetBricks\Common\Form\TextInput;
+use \NetBricks\Common\Form\Password;
+use \NetBricks\Common\Form\Submit;
 use \NetBricks\Facade as _;
 use \NetBricks\User\Model\UserModel;
 
@@ -13,11 +13,11 @@ use \NetBricks\User\Model\UserModel;
  * UserForm
  *
  * Author: MMP
- * @property \NetCore\Component\Form\Hidden $id
- * @property \NetCore\Component\Form\TextInput $email
- * @property \NetCore\Component\Form\Password $password
- * @property \NetCore\Component\Form\TextInput $roles
- * @property \NetCore\Component\Form\Submit $submit
+ * @property \NetBricks\Common\Form\Hidden $id
+ * @property \NetBricks\Common\Form\TextInput $email
+ * @property \NetBricks\Common\Form\Password $password
+ * @property \NetBricks\Common\Form\TextInput $roles
+ * @property \NetBricks\Common\Form\Submit $submit
  */
 class UserForm extends Form
 {
@@ -89,10 +89,10 @@ class UserForm extends Form
             return true;
         }
 
-        $this->errors = new \NetCore\Component\UnorderedList();
+        $this->errors = new \NetBricks\Common\UnorderedList();
         foreach ($errors as $error) {
             $this->errors->addChild(
-                \NetCore\Component\Tag::factory('span')->setContent($error)
+                \NetBricks\Common\Tag::factory('span')->setContent($error)
             );
         }
         return false;
@@ -104,9 +104,9 @@ class UserForm extends Form
         //            return true;
         //        }
         //
-        //        $this->errors = new \NetCore\Component\UnorderedList();
+        //        $this->errors = new \NetBricks\Common\UnorderedList();
         //        $this->errors->addChild(
-        //                \NetCore\Component\Tag::factory('span')->setContent('Fill in user e-mail and password')
+        //                \NetBricks\Common\Tag::factory('span')->setContent('Fill in user e-mail and password')
         //        );
         //
         //        $this->addChild($this->errors);

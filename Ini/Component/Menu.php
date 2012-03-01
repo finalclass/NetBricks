@@ -8,9 +8,9 @@
 
 namespace NetBricks\Ini\Component;
 
-use \NetCore\Component\UnorderedList;
-use \NetCore\Component\Event\ComponentEvent;
-use \NetCore\Component\RelativeLink;
+use \NetBricks\Common\UnorderedList;
+use \NetBricks\Common\Event\ComponentEvent;
+use \NetBricks\Common\RelativeLink;
 
 class Menu extends UnorderedList {
 

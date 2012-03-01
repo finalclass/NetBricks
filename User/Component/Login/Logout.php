@@ -2,7 +2,7 @@
 
 namespace NetBricks\User\Component\Login;
 use \NetBricks\User\Model\CurrentUser;
-use \NetCore\Component\ComponentAbstract;
+use \NetBricks\Common\ComponentAbstract;
 use \NetBricks\Facade as _;
 
 /**

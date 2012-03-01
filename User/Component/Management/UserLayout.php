@@ -3,9 +3,9 @@
 namespace NetBricks\User\Component\Management;
 
 use \NetBricks\User\Model\UserModel;
-use \NetCore\Component\Container;
+use \NetBricks\Common\Container;
 use \NetBricks\Common\ContentSwitcher;
-use \NetCore\Component\RelativeLink;
+use \NetBricks\Common\RelativeLink;
 use \NetBricks\Facade as _;
 
 /**
@@ -15,7 +15,7 @@ use \NetBricks\Facade as _;
  *
  * @property \NetBricks\Common\IconLink $addButton
  * @property \NetBricks\Common\IconLink $listButton
- * @property \NetCore\Component\ComponentAbstract $content
+ * @property \NetBricks\Common\ComponentAbstract $content
  */
 class UserLayout extends Container
 {
