@@ -3,9 +3,9 @@
 namespace NetBricks\User\Component\Management;
 
 use \NetBricks\User\Model\UserModel;
-use \NetBricks\Common\Container;
-use \NetBricks\Common\ContentSwitcher;
-use \NetBricks\Common\RelativeLink;
+use \NetBricks\Common\Component\Container;
+use \NetBricks\Common\Component\ContentSwitcher;
+use \NetBricks\Common\Component\RelativeLink;
 use \NetBricks\Facade as _;
 
 /**
@@ -13,16 +13,16 @@ use \NetBricks\Facade as _;
  *
  * Author: MMP
  *
- * @property \NetBricks\Common\IconLink $addButton
- * @property \NetBricks\Common\IconLink $listButton
- * @property \NetBricks\Common\ComponentAbstract $content
+ * @property \NetBricks\Common\Component\IconLink $addButton
+ * @property \NetBricks\Common\Component\IconLink $listButton
+ * @property \NetBricks\Common\Component\ComponentAbstract $content
  */
 class UserLayout extends Container
 {
 
     public function __construct()
     {
-        $f = _::loader('/NetBricks/Common/IconLink');
+        $f = _::loader('/NetBricks/Common/Component/IconLink');
         $this->addButton = $f->create()->addParam('action', 'form')->setLabel('add new user');
         $this->listButton = $f->create()->addParam('action', 'list')->setLabel('list of users');
 

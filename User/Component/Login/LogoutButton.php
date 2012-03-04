@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace NetBricks\User\Component\Login;
 
-use \NetBricks\Common\Link;
+use \NetBricks\Common\Component\Link;
 
 /**
  * @author: Sel <s@finalclass.net>

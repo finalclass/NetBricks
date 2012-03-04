@@ -2,7 +2,7 @@
 
 namespace NetBricks\News\Component\Backend;
 
-use \NetBricks\Common\Form\Form as BaseForm;
+use \NetBricks\Common\Component\Form\Form as BaseForm;
 
 /**
  * Author: Sel <s@finalclass.net>

@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace NetBricks\Page\Component\Management;
 
-use \NetBricks\Common\Table;
+use \NetBricks\Common\Component\Table;
 
 /**
  * @author: Sel <s@finalclass.net>

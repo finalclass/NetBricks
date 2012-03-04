@@ -2,7 +2,7 @@
 
 namespace NetBricks\Ini\Component;
 use \NetBricks\Facade as _;
-use \NetBricks\Common\ComponentAbstract;
+use \NetBricks\Common\Component\ComponentAbstract;
 
 /**
  * Form for adding variables to INI file

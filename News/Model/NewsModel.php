@@ -2,7 +2,7 @@
 
 namespace NetBricks\News\Model;
 
-use \NetBricks\Common\Tag;
+use \NetBricks\Common\Component\Tag;
 use \NetCore\FileSystem\Model;
 use \NetBricks\Article\Model\ArticleModel;
 

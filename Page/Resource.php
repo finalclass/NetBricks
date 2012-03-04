@@ -38,6 +38,14 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
     {
         _::services()->page->setNamespace('\NetBricks\Page\Service\Page');
         _::services()->pageWidgetType->setNamespace('\NetBricks\Page\Service\PageWidgetType');
+        _::services()->paragraph->setNamespace('\NetBricks\Page\Service\Paragraph');
+
+        if(_::request()->get->installation == 'installation') {
+            $paragraphDoc = new \NetBricks\Page\Document\Paragraph();
+            $paragraphRepo = new \Netbricks\Page\Document\Paragraph\Repository();
+            $paragraphRepo->all();
+            _::couchdb()->initView($paragraphDoc->toArray(), $paragraphRepo->designDocumentId, $paragraphRepo->viewName);
+        }
     }
 
 }

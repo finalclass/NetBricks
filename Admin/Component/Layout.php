@@ -7,7 +7,7 @@
 
 namespace NetBricks\Admin\Component;
 
-use \NetBricks\Common\Tag;
+use \NetBricks\Common\Component\Tag;
 
 class Layout extends Tag {
 

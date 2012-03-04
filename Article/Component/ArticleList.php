@@ -2,12 +2,12 @@
 
 namespace NetBricks\Article\Component;
 
-use \NetBricks\Common\ComponentAbstract;
-use \NetBricks\Common\Form\FormElementAbstract;
-use \NetBricks\Common\Container;
-use \NetBricks\Common\Form\TextInput;
-use \NetBricks\Common\Form\Form;
-use \NetBricks\Common\Form\Submit;
+use \NetBricks\Common\Component\ComponentAbstract;
+use \NetBricks\Common\Component\Form\FormElementAbstract;
+use \NetBricks\Common\Component\Container;
+use \NetBricks\Common\Component\Form\TextInput;
+use \NetBricks\Common\Component\Form\Form;
+use \NetBricks\Common\Component\Form\Submit;
 use \NetBricks\Article\Model\ArticleModel;
 use \NetCore\FileSystem\Model;
 use \NetBricks\Facade as _;

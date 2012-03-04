@@ -3,7 +3,7 @@
 namespace NetBricks;
 
 use \NetBricks\Facade as _;
-use \NetBricks\Common\Event\ComponentEvent;
+use \NetBricks\Common\Component\Event\ComponentEvent;
 use \NetCore\AutoLoader;
 use \NetBricks\Event\BootstrapEvent;
 
@@ -88,6 +88,11 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
                 }
             } else {
                 $response = $result->toArray();
+            }
+
+            if(isset($params['redirect'])) {
+                header('Location: ' . urldecode($params['redirect']));
+                exit;
             }
 
             header('Content-type: application/json');

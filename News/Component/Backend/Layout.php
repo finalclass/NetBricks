@@ -2,7 +2,7 @@
 
 namespace NetBricks\News\Component\Backend;
 
-use \NetBricks\Common\Container;
+use \NetBricks\Common\Component\Container;
 use \NetBricks\Facade as _;
 
 /**
@@ -10,9 +10,9 @@ use \NetBricks\Facade as _;
  * @date: 02.12.11
  * @time: 12:35
  *
- * @property \NetBricks\Common\Link $crudListButton
- * @property \NetBricks\Common\Link $addButton
- * @property \NetBricks\Common\ContentSwitcher\ContentSwitcher $contentSwitcher
+ * @property \NetBricks\Common\Component\Link $crudListButton
+ * @property \NetBricks\Common\Component\Link $addButton
+ * @property \NetBricks\Common\Component\ContentSwitcher\ContentSwitcher $contentSwitcher
  */
 class Layout extends Container
 {

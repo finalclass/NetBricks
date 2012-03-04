@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace NetBricks\I18n\Component;
 
-use \NetBricks\Common\ComponentAbstract;
+use \NetBricks\Common\Component\ComponentAbstract;
 use \NetBricks\Facade as _;
 
 /**
@@ -38,14 +38,6 @@ class LanguageBar extends ComponentAbstract
     public function __construct($options = array())
     {
         parent::__construct($options);
-        $name = get_class($this);
-        $head = _::head();
-        if(!$head->scripts->hasScript($name)) {
-            $head->scripts->appendScript($this->renderVariable(array($name, 'getJS')), 'text/javascript', $name);
-        }
-        if(!$head->styleSheets->hasCss($name)) {
-            $head->styleSheets->appendCss($this->renderVariable(array($name, 'getCSS')), $name);
-        }
     }
 
     static public function  getCSS()

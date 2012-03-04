@@ -4,8 +4,8 @@ namespace NetBricks\Article\Component;
 
 use \NetBricks\Facade as _;
 use \NetBricks\Article\Model\ArticleModel;
-use \NetBricks\Common\ContentSwitcher\ContentSwitcher;
-use \NetBricks\Common\ComponentAbstract;
+use \NetBricks\Common\Component\ContentSwitcher\ContentSwitcher;
+use \NetBricks\Common\Component\ComponentAbstract;
 
 /**
  * ArticleEraser

@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace NetBricks\Page\Component\Management;
 
-use \NetBricks\Common\UnorderedList;
+use \NetBricks\Common\Component\UnorderedList;
 use \NetBricks\Facade as _;
 /**
  * @author: Sel <s@finalclass.net>

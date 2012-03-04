@@ -8,18 +8,18 @@
 namespace NetBricks\Ini\Component;
 
 use \NetBricks\Ini\Component\ManagementList;
-use \NetBricks\Common\Container;
-use \NetBricks\Common\Event\ComponentEvent;
-use \NetBricks\Common\Title;
-use \NetBricks\Common\ContentSwitcher;
+use \NetBricks\Common\Component\Container;
+use \NetBricks\Common\Component\Event\ComponentEvent;
+use \NetBricks\Common\Component\Title;
+use \NetBricks\Common\Component\ContentSwitcher;
 use \NetBricks\Facade as _;
-use \NetBricks\Common\Link;
-use \NetBricks\Common\RelativeLink;
+use \NetBricks\Common\Component\Link;
+use \NetBricks\Common\Component\RelativeLink;
 
 /**
  *
- * @property \NetBricks\Common\IconLink $addButton
- * @property \NetBricks\Common\IconLink $listButton
+ * @property \NetBricks\Common\Component\IconLink $addButton
+ * @property \NetBricks\Common\Component\IconLink $listButton
  */
 class Layout extends Container
 {

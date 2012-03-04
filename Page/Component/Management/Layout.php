@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace NetBricks\Page\Component\Management;
 
-use \NetBricks\Common\Container;
+use \NetBricks\Common\Component\Container;
 use \NetBricks\Facade as _;
 
 /**
@@ -33,7 +33,7 @@ use \NetBricks\Facade as _;
  * @time: 09:50
  *
  * @property \NetBricks\Page\Component\Management\Menu $menu
- * @property \NetBricks\Common\Container $content
+ * @property \NetBricks\Common\Component\Container $content
  */
 class Layout extends Container
 {

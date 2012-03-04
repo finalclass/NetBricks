@@ -3,7 +3,7 @@
 namespace NetBricks\Event;
 
 use \NetCore\Event\Event;
-use \NetBricks\Common\ComponentAbstract;
+use \NetBricks\Common\Component\ComponentAbstract;
 
 /**
  * Author: Sel <s@finalclass.net>
@@ -34,7 +34,7 @@ class ContentSwitcherEvent extends Event
     }
 
     /**
-     * @param \NetBricks\Common\ComponentAbstract $content
+     * @param \NetBricks\Common\Component\ComponentAbstract $content
      * @return ContentSwitcherEvent
      */
     public function setNewContent(ComponentAbstract $content)

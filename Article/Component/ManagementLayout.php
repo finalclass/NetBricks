@@ -3,9 +3,9 @@
 namespace NetBricks\Article\Component;
 
 use \NetBricks\Article\Model\ArticleModel;
-use \NetBricks\Common\Container;
-use \NetBricks\Common\ContentSwitcher;
-use \NetBricks\Common\RelativeLink;
+use \NetBricks\Common\Component\Container;
+use \NetBricks\Common\Component\ContentSwitcher;
+use \NetBricks\Common\Component\RelativeLink;
 use \NetBricks\Facade as _;
 
 /**
@@ -13,8 +13,8 @@ use \NetBricks\Facade as _;
  *
  * Author: MMP
  *
- * @property \NetBricks\Common\IconLink $add
- * @property \NetBricks\Common\IconLink $list
+ * @property \NetBricks\Common\Component\IconLink $add
+ * @property \NetBricks\Common\Component\IconLink $list
  */
 class ManagementLayout extends Container {
 

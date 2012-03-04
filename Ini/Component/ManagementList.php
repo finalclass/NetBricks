@@ -8,8 +8,8 @@
 
 namespace NetBricks\Ini\Component;
 
-use \NetBricks\Common\ComponentAbstract;
-use \NetBricks\Common\Container;
+use \NetBricks\Common\Component\ComponentAbstract;
+use \NetBricks\Common\Component\Container;
 use \NetBricks\Ini\Model\ConfigModel;
 
 /**

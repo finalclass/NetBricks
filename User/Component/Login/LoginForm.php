@@ -3,7 +3,7 @@
 namespace NetBricks\User\Component\Login;
 
 use \NetCore\Factory\Factory;
-use \NetBricks\Common\Form\Form;
+use \NetBricks\Common\Component\Form\Form;
 use \NetBricks\User\Model\UserModel;
 use \NetBricks\User\Model\CurrentUser;
 use \NetBricks\Facade as _;
@@ -13,10 +13,10 @@ use \NetBricks\Facade as _;
  *
  * Author: Misiorus Maximus, modified by Sel
  *
- * @property \NetBricks\Common\Form\TextInput $email
- * @property \NetBricks\Common\Form\Password $password
- * @property \NetBricks\Common\Form\Submit $logInButton
- * @property \NetBricks\Common\UnorderedList $errors
+ * @property \NetBricks\Common\Component\Form\TextInput $email
+ * @property \NetBricks\Common\Component\Form\Password $password
+ * @property \NetBricks\Common\Component\Form\Submit $logInButton
+ * @property \NetBricks\Common\Component\UnorderedList $errors
  */
 class LoginForm extends Form
 {
@@ -24,10 +24,10 @@ class LoginForm extends Form
     public function __construct($options = array())
     {
         parent::__construct($options);
-        $this->email = _::loader('\NetBricks\Common\Form\TextInput')->create()->setName('email');
-        $this->password = _::loader('\NetBricks\Common\Form\Password')->create()->setName('password');
-        $this->logInButton = _::loader('\NetBricks\Common\Form\Submit')->create()->setName('form')->setValue('login');
-        $this->errors = _::loader('\NetBricks\Common\UnorderedList')->create();
+        $this->email = _::loader('\NetBricks\Common\Component\Form\TextInput')->create()->setName('email');
+        $this->password = _::loader('\NetBricks\Common\Component\Form\Password')->create()->setName('password');
+        $this->logInButton = _::loader('\NetBricks\Common\Component\Form\Submit')->create()->setName('form')->setValue('login');
+        $this->errors = _::loader('\NetBricks\Common\Component\UnorderedList')->create();
 
         if (_::request()->isPost() && _::request()->post->form->toString() == 'login') {
             $user = _::services()->login()->post();

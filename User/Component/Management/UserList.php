@@ -2,12 +2,12 @@
 
 namespace NetBricks\User\Component\Management;
 
-use \NetBricks\Common\Container;
+use \NetBricks\Common\Component\Container;
 use \NetCore\FileSystem\Model;
 use \NetBricks\User\Model\UserModel;
-use \NetBricks\Common\Table;
+use \NetBricks\Common\Component\Table;
 use \NetBricks\Facade as _;
-use \NetBricks\Common\UnorderedList;
+use \NetBricks\Common\Component\UnorderedList;
 
 /**
  * UserList
@@ -35,8 +35,8 @@ class UserList extends Table
     {
         /**
          * @var \NetCore\Factory\Factory $linkFactory
-         * @var \NetBricks\Common\IconLink $editLink
-         * @var \NetBricks\Common\IconLink $removeLink
+         * @var \NetBricks\Common\Component\IconLink $editLink
+         * @var \NetBricks\Common\Component\IconLink $removeLink
          */
         $linkFactory = _::factory()->netBricks->common->iconLink;
 

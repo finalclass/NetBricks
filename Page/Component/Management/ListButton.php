@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace NetBricks\Page\Component\Management;
 
-use \NetBricks\Common\IconLink;
+use \NetBricks\Common\Component\IconLink;
 
 /**
  * @author: Sel <s@finalclass.net>

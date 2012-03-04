@@ -2,7 +2,7 @@
 
 namespace NetBricks\News\Component\Backend;
 
-use \NetBricks\Common\Table;
+use \NetBricks\Common\Component\Table;
 use \NetBricks\Facade as _;
 use \NetBricks\News\Model\NewsModel;
 
@@ -36,7 +36,7 @@ class CrudList extends Table
     }
 
     /**
-     * @return \NetBricks\Common\Link
+     * @return \NetBricks\Common\Component\Link
      */
     public function createLink()
     {

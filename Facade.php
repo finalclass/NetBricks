@@ -5,8 +5,8 @@ namespace NetBricks;
 use \NetCore\DependencyInjection\MutualContainer;
 use \NetCore\Configurable\DynamicObject\Reader;
 use \NetCore\Configurable\DynamicObject\Writer;
-use \NetBricks\Request;
-use \NetBricks\Common\Stage;
+use \NetCore\Request;
+use \NetBricks\Common\Component\Stage;
 use \NetCore\Factory\Factory;
 use \NetBricks\User\Model\CurrentUser;
 use NetCore\Router\Router;
@@ -20,7 +20,7 @@ use \NetBricks\I18n\Model\Languages;
  * @property \NetCore\Event\EventDispatcher $dispatcher
  * @property \NetCore\Configurable\DynamicObject\Writer $session
  * @property \NetCore\Configurable\DynamicObject\Reader $config
- * @property \NetBricks\Request $request
+ * @property \NetCore\Request $request
  * @property \NetCore\Factory\Factory $factory
  * @property \NetBricks\User\Model\CurrentUser $user
  * @property \NetBricks\Factory\Factory $services
@@ -49,12 +49,12 @@ class Facade
 
     /**
      * @static
-     * @return \NetBricks\Common\Header
+     * @return \NetBricks\Common\Component\Header
      */
     static public function head()
     {
         if (!isset(static::$options[__FUNCTION__])) {
-            static::$options[__FUNCTION__] = static::loader('/NetBricks/Common/Header')->create();
+            static::$options[__FUNCTION__] = static::loader('/NetBricks/Common/Component/Header')->create();
         }
         return static::$options[__FUNCTION__];
     }
@@ -188,7 +188,7 @@ class Facade
             if (!isset($options['core']) || !is_array($options['core'])) {
                 $options['core'] = array();
             }
-            $options['core']['namespace'] = '\NetBricks\Common';
+            $options['core']['namespace'] = '\NetBricks\Common\Component';
             $factory = new Factory($options);
             $factory->setRoles(static::user()->getRoles());
             static::$options[__FUNCTION__] = $factory;
@@ -211,7 +211,7 @@ class Facade
 
     /**
      * @static
-     * @return \NetBricks\Request
+     * @return \NetCore\Request
      */
     static public function request()
     {
@@ -317,7 +317,7 @@ class Facade
 
     /**
      * @static
-     * @return \NetBricks\Common\ContentSwitcher
+     * @return \NetBricks\Common\Component\ContentSwitcher
      */
     static public function stage()
     {

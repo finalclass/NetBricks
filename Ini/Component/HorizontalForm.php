@@ -7,7 +7,7 @@
 
 namespace NetBricks\Ini\Component;
 
-use \NetBricks\Common\ComponentAbstract;
+use \NetBricks\Common\Component\ComponentAbstract;
 
 class HorizontalForm extends ComponentAbstract {
 

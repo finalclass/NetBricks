@@ -2,7 +2,7 @@
 
 namespace NetBricks\User\Component\Login;
 
-use \NetBricks\Common\Form\Form;
+use \NetBricks\Common\Component\Form\Form;
 
 use \NetBricks\Facade as _;
 

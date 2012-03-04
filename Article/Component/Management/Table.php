@@ -2,7 +2,7 @@
 
 namespace NetBricks\Article\Component\Management;
 
-use \NetBricks\Common\Table as CoreTable;
+use \NetBricks\Common\Component\Table as CoreTable;
 use \NetBricks\Facade as _;
 use \NetBricks\Article\Model\ArticleModel;
 
