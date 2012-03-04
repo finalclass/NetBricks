@@ -51,7 +51,7 @@ class Layout extends Container
                 $this->content = _::loader($this)->find('../Form')->create();
                 break;
             case 'edit':
-
+                $this->content = _::loader($this)->find('../Form')->create();
                 break;
         }
 

@@ -124,6 +124,7 @@ class LanguageBar extends ComponentAbstract
                 var $this = $(this);
                 var $selected;
                 var isOpen = false;
+                var $ddl = $this.find('.drop_down_list');
 
                 function init() {
                     setSelected($this.find('.drop_down_list li:first'));
@@ -131,23 +132,29 @@ class LanguageBar extends ComponentAbstract
                 }
 
                 function openDropDownList() {
-                    $this.find('.drop_down_list').addClass('absolute');
+                    $ddl.addClass('absolute');
                     $this.find('.drop_down_list li').slideDown();
                     isOpen = true;
                 }
 
                 function closeDropDownList() {
-                    $this.find('.drop_down_list').removeClass('absolute');
+                    $ddl.removeClass('absolute');
                     $this.find('.drop_down_list li').not($selected).slideUp();
                     isOpen = false;
                 }
 
                 function setSelected($item) {
+                    $this.trigger('before_change');
                     $selected = $item;
                     $this.find('.drop_down_list li').removeClass('selected');
                     $item.addClass('selected');
-                    $this.find('.drop_down_list li').not($selected).slideUp();
-                    $selected.show();
+                    $this.find('.drop_down_list li').not($selected)
+                            .slideUp(function() {
+                                $selected.slideDown();
+                            });
+
+                    $this.data('selectedLanguage', $selected.data('language'));
+                    $this.trigger('change');
                 }
 
                 $this.find('.drop_down_button').click(function (event) {
@@ -172,7 +179,6 @@ class LanguageBar extends ComponentAbstract
 
                 $this.find('.language_bar_prev').click(function () {
                     var $prev = $selected.prev('li');
-                    console.log($prev);
                     if ($prev.length > 0) {
                         setSelected($prev);
                     }
@@ -180,7 +186,6 @@ class LanguageBar extends ComponentAbstract
 
                 $this.find('.language_bar_next').click(function () {
                     var $next = $selected.next('li');
-                    console.log($next);
                     if ($next.length > 0) {
                         setSelected($next);
                     }
@@ -212,7 +217,7 @@ class LanguageBar extends ComponentAbstract
         <div class="drop_down_list_container">
             <ul class="drop_down_list">
                 <?php foreach (_::languages()->getAvailable() as $l): ?>
-                <li data-value="<?php echo $l->getCode(); ?>">
+                <li data-language="<?php echo $l->getCode(); ?>">
                     <img src="<?php echo _::loader($this)->find('../../flags/' . $l->getCode() . '.png'); ?>"
                          alt="<?php echo $l->getCode(); ?>"/>
                     <?php echo $l->getName(); ?>

@@ -22,40 +22,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks;
+namespace NetBricks\Common\Component\Form;
 
-use \NetCore\DependencyInjection\ConfigurableContainer;
+use \NetBricks\Common\Component\Form\FormElementAbstract;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 28.02.12
- * @time: 10:31
+ * @date: 04.03.12
+ * @time: 15:57
  */
-class Config extends ConfigurableContainer
+class File extends FormElementAbstract
 {
 
-    /** @var \NetCore\CouchDB\Config */
-    private $couchdb;
+    protected $defaultAttributes = array('id', 'class', 'style', 'name', 'value', 'type');
 
-    /** @var \NetBricks\Page\Config */
-    private $page;
-
-    /** @return \NetCore\CouchDB\Config */
-    public function getCouchdb()
+    public function getTagName()
     {
-        if(!$this->couchdb) {
-            $this->couchdb = new \NetCore\CouchDB\Config((array)@$this->options['doctrine']);
-        }
-        return $this->couchdb;
+        return 'input';
     }
 
-    /** @return \NetBricks\Page\Config */
-    public function getPage()
+    public function getType()
     {
-        if(!$this->page) {
-            $this->page = new \NetBricks\Page\Config((array)@$this->options['page']);
-        }
-        return $this->page;
+        return 'file';
     }
 
 }

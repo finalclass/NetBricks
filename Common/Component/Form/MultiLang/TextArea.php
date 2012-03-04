@@ -22,40 +22,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks;
+namespace NetBricks\Common\Component\Form\MultiLang;
 
-use \NetCore\DependencyInjection\ConfigurableContainer;
+use \NetBricks\Common\Component\Form\TextArea as TextAreaNormal;
+use \NetBricks\I18n\Component\LanguageBar;
+use NetBricks\Common\Component\Form\MultiLang\FormElementAbstract;
+use \NetBricks\Facade as _;
+
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 28.02.12
- * @time: 10:31
+ * @date: 04.03.12
+ * @time: 12:15
+ *
+ * @property \NetBricks\I18n\Component\LanguageBar $languageBar
  */
-class Config extends ConfigurableContainer
+class TextArea extends FormElementAbstract
 {
 
-    /** @var \NetCore\CouchDB\Config */
-    private $couchdb;
-
-    /** @var \NetBricks\Page\Config */
-    private $page;
-
-    /** @return \NetCore\CouchDB\Config */
-    public function getCouchdb()
+    protected function createElement()
     {
-        if(!$this->couchdb) {
-            $this->couchdb = new \NetCore\CouchDB\Config((array)@$this->options['doctrine']);
-        }
-        return $this->couchdb;
-    }
-
-    /** @return \NetBricks\Page\Config */
-    public function getPage()
-    {
-        if(!$this->page) {
-            $this->page = new \NetBricks\Page\Config((array)@$this->options['page']);
-        }
-        return $this->page;
+        return new TextAreaNormal();
     }
 
 }

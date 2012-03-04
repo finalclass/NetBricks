@@ -22,40 +22,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks;
+namespace NetBricks\Page;
 
-use \NetCore\DependencyInjection\ConfigurableContainer;
+use \NetCore\Configurable\OptionsAbstract;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 28.02.12
- * @time: 10:31
+ * @date: 04.03.12
+ * @time: 15:29
  */
-class Config extends ConfigurableContainer
+class Config extends OptionsAbstract
 {
 
-    /** @var \NetCore\CouchDB\Config */
-    private $couchdb;
+    /**
+     * @var \NetBricks\Page\Config\Photo
+     */
+    private $photo;
 
-    /** @var \NetBricks\Page\Config */
-    private $page;
-
-    /** @return \NetCore\CouchDB\Config */
-    public function getCouchdb()
+    /**
+     * @return Config\Photo
+     */
+    public function getPhoto()
     {
-        if(!$this->couchdb) {
-            $this->couchdb = new \NetCore\CouchDB\Config((array)@$this->options['doctrine']);
+        if (!$this->photo) {
+            $this->photo = new \NetBricks\Page\Config\Photo((array)@$this->options['photo']);
         }
-        return $this->couchdb;
+        return $this->photo;
     }
 
-    /** @return \NetBricks\Page\Config */
-    public function getPage()
-    {
-        if(!$this->page) {
-            $this->page = new \NetBricks\Page\Config((array)@$this->options['page']);
-        }
-        return $this->page;
-    }
 
 }

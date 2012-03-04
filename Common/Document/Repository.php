@@ -51,7 +51,8 @@ class Repository
         if(@$response['error'] == 'not_found') {
             return null;
         }
-        return $this->createDocumentFromResponse($response);
+
+        return $this->createDocument($response);
     }
 
     /**
@@ -69,7 +70,7 @@ class Repository
 
         $documents = array();
         foreach ($response['rows'] as $record) {
-            $documents[] = $this->createDocumentFromResponse($record);
+            $documents[] = $this->createDocument((array)@$record['value']);
         }
         return $documents;
     }
@@ -95,11 +96,6 @@ class Repository
         $array = _::couchdb()->save($document->toArray());
         $document->fromArray($array);
         return $document;
-    }
-
-    private function createDocumentFromResponse($response)
-    {
-        return $this->createDocument((array)@$response['value']);
     }
 
     public function createDocument(array $array)

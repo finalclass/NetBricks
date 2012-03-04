@@ -22,40 +22,50 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks;
+namespace NetBricks\Page\Component\Photo\Management;
 
-use \NetCore\DependencyInjection\ConfigurableContainer;
+use \NetBricks\Common\Component\Container;
+use \NetBricks\Common\Component\BasicCrud\Menu;
+use \NetBricks\Facade as _;
+
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 28.02.12
- * @time: 10:31
+ * @date: 04.03.12
+ * @time: 15:37
+ *
+ * @property \NetBricks\Common\Component\BasicCrud\Menu $menu
+ * @property \NetBricks\Common\Component\Container $content
  */
-class Config extends ConfigurableContainer
+class Layout extends Container
 {
 
-    /** @var \NetCore\CouchDB\Config */
-    private $couchdb;
-
-    /** @var \NetBricks\Page\Config */
-    private $page;
-
-    /** @return \NetCore\CouchDB\Config */
-    public function getCouchdb()
+    public function __construct($options = array())
     {
-        if(!$this->couchdb) {
-            $this->couchdb = new \NetCore\CouchDB\Config((array)@$this->options['doctrine']);
+        $this->menu = _::loader('\NetBricks\Common\Component\BasicCrud\Menu')->create();
+
+        switch(_::request()->action->getString()) {
+            default:
+            case 'list':
+                $this->content = _::loader($this)->find('../ManageMany')->create();
+                break;
+            case 'edit':
+            case 'add':
+            $this->content = _::loader($this)->find('../Form')->create();
+                break;
         }
-        return $this->couchdb;
+
+        parent::__construct($options);
     }
 
-    /** @return \NetBricks\Page\Config */
-    public function getPage()
+    public function render()
     {
-        if(!$this->page) {
-            $this->page = new \NetBricks\Page\Config((array)@$this->options['page']);
-        }
-        return $this->page;
+        ?>
+<div class="photo_management">
+    <?php echo $this->menu; ?>
+    <?php echo $this->content; ?>
+</div>
+        <?php
     }
 
 }

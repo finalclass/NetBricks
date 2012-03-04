@@ -15,7 +15,7 @@ abstract class FormElementAbstract extends Tag
     /**
      * @static
      * @param string $optionsOrTagName
-     * @return \Fc\Element\Form\FormElementAbstract
+     * @return \NetBricks\Common\Component\Form\FormElementAbstract
      */
     static public function factory($optionsOrTagName = 'input')
     {
@@ -27,7 +27,7 @@ abstract class FormElementAbstract extends Tag
 
     /**
      * @param $value
-     * @return \Fc\Layout\Element\Form\FormElementAbstract
+     * @return \NetBricks\Common\Component\Form\FormElementAbstract
      */
     public function setValue($value)
     {
@@ -42,7 +42,7 @@ abstract class FormElementAbstract extends Tag
 
     /**
      * @param $value
-     * @return FormElementAbstract
+     * @return \NetBricks\Common\Component\Form\FormElementAbstract
      */
     public function setName($value)
     {
@@ -65,6 +65,4 @@ abstract class FormElementAbstract extends Tag
         return isset($_POST[$name]) ? $_POST[$name] : $value;
     }
 
-
-    
 }

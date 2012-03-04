@@ -22,40 +22,57 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks;
+namespace NetBricks\Page\Service;
 
-use \NetCore\DependencyInjection\ConfigurableContainer;
+use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 28.02.12
- * @time: 10:31
+ * @date: 04.03.12
+ * @time: 15:26
  */
-class Config extends ConfigurableContainer
+class Photo
 {
 
-    /** @var \NetCore\CouchDB\Config */
-    private $couchdb;
-
-    /** @var \NetBricks\Page\Config */
-    private $page;
-
-    /** @return \NetCore\CouchDB\Config */
-    public function getCouchdb()
+    /**
+     * @return \NetBricks\Page\Document\Photo\Repository
+     */
+    private function getRepo()
     {
-        if(!$this->couchdb) {
-            $this->couchdb = new \NetCore\CouchDB\Config((array)@$this->options['doctrine']);
-        }
-        return $this->couchdb;
+        return new \NetBricks\Page\Document\Photo\Repository();
     }
 
-    /** @return \NetBricks\Page\Config */
-    public function getPage()
+    public function get()
     {
-        if(!$this->page) {
-            $this->page = new \NetBricks\Page\Config((array)@$this->options['page']);
+        return $this->getRepo()->find(_::request()->get->id->getString());
+    }
+
+    public function all()
+    {
+        return $this->getRepo()->all();
+    }
+
+    public function post()
+    {
+        $post = _::request()->post->getArray();
+        $repo = $this->getRepo();
+        unset($post['form']);
+        if(!empty($post['_id'])) {
+            $doc = $repo->find($post['id']);
+            $doc->fromArray($post);
+        } else {
+            $doc = new \NetBricks\Page\Document\Photo();
+            unset($post['_rev']);
+            unset($post['_id']);
+            $doc->fromArray($post);
         }
-        return $this->page;
+        $doc->addAttachment(basename($_FILES['photo']['name']), $_FILES['photo']['tmp_name']);
+        return $repo->save($doc);
+    }
+
+    public function delete()
+    {
+        return _::couchdb()->delete(_::request()->id, _::request()->rev);
     }
 
 }

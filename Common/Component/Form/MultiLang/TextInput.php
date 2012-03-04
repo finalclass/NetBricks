@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace NetBricks\Common\Component\Form\MultiLang;
 
-use \NetBricks\Common\Component\Form\FormElementAbstract;
+use NetBricks\Common\Component\Form\MultiLang\FormElementAbstract;
 use NetBricks\Common\Component\Form\TextInput as TextInputNormal;
 
 use \NetBricks\Facade as _;
@@ -38,61 +38,8 @@ use \NetBricks\Facade as _;
  */
 class TextInput extends FormElementAbstract
 {
-
-    /**
-     * @var \NetBricks\Common\Component\Form\TextInput
-     */
-    private $inputs = array();
-
-    public function __construct($options = array())
+    protected function createElement()
     {
-        parent::__construct($options);
-
-        foreach(_::languages()->getAvailable() as $l) {
-            $input = new TextInputNormal();
-            $this->inputs[$l->getCode()] = $input;
-            $this->addChild($input);
-        }
-        $this->languageBar = _::loader('/NetBricks/I18n/Component/LanguageBar')->create();
+        return new TextInputNormal();
     }
-
-    public function setName($value)
-    {
-        parent::setName($value);
-        foreach($this->inputs as $lang=>$input) {
-            /** @var \NetBricks\Common\Component\Form\TextInput $input */
-            $input->setName($value . '[' . $lang . ']');
-        }
-        return $this;
-    }
-
-    public function setValue($value)
-    {
-        if(!is_array($value)) {
-            return $this;
-        }
-        parent::setValue($value);
-        foreach($value as $lang=>$value) {
-            if(isset($this->inputs[$lang])) {
-                $this->inputs[$lang] = $value;
-            }
-        }
-        return $this;
-    }
-
-    public function render()
-    {
-?>
-<div class="text_input_multi_lang">
-    <?php echo $this->languageBar; ?>
-    <?php foreach($this->inputs as $lang=>$input): ?>
-        <div class="text_input_multi_lang_input_container text_input_multi_lang_input_<?php echo $lang; ?>">
-            <?php echo $input; ?>
-        </div>
-    <?php endforeach; ?>
-</div>
-<?php
-    }
-
-
 }

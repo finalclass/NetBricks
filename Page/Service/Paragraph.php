@@ -43,7 +43,7 @@ class Paragraph
 
     public function get()
     {
-        return $this->getRepo()->find(_::request()->get->id);
+        return $this->getRepo()->find(_::request()->get->id->getString());
     }
 
     public function all()

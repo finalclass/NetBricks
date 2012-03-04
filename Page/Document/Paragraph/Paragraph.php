@@ -35,24 +35,28 @@ class Paragraph extends Document
 {
 
     protected $data = array(
-        'text' => ''
+        'text' => array()
     );
 
     /**
-     * @param string $value
+     * @param array $value
      * @return \NetBricks\Page\Document\Paragraph
      */
-    public function setText($value)
+    public function setText(array $value)
     {
-        $this->data['text'] = (string)$value;
+        $this->data['text'] = (array)$value;
         return $this;
     }
-    
+
     /**
-     * @return string
+     * @param null $language 2 letters country code
+     * @return string|array if no language is specified array of translations is returned
      */
-    public function getText()
+    public function getText($language = null)
     {
+        if($language != null) {
+            return (string)@$this->data['text'][(string)$language];
+        }
         return $this->data['text'];
     }
 

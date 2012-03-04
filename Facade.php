@@ -338,4 +338,13 @@ class Facade
         }
         return static::$options[__FUNCTION__];
     }
+
+    /**
+     * @param array $urlOrOptions
+     * @return \NetBricks\Common\UrlBuilder
+     */
+    static public function url($urlOrOptions = array())
+    {
+        return new \NetBricks\Common\UrlBuilder($urlOrOptions);
+    }
 }

@@ -22,35 +22,48 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Component\Paragraph\Management;
+namespace NetBricks\Page\Component\Photo\Management;
 
 use \NetBricks\Common\Component\Table;
 use \NetBricks\Facade as _;
-use \NetBricks\Common\Component\Link;
-use \NetBricks\Page\Document\Paragraph as ParagraphDocument;
+use \NetBricks\Page\Document\Photo as PhotoDocument;
+use \NetBricks\Page\Service\Photo as PhotoService;
+use \NetBricks\Common\Component\BasicCrud\ItemMenu;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 02.03.12
- * @time: 01:02
+ * @date: 04.03.12
+ * @time: 15:42
  */
 class ManageMany extends Table
 {
 
+    private function getService()
+    {
+        static $service;
+        if(!$service) {
+            $service = new PhotoService();
+        }
+        return $service;
+    }
+
     public function __construct($options = array())
     {
-        $data = _::services()->paragraph()->all();
-        $this->setDataProvider($data)
-                ->column('text', 'Text', function($that, ParagraphDocument $record) {
-                    return $record->getText(_::languages()->getCurrent());
-                })
-                ->column('operations', 'Operations',
-            function(ManageMany $that, ParagraphDocument $record)
-            {
-                return _::loader('/NetBricks/Common/Component/BasicCrud/ItemMenu')->create()
+        $this->setDataProvider($this->getService()->all())
+            ->column('src', 'Photo', function($that, PhotoDocument $record) {
+                return '<img src="' . $record->getThumbSrc() . '" '
+                         . 'alt="' . $record->getName(_::languages()->getCurrent()) .'" '
+                          . 'width="' . $record->getThumbWidth() . 'px" '
+                          . 'height="' . $record->getThumbHeight() . 'px"/>';
+            })
+            ->column('name', 'Name', function($that, PhotoDocument $record) {
+                return $record->getName(_::languages()->getCurrent());
+            })
+            ->column('operations', 'Operations', function($that, PhotoDocument $record) {
+                return ItemMenu::factory()
                         ->setRecordId($record->getId())
                         ->setRev($record->getRev())
-                        ->setServiceName('paragraph');
+                        ->setServiceName('photo');
             });
         parent::__construct($options);
     }

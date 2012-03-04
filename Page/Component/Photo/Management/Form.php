@@ -22,70 +22,72 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Component\Paragraph\Management;
+namespace NetBricks\Page\Component\Photo\Management;
 
 use \NetBricks\Common\Component\Form\Form as BaseForm;
 use \NetBricks\Facade as _;
-use \NetBricks\Common\Component\Form\MultiLang\TextArea;
-use \NetBricks\Common\Component\Form\Hidden;
-use \NetBricks\Common\Component\Form\Submit;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 02.03.12
- * @time: 11:10
+ * @date: 04.03.12
+ * @time: 15:55
  *
- * @property \NetBricks\Common\Component\Form\TextArea $text
+ * @property \NetBricks\Common\Component\Form\Hidden $id
+ * @property \NetBricks\Common\Component\Form\Hidden $rev
+ * @property \NetBricks\Common\Component\Form\MultiLang\TextInput $name
+ * @property \NetBricks\Common\Component\Form\File $file
  * @property \NetBricks\Common\Component\Form\Submit $submit
- * @property \NetBricks\Common\Component\Form\Hidden $id;
- * @property \NetBricks\Common\Component\Form\Hidden $rev;
  */
 class Form extends BaseForm
 {
 
     public function __construct($options = array())
     {
-        $this->id = new Hidden();
-        $this->id->setName('_id');
-
-        $this->rev = new Hidden();
-        $this->rev->setName('_rev');
-
-        $this->text = new TextArea();
-        $this->text->setName('text');
-
-        $this->submit = new Submit();
-        $this->submit->setName('form')->setValue(get_class($this));
-
+        $this->id = _::loader('\NetBricks\Common\Component\Form\Hidden')->create()->setName('_id');
+        $this->rev = _::loader('\NetBricks\Common\Component\Form\Hidden')->create()->setName('_rev');
+        $this->name = _::loader('\NetBricks\Common\Component\Form\MultiLang\TextInput')->create()->setName('name');
+        $this->file = _::loader('\NetBricks\Common\Component\Form\File')->create()->setName('photo');
+        $this->submit = _::loader('\NetBricks\Common\Component\Form\Submit')->create()->setLabel('Save')
+                            ->setName('form')->setValue('page_photo_form');
+        $this->setEncType('multipart/form-data');
         parent::__construct($options);
+    }
+
+    private function getService()
+    {
+        return new \NetBricks\Page\Service\Photo();
     }
 
     public function init()
     {
-        if(_::request()->post->form == get_class($this)) {
-            $document = _::services()->paragraph()->post();
-            if(!$document->hasErrors()) {
+        if(_::request()->isPost() && _::request()->post->form->toString() == 'page_photo_form') {
+            $result = $this->getService()->post();
+            if(!$result->hasErrors()) {
                 _::url()->addParam('action', 'list')->redirect();
             }
-
-            $this->setValues($document->toArray());
+            $this->setValues($result->toArray());
         } else {
-            $paragraph = _::services()->paragraph()->get();
-            $this->setValues($paragraph->toArray());
+            $this->setValues($this->getService()->get()->toArray());
         }
-
     }
 
     public function render()
     {
-?>
+        ?>
 <form <?php echo $this->renderTagAttributes($this->defaultAttributes); ?>>
     <?php echo $this->id; ?>
     <?php echo $this->rev; ?>
-    <?php echo $this->text->addClass('wysiwyg'); ?>
-    <?php echo $this->submit->setLabel('Save'); ?>
+    <p>
+        <label for="photo_name">Photo name</label>
+        <?php echo $this->name->setId('photo_name'); ?>
+    </p>
+    <p>
+        <label for="photo_file">Photo file</label>
+        <?php echo $this->file->setId('photo_file'); ?>
+    </p>
+    <?php echo $this->submit; ?>
 </form>
-<?php
+        <?php
     }
 
 }

@@ -24,7 +24,6 @@ SOFTWARE.
 
 namespace NetBricks\Page\Document\Paragraph;
 
-namespace NetBricks\Page\Document\Paragraph;
 use \NetBricks\Facade as _;
 use NetBricks\Common\Document\Repository as BaseRepository;
 

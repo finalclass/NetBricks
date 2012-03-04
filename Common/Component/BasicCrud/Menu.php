@@ -25,15 +25,15 @@ SOFTWARE.
 namespace NetBricks\Common\Component\BasicCrud;
 
 use \NetBricks\Common\Component\UnorderedList;
-use \NetBricks\Common\Component\Link;
+use \NetBricks\Common\Component\IconLink;
 
 /**
  * @author: Sel <s@finalclass.net>
  * @date: 02.03.12
  * @time: 09:17
  *
- * @property \NetBricks\Common\Component\Link $addButton
- * @property \NetBricks\Common\Component\Link $listButton
+ * @property \NetBricks\Common\Component\IconLink $addButton
+ * @property \NetBricks\Common\Component\IconLink $listButton
  */
 class Menu extends UnorderedList
 {
@@ -41,8 +41,17 @@ class Menu extends UnorderedList
     public function __construct($options = array())
     {
         $this->setClass('buttons');
-        $this->addButton = Link::factory()->addParam('action', 'add')->setLabel('Add');
-        $this->listButton = Link::factory()->addParam('action', 'list')->setLabel('list');
+
+        $this->addButton = IconLink::factory()
+                ->setIconClass('plus')
+                ->setLabel('Add')
+                ->addParam('action', 'add');
+
+        $this->listButton = IconLink::factory()
+                ->setIconClass('list')
+                ->setLabel('List')
+                ->addParam('action', 'list');
+
         parent::__construct($options);
     }
 

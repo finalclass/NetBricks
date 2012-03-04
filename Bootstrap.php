@@ -22,7 +22,7 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
                 _::loader()->sendToClient();
             }
         } catch (\NetCore\Loader\Exception\NotAllowed $e) {
-            header("HTTP/1.0 404 Not Found");
+            header("HTTP/1.0 403 Forbidden");
             exit;
         }
     }

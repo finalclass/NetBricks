@@ -40,12 +40,26 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
         _::services()->pageWidgetType->setNamespace('\NetBricks\Page\Service\PageWidgetType');
         _::services()->paragraph->setNamespace('\NetBricks\Page\Service\Paragraph');
 
-        if(_::request()->get->installation == 'installation') {
-            $paragraphDoc = new \NetBricks\Page\Document\Paragraph();
-            $paragraphRepo = new \Netbricks\Page\Document\Paragraph\Repository();
-            $paragraphRepo->all();
-            _::couchdb()->initView($paragraphDoc->toArray(), $paragraphRepo->designDocumentId, $paragraphRepo->viewName);
+        if (_::request()->get->installation == 'installation') {
+            $this->installParagraph();
+            $this->installPhoto();
         }
+    }
+
+    private function installParagraph()
+    {
+        $paragraphDoc = new \NetBricks\Page\Document\Paragraph();
+        $paragraphRepo = new \Netbricks\Page\Document\Paragraph\Repository();
+        _::couchdb()->initView($paragraphDoc->toArray(), $paragraphRepo->designDocumentId, $paragraphRepo->viewName);
+        return $this;
+    }
+
+    private function installPhoto()
+    {
+        $photoDoc = new \NetBricks\Page\Document\Photo();
+        $photoRepo = new \Netbricks\Page\Document\Photo\Repository();
+        _::couchdb()->initView($photoDoc->toArray(), $photoRepo->designDocumentId, $photoRepo->viewName);
+        return $this;
     }
 
 }

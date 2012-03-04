@@ -22,40 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks;
-
-use \NetCore\DependencyInjection\ConfigurableContainer;
+namespace NetBricks\Page\Document\Photo;
+use \NetBricks\Facade as _;
+use NetBricks\Common\Document\Repository as BaseRepository;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 28.02.12
- * @time: 10:31
+ * @date: 02.03.12
+ * @time: 00:27
  */
-class Config extends ConfigurableContainer
+class Repository extends BaseRepository
 {
 
-    /** @var \NetCore\CouchDB\Config */
-    private $couchdb;
-
-    /** @var \NetBricks\Page\Config */
-    private $page;
-
-    /** @return \NetCore\CouchDB\Config */
-    public function getCouchdb()
-    {
-        if(!$this->couchdb) {
-            $this->couchdb = new \NetCore\CouchDB\Config((array)@$this->options['doctrine']);
-        }
-        return $this->couchdb;
-    }
-
-    /** @return \NetBricks\Page\Config */
-    public function getPage()
-    {
-        if(!$this->page) {
-            $this->page = new \NetBricks\Page\Config((array)@$this->options['page']);
-        }
-        return $this->page;
-    }
+    public $designDocumentId = '_design/page';
+    public $viewName = 'photos';
+    public $documentClassName = '\NetBricks\Page\Document\Photo';
 
 }

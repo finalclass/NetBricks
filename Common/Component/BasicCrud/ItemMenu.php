@@ -26,6 +26,7 @@ namespace NetBricks\Common\Component\BasicCrud;
 
 use \NetBricks\Common\Component\UnorderedList;
 use \NetBricks\Common\Component\IconLink;
+use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -67,8 +68,9 @@ class ItemMenu extends UnorderedList
         $service = $this->getServiceName();
         if($service) {
             $rev = $this->getRev() ? '&rev=' . $this->getRev() : '';
-            $redirect =
-            $this->removeButton->setHref('/-' . $this->getServiceName() . '-delete?id=' . $this->getRecordId() . $rev);
+            $redirect = '&redirect=' . urlencode(_::request()->getCurrentUrlFull());
+            $this->removeButton->setHref('/-' . $this->getServiceName() . '-delete?'
+                    . 'id=' . $this->getRecordId() . $rev . $redirect);
         }
 
         if(!$this->removeButton->getOnclick()) {

@@ -85,25 +85,9 @@ class Link extends Tag
         if(isset($this->options['href'])) {
             return $this->options['href'];
         }
-        try {
-            $route = _::router()->getRoute($this->getRouteName());
-            $params = array_merge(_::request()->get->getArray(), $this->params);
-            if (!$route) {
-                $route = _::router()->findRoute($params);
-            }
 
-            if (!$route) {
-                throw new RouteNotFound();
-            }
-            return _::request()->getBaseUrl()
-                    . $route->buildUri($this->params, _::request()->get->getArray());
-        } catch (RouterException $e) {
-            $params = array();
-            foreach ($this->params as $key => $val) {
-                $params[] = $key . '=' . $val;
-            }
-            return _::request()->getBaseUrl() . '?' . join('&', $params);
-        }
+        return (string)_::url()->addParams($this->params)
+                ->setRouteName($this->getRouteName());
     }
 
     public function getContent()
