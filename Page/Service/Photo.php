@@ -66,8 +66,50 @@ class Photo
             unset($post['_id']);
             $doc->fromArray($post);
         }
-        $doc->addAttachment(basename($_FILES['photo']['name']), $_FILES['photo']['tmp_name']);
+
+        $bigPath = $this->createBigImage($_FILES['photo']['tmp_name']);
+        $thumbPath = $this->createThumbImage($_FILES['photo']['tmp_name']);
+
+        $doc->addAttachment('original.jpg', $_FILES['photo']['tmp_name']);
+        $doc->addAttachment('big.jpg', $bigPath);
+        $doc->addAttachment('thumb.jpg', $thumbPath);
+
         return $repo->save($doc);
+    }
+
+    private function createBigImage($sourceFilePath)
+    {
+        $cfg = _::cfg()->getPage()->getPhoto();
+        $img = new \NetCore\Image();
+
+        $img->getConfig()
+            ->setSource($sourceFilePath)
+            ->setWidth($cfg->getBigWidth())
+            ->setRatioHeight(true)
+            ->setRatioNoZoomIn(true)
+            ->setAutoConvertByExtension(false)
+            ->setConvertTo('jpg');
+
+        $destinationPath = tempnam(_::cfg()->getTempDir(), 'thumb');
+        $img->save($destinationPath);
+        return $destinationPath;
+    }
+
+    private function createThumbImage($sourceFilePath)
+    {
+        $cfg = _::cfg()->getPage()->getPhoto();
+        $img = new \NetCore\Image();
+        $img->getConfig()
+            ->setSource($sourceFilePath)
+            ->setWidth($cfg->getThumbWidth())
+            ->setRatioHeight(true)
+            ->setRatioNoZoomIn(true)
+            ->setAutoConvertByExtension(false)
+            ->setConvertTo('jpg');
+
+        $destinationPath = tempnam(_::cfg()->getTempDir(), 'thumb');
+        $img->save($destinationPath);
+        return $destinationPath;
     }
 
     public function delete()

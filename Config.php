@@ -43,7 +43,7 @@ class Config extends ConfigurableContainer
     /** @return \NetCore\CouchDB\Config */
     public function getCouchdb()
     {
-        if(!$this->couchdb) {
+        if (!$this->couchdb) {
             $this->couchdb = new \NetCore\CouchDB\Config((array)@$this->options['doctrine']);
         }
         return $this->couchdb;
@@ -52,10 +52,28 @@ class Config extends ConfigurableContainer
     /** @return \NetBricks\Page\Config */
     public function getPage()
     {
-        if(!$this->page) {
+        if (!$this->page) {
             $this->page = new \NetBricks\Page\Config((array)@$this->options['page']);
         }
         return $this->page;
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setTempDir($value)
+    {
+        $this->options['temp_dir'] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTempDir()
+    {
+        return (string)@$this->options['temp_dir'];
     }
 
 }
