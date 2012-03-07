@@ -25,6 +25,8 @@ SOFTWARE.
 namespace NetBricks\Page\Component\Management;
 
 use \NetBricks\Common\Component\Table;
+use \NetBricks\Page\Document\Page as PageDocument;
+use \NetBricks\Common\Component\BasicCrud\ItemMenu;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -35,15 +37,30 @@ class ListMany extends Table
 {
 
 
+    /**
+     * @return \NetBricks\Page\Service\Page
+     */
+    private function getService()
+    {
+        return new \NetBricks\Page\Service\Page();
+    }
+
+
     public function __construct($options = array())
     {
+        $this->setDataProvider($this->getService()->all())
+                ->column('title', 'Title', function($that, PageDocument $doc)
+        {
+            return $doc->getTitleForLanguage();
+        })
+                ->column('operations', 'Operations', function($that, PageDocument $doc)
+        {
+            return ItemMenu::factory()
+                    ->setRecordId($doc->getId())
+                    ->setRev($doc->getRev())
+                    ->setServiceName('page');
+        });
         parent::__construct($options);
     }
-
-    public function render()
-    {
-        echo 'list all';
-    }
-
 
 }

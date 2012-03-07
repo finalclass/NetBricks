@@ -41,9 +41,18 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
         _::services()->paragraph->setNamespace('\NetBricks\Page\Service\Paragraph');
 
         if (_::request()->get->installation == 'installation') {
+            $this->installPage();
             $this->installParagraph();
             $this->installPhoto();
         }
+    }
+
+    private function installPage()
+    {
+        $pageDoc = new \NetBricks\Page\Document\Page();
+        $pageRepo = new \Netbricks\Page\Document\Page\Repository();
+        _::couchdb()->initView($pageDoc->toArray(), $pageRepo->designDocumentId, $pageRepo->viewName);
+        return $this;
     }
 
     private function installParagraph()

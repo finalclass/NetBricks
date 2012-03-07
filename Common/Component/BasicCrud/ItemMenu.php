@@ -43,6 +43,19 @@ class ItemMenu extends UnorderedList
     private $serviceName = '';
     private $removeConfirmText = 'Are you sure you want to remove?';
 
+
+    /**
+     * @static
+     * @param array $options
+     * @return \NetBricks\Common\Component\BasicCrud\ItemMenu
+     */
+        static public function factory($options = array())
+        {
+            $class = get_called_class();
+            return new $class($options);
+        }
+
+
     public function __construct($options = array())
     {
         $this->setClass('operations');

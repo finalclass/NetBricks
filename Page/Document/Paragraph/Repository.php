@@ -37,6 +37,6 @@ class Repository extends BaseRepository
 
     public $designDocumentId = '_design/page';
     public $viewName = 'paragraphs';
-    public $documentClassName = '\NetBricks\Page\Document\Paragraph';
+    public $documentClassName = '\NetBricks\Page\Document\Page';
 
 }

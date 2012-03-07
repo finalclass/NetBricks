@@ -22,29 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Service;
-use \NetBricks\Facade as _;
-use \NetBricks\Page\Model\Page as PageModel;
+namespace NetBricks\Page;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.02.12
- * @time: 10:04
+ * @date: 07.03.12
+ * @time: 08:37
  */
-class Page
+interface Exception
 {
-
-    /**
-     * @return \NetBricks\Page\Document\Page\Repository
-     */
-    private function getRepo()
-    {
-        return new \NetBricks\Page\Document\Page\Repository();
-    }
-
-    public function all()
-    {
-        return $this->getRepo()->all();
-    }
 
 }

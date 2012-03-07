@@ -25,22 +25,18 @@ SOFTWARE.
 namespace NetBricks\Page\Document\Page;
 
 use \NetBricks\Facade as _;
+use NetBricks\Common\Document\Repository as BaseRepository;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 28.02.12
- * @time: 16:32
+ * @date: 02.03.12
+ * @time: 00:27
  */
-class Repository
+class Repository extends BaseRepository
 {
-    public function findAll()
-    {
-        $result = _::couchdb()->get('_design/page_couchapp/_view/pages');
-        var_dump($result);
-    }
 
-    public function find($id)
-    {
+    public $designDocumentId = '_design/page';
+    public $viewName = 'pages';
+    public $documentClassName = '\NetBricks\Page\Document\Page';
 
-    }
 }
