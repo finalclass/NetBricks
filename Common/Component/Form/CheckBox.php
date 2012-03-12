@@ -22,56 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Document;
+namespace NetBricks\Common\Component\Form;
 
-use \NetBricks\Common\Document\MultiLangDocument;
+use \NetBricks\Common\Component\Form\FormElementAbstract;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 01.03.12
- * @time: 22:22
+ * @date: 08.03.12
+ * @time: 13:21
  */
-class Paragraph extends MultiLangDocument
+class CheckBox extends FormElementAbstract
 {
 
-    protected $data = array(
-        'text_translations' => array()
-    );
-
-    /**
-     * @param string $value
-     * @return \NetBricks\Page\Document\Paragraph
-     */
-    public function setText($value)
+    public function render()
     {
-        $this->data['text_translations'][$this->getLanguage()] = (string)$value;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getText()
-    {
-        return (string)@$this->data['text_translations'][$this->getLanguage()];
-    }
-
-    /**
-     * @param array $value
-     * @return \NetBricks\Page\Document\Paragraph
-     */
-    public function setTextTranslations($value)
-    {
-        $this->data['text_translations'] = (array)$value;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getTextTranslations()
-    {
-        return (array)@$this->data['text_translations'];
+        $attributes = array('name', 'class', 'id', 'value', 'style');
+        $checked = ($this->getValue()) ? 'checked="checked"' : '';
+        return '<input type="checkbox" '
+                . $this->renderTagAttributes($attributes)
+                . $checked
+             . '/>';
     }
 
 }

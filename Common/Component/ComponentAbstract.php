@@ -34,6 +34,32 @@ abstract class ComponentAbstract extends ConfigurableEventDispatcher
     }
 
     /**
+     * @param $name
+     * @param \Closure|string $css can be any callable variable or string
+     * @return \NetBricks\Common\Component\ComponentAbstract
+     */
+    protected function addCSS($name, $css)
+    {
+        if (!_::head()->styleSheets->hasCss($name)) {
+            _::head()->styleSheets->appendCss($this->renderVariable($css), $name);
+        }
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @param \Closure|string $js can be any callable variable or string
+     * @return \NetBricks\Common\Component\ComponentAbstract
+     */
+    protected function addJS($name, $js)
+    {
+        if (!_::head()->scripts->hasScript($name)) {
+            _::head()->scripts->appendScript($this->renderVariable($js), 'text/javascript', $name);
+        }
+        return $this;
+    }
+
+    /**
      * @static
      * @param array $options
      * @return ComponentAbstract
@@ -84,37 +110,12 @@ abstract class ComponentAbstract extends ConfigurableEventDispatcher
         }
     }
 
-    static public function getJS()
-    {
-        return '';
-    }
-
-    static public function getCSS()
-    {
-        return '';
-    }
-
     /**
      * @param array $options
      */
     public function __construct($options = array())
     {
         parent::__construct($options);
-        //becouse we need _::head instance for this job
-        //we need to check if no header is initializing right now
-        //this is to prevent recursive header initialization
-        if (!Header::$initializing) {
-
-            $name = get_class($this);
-            $head = _::head();
-
-            if (!$head->scripts->hasScript($name)) {
-                $head->scripts->appendScript($this->renderVariable(array($name, 'getJS')), 'text/javascript', $name);
-            }
-            if (!$head->styleSheets->hasCss($name)) {
-                $head->styleSheets->appendCss($this->renderVariable(array($name, 'getCSS')), $name);
-            }
-        }
 
         $this->dispatchEvent(new ComponentEvent(ComponentEvent::BEFORE_CONSTRUCT));
         $this->construct();

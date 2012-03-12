@@ -29,6 +29,7 @@ use \NetCore\CouchDB\Document;
 use \NetBricks\Page\Exception\InvalidWidgetDefinition;
 use \NetBricks\Facade as _;
 use \NetBricks\Page\Document\Page\Widget;
+use \NetBricks\Common\Document\MultiLangDocument;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -36,75 +37,81 @@ use \NetBricks\Page\Document\Page\Widget;
  * @time: 11:12
  *
  */
-class Page extends Document
+class Page extends MultiLangDocument
 {
 
     protected $data = array(
         'widgets' => array(),
-        'title' => array(),
-        'meta_title' => array(),
-        'meta_description' => array(),
-        'meta_keywords' => array(),
-        'brief' => array()
+        'title_translations' => array(),
+        'meta_title_translations' => array(),
+        'meta_description_translations' => array(),
+        'meta_keywords_translations' => array(),
+        'brief_translations' => array(),
+        'robots_index' => true,
+        'robots_follow' => true
     );
 
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Brief
+    /////////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * @param array $value
+     * @param string $value
      * @return \NetBricks\Page\Document\Page
      */
-    public function setBrief(array $value)
+    public function setBrief($value)
     {
-        $this->data['brief'] = (array)$value;
+        $this->data['brief_translations'][$this->getLanguage()] = (string)$value;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBrief()
+    {
+        return (string)@$this->data['brief_translations'][$this->getLanguage()];
     }
 
     /**
      * @return array
      */
-    public function getBrief()
+    public function getBriefTranslations()
     {
-        return (array)@$this->data['brief'];
+        return (array)@$this->data['brief_translations'];
     }
 
-    /**
-     * @param string $languageCode 2 letters country code
-     * @return string
-     */
-    public function getBriefForLanguage($languageCode = null)
+    public function setBriefTranslations(array $value)
     {
-        if (!$languageCode) {
-            $languageCode = _::languages()->getCurrent();
-        }
-        return (string)@$this->data['brief'][$languageCode];
+        $this->data['brief_translations'] = $this->filterTranslations($value);
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Meta Keywords
+    /////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @param string $keyword
-     * @param string $languageCode 2 letters country code
      * @return \NetBricks\Page\Document\Page
      */
-    public function addMetaKeyword($keyword, $languageCode = null)
+    public function addMetaKeyword($keyword)
     {
-        if (!$languageCode) {
-            $languageCode = _::languages()->getCurrent();
-        }
+        $languageCode = $this->getLanguage();
         $this->initMetaKeywordsForLanguage($languageCode);
-        $this->data['meta_keywords'][$languageCode][$keyword] = $keyword;
+        $this->data['meta_keywords_translations'][$languageCode][$keyword] = $keyword;
         return $this;
     }
 
     /**
      * @param string $keyword
-     * @param string $languageCode 2 letters country code
      * @return \NetBricks\Page\Document\Page
      */
-    public function removeMetaKeyword($keyword, $languageCode = null)
+    public function removeMetaKeyword($keyword)
     {
-        if (!$languageCode) {
-            $languageCode = _::languages()->getCurrent();
-        }
+        $languageCode = $this->getLanguage();
         $this->initMetaKeywordsForLanguage($languageCode);
-        unset($this->data['meta_keywords'][$languageCode][$keyword]);
+        unset($this->data['meta_keywords_translations'][$languageCode][$keyword]);
         return $this;
     }
 
@@ -114,24 +121,21 @@ class Page extends Document
      */
     private function initMetaKeywordsForLanguage($languageCode)
     {
-        if (!isset($this->data['meta_keywords'][$languageCode])) {
-            $this->data['meta_keywords'][$languageCode] = array();
+        if (!isset($this->data['meta_keywords_translations'][$languageCode])) {
+            $this->data['meta_keywords_translations'][$languageCode] = array();
         }
         return $this;
     }
 
     /**
      * @param string $keyword
-     * @param string $languageCode 2 letters country code
      * @return bool
      */
-    public function hasKeyword($keyword, $languageCode = null)
+    public function hasKeyword($keyword)
     {
-        if(!$languageCode) {
-            $languageCode = _::languages()->getCurrent();
-        }
+        $languageCode = $this->getLanguage();
         $this->initMetaKeywordsForLanguage($languageCode);
-        return isset($this->data['meta_keywords'][$languageCode][(string)$keyword]);
+        return isset($this->data['meta_keywords_translations'][$languageCode][(string)$keyword]);
     }
 
 
@@ -139,19 +143,26 @@ class Page extends Document
      * @param $keywordsByLanguage
      * @return \NetBricks\Page\Document\Page
      */
-    public function setMetaKeywords($keywordsByLanguage)
+    public function setMetaKeywordsTranslations($keywordsByLanguage)
     {
-
         $all = array();
-        foreach ($keywordsByLanguage as $language=>$keywords) {
+        foreach ($keywordsByLanguage as $language => $keywords) {
             $unique = array();
-            foreach($keywords as $k) {
+            foreach ($keywords as $k) {
                 $unique[$k] = $k;
             }
             $all[$language] = $unique;
         }
-        $this->data['meta_keywords'] = $all;
+        $this->data['meta_keywords_translations'] = $all;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetaKeywordsTranslations()
+    {
+        return array_values((array)@$this->data['meta_keywords_translations']);
     }
 
     /**
@@ -159,59 +170,74 @@ class Page extends Document
      */
     public function getMetaKeywords()
     {
-        return array_values((array)@$this->data['meta_keywords']);
-    }
-
-    /**
-     * @param string $languageCode 2 letters country code
-     * @return array
-     */
-    public function getMetaKeywordsForLanguage($languageCode = null)
-    {
-        if(!$languageCode) {
-            $languageCode = _::languages()->getCurrent();
-        }
+        $languageCode = $this->getLanguage();
         $this->initMetaKeywordsForLanguage($languageCode);
-        return (array)@$this->data['meta_keywords'][$languageCode];
+        return (array)@$this->data['meta_keywords_translations'][$languageCode];
     }
 
+    public function setMetaKeywords($keywords)
+    {
+        if (!is_array($keywords)) {
+            if (is_string($keywords)) {
+                $filter = new \NetCore\Filter\Keywords();
+                $keywords = $filter->filter($keywords);
+                $keywords = explode(', ', $keywords);
+            } else {
+                $keywords = array();
+            }
+        }
+        $languageCode = $this->getLanguage();
+        $this->initMetaKeywordsForLanguage($languageCode);
+        $this->data['meta_keywords_translations'][$languageCode] = $keywords;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Meta Description
+    /////////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * @param array $value
+     * @param string $value
      * @return \NetBricks\Page\Document\Page
      */
     public function setMetaDescription($value)
     {
-        $this->data['meta_description'] = (array)$value;
+        $this->data['meta_description_translations'][$this->getLanguage()] = (string)$value;
         return $this;
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getMetaDescription()
     {
-        return (string)@$this->data['meta_description'];
+        return (string)@$this->data['meta_description_translations'][$this->getLanguage()];
     }
 
     /**
-     * @param string $languageCode 2 letters country code
      * @return string
      */
-    public function getMetaDescriptionForLanguage($languageCode = null)
+    public function getMetaDescriptionTranslations()
     {
-        if(!$languageCode) {
-            $languageCode = _::languages()->getCurrent();
-        }
-        return (string)$this->data['meta_description'][$languageCode];
+        return (array)$this->data['meta_description_translations'];
     }
 
+    public function setMetaDescriptionTranslations($translations)
+    {
+        $this->data['meta_description_translations'] = $this->filterTranslations($translations);
+        return $this;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Meta Title
+    /////////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * @param array $value
+     * @param string $value
      * @return \NetBricks\Page\Document\Page
      */
     public function setMetaTitle($value)
     {
-        $this->data['meta_title'] = (array)$value;
+        $this->data['meta_title_translations'][$this->getLanguage()] = (string)$value;
         return $this;
     }
 
@@ -220,20 +246,30 @@ class Page extends Document
      */
     public function getMetaTitle()
     {
-        return (array)@$this->data['meta_title'];
+        return (array)@$this->data['meta_title_translations'][$this->getLanguage()];
     }
 
     /**
-     * @param string $languageCode 2 letters country code, if null then current language is used
      * @return string
      */
-    public function getMetaTitleForLanguage($languageCode = null)
+    public function getMetaTitleTranslations()
     {
-        if(!$languageCode) {
-            $languageCode = _::languages()->getCurrent();
-        }
-        return (string)@$this->data['meta_title'][$languageCode];
+        return (array)@$this->data['meta_title_translations'];
     }
+
+    /**
+     * @param $translations
+     * @return \NetBricks\Page\Document\Page
+     */
+    public function setMetaTitleTranslations($translations)
+    {
+        $this->data['meta_title_translations'] = $this->filterTranslations($translations);
+        return $this;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Widgets
+    /////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @param array|\NetBricks\Page\Document\Page\Widget[] $widgets
@@ -303,30 +339,81 @@ class Page extends Document
         return isset($this->data['widgets'][$position]) ? $this->data['widgets'][$position] : null;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Title
+    /////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * @param array $value
      * @return \NetBricks\Page\Document\Page
      */
     public function setTitle($value)
     {
-        $this->data['title'] = (array)$value;
+        $this->data['title_translations'][$this->getLanguage()] = (string)$value;
         return $this;
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getTitle()
     {
-        return (array)@$this->data['title'];
+        return (array)@$this->data['title_translations'][$this->getLanguage()];
     }
 
-    public function getTitleForLanguage($languageCode = null)
+    public function getTitleTranslations()
     {
-        if(!$languageCode) {
-            $languageCode = _::languages()->getCurrent();
-        }
-        return (string)@$this->data['title'][$languageCode];
+        return (array)@$this->data['title_translations'];
+    }
+
+    public function setTitleTranslations($translations)
+    {
+        $this->data['title_translations'] = $this->filterTranslations($translations);
+        return $this;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Robots index
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Document\Page
+     */
+    public function setRobotsIndex($value)
+    {
+        $this->data['robots_index'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getRobotsIndex()
+    {
+        return (boolean)@$this->data['robots_index'];
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Robots follow
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Document\Page
+     */
+    public function setRobotsFollow($value)
+    {
+        $this->data['robots_follow'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getRobotsFollow()
+    {
+        return (boolean)@$this->data['robots_follow'];
     }
 
 }

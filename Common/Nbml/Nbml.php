@@ -22,56 +22,38 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Document;
-
-use \NetBricks\Common\Document\MultiLangDocument;
+namespace NetBricks\Common;
 
 /**
+ * NetBricks Markup Language
+ * facade/parser like class
+ *
+ *
+ * This class is a bridge between nbml and NetBricks\Common\Components
+ *
  * @author: Sel <s@finalclass.net>
- * @date: 01.03.12
- * @time: 22:22
+ * @date: 11.03.12
+ * @time: 13:53
  */
-class Paragraph extends MultiLangDocument
+class Nbml
 {
 
-    protected $data = array(
-        'text_translations' => array()
-    );
 
-    /**
-     * @param string $value
-     * @return \NetBricks\Page\Document\Paragraph
-     */
-    public function setText($value)
+    public function addNamespace($namespace)
     {
-        $this->data['text_translations'][$this->getLanguage()] = (string)$value;
-        return $this;
+
     }
 
     /**
-     * @return string
+     * @param $nbmlString
+     * @return \NetBricks\Common\Component\ComponentAbstract
      */
-    public function getText()
+    public function parse($nbmlString)
     {
-        return (string)@$this->data['text_translations'][$this->getLanguage()];
-    }
+        $xml = new \SimpleXMLElement($nbmlString);
 
-    /**
-     * @param array $value
-     * @return \NetBricks\Page\Document\Paragraph
-     */
-    public function setTextTranslations($value)
-    {
-        $this->data['text_translations'] = (array)$value;
-        return $this;
-    }
+        var_dump($xml);
 
-    /**
-     * @return array
-     */
-    public function getTextTranslations()
-    {
-        return (array)@$this->data['text_translations'];
     }
 
 }

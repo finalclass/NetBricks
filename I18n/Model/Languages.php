@@ -63,12 +63,22 @@ class Languages
         return $this;
     }
 
+    public function hasLanguage($languageCode)
+    {
+        return isset($this->options['available'][$languageCode]);
+    }
+
     /**
      * @return \NetBricks\I18n\Model\Language[]
      */
     public function getAvailable()
     {
         return empty($this->options['available']) ? array() : $this->options['available'];
+    }
+
+    public function getAvailableLanguageCodes()
+    {
+        return array_keys($this->options['available']);
     }
 
     /**

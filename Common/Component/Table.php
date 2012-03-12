@@ -60,24 +60,9 @@ class Table extends Tag
         }
     }
 
-    public function getRecordFieldValue($record, $field_name) {
-        if (is_array($record)) {
-            return isset($record[$field_name]) ? $record[$field_name] : '';
-        } else if (is_object($record) && isset($record->$field_name)) {
-            return isset($record->$field_name) ? $record->$field_name : '';
-        }
-
-        $getterCamelCased = 'get' . StaticConfigurator::toPascalCased($field_name);
-        if(method_exists($record, $getterCamelCased)) {
-            return $record->$getterCamelCased();
-        }
-
-        $getter_underscored = 'get_' . StaticConfigurator::toUnderscored($field_name);
-        if (method_exists($record, $getter_underscored)) {
-            return $record->$getter_underscored();
-        }
-
-        return '';
+    public function getRecordFieldValue($record, $fieldName)
+    {
+       return \NetCore\Renderer::renderObjectProperty($record, $fieldName);
     }
 
     /**

@@ -22,56 +22,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Document;
+namespace NetBricks\Common\Component\Extended;
 
-use \NetBricks\Common\Document\MultiLangDocument;
+
+use \NetBricks\Common\Component\ComponentAbstract;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 01.03.12
- * @time: 22:22
+ * @date: 11.03.12
+ * @time: 19:35
  */
-class Paragraph extends MultiLangDocument
+class Renderer extends ComponentAbstract
 {
 
-    protected $data = array(
-        'text_translations' => array()
-    );
-
     /**
-     * @param string $value
-     * @return \NetBricks\Page\Document\Paragraph
+     * @param \stdClass $value
+     * @return \NetBricks\Common\Component\Extended\Renderer
      */
-    public function setText($value)
+    public function setData($value)
     {
-        $this->data['text_translations'][$this->getLanguage()] = (string)$value;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getText()
-    {
-        return (string)@$this->data['text_translations'][$this->getLanguage()];
-    }
-
-    /**
-     * @param array $value
-     * @return \NetBricks\Page\Document\Paragraph
-     */
-    public function setTextTranslations($value)
-    {
-        $this->data['text_translations'] = (array)$value;
+        $this->options['data'] = $value;
         return $this;
     }
 
     /**
      * @return array
      */
-    public function getTextTranslations()
+    public function getData()
     {
-        return (array)@$this->data['text_translations'];
+        return @$this->options['data'];
     }
 
 }

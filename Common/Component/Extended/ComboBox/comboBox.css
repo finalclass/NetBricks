@@ -1,0 +1,43 @@
+.nb_extended_combo_box {
+    display: block;
+    overflow: hidden;
+    width: 102px;
+    height: 20px;
+    float: left;
+    cursor: default;
+}
+
+.nb_extended_combo_box_ddl {
+    list-style-type: none;
+    background-color: #eee;
+    margin: 0;
+    padding: 0;
+    border: outset 1px #000;
+    overflow: hidden;
+    display: block;
+    width: 100px;
+    float: left;
+}
+
+.nb_extended_combo_box_ddl li {
+    margin: 0;
+    padding: 0;
+    line-height: 20px;
+}
+
+.nb_extended_combo_box_ddl li img {
+    float: left;
+}
+
+.nb_extended_combo_box_ddl li:hover {
+    background: #08d3f0;
+}
+
+.nb_extended_combo_box_ddl li.selected {
+    background-color: #55e;
+    color: #fff;
+}
+
+.nb_extended_combo_box .absolute {
+    position:absolute;
+}

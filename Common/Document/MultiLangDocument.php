@@ -22,56 +22,60 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Document;
+namespace NetBricks\Common\Document;
 
-use \NetBricks\Common\Document\MultiLangDocument;
+use \NetCore\CouchDB\Document;
+
+use \NetBricks\Facade as _;
+
+use \NetBricks\I18n\Exception\UnavailableLanguageSpecified;;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 01.03.12
- * @time: 22:22
+ * @date: 08.03.12
+ * @time: 10:12
  */
-class Paragraph extends MultiLangDocument
+class MultiLangDocument extends Document
 {
 
-    protected $data = array(
-        'text_translations' => array()
-    );
-
     /**
-     * @param string $value
-     * @return \NetBricks\Page\Document\Paragraph
+     * @var string 2 letters - language code (example pl, en, ru, fr, ...)
      */
-    public function setText($value)
+    private $currentLanguage = null;
+
+    public function setLanguage($languageCode)
     {
-        $this->data['text_translations'][$this->getLanguage()] = (string)$value;
+        if(!_::languages()->hasLanguage($languageCode)) {
+            throw new UnavailableLanguageSpecified('Language ' . $languageCode . ' is not available');
+        }
+        $this->currentLanguage = $languageCode;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getText()
+    public function getLanguage()
     {
-        return (string)@$this->data['text_translations'][$this->getLanguage()];
+        if(!$this->currentLanguage) {
+            $this->currentLanguage = _::languages()->getCurrent();
+        }
+        return $this->currentLanguage;
+    }
+
+    protected function filterTranslations(array $translations)
+    {
+        $languages = $this->getAllLanguages();
+        $filtered = array();
+        foreach($languages as $code) {
+            $filtered[$code] = @$translations[$code];
+        }
+        return $filtered;
     }
 
     /**
-     * @param array $value
-     * @return \NetBricks\Page\Document\Paragraph
+     * @return array array of available language codes
      */
-    public function setTextTranslations($value)
+    protected function getAllLanguages()
     {
-        $this->data['text_translations'] = (array)$value;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getTextTranslations()
-    {
-        return (array)@$this->data['text_translations'];
+        return _::languages()->getAvailableLanguageCodes();
     }
 
 }

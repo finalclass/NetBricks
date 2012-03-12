@@ -21,57 +21,40 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+namespace NetBricks\Common\Component\Extended\Renderer;
 
-namespace NetBricks\Page\Document;
-
-use \NetBricks\Common\Document\MultiLangDocument;
+use \NetBricks\Common\Component\Extended\Renderer;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 01.03.12
- * @time: 22:22
+ * @date: 11.03.12
+ * @time: 19:34
  */
-class Paragraph extends MultiLangDocument
+class Text extends Renderer
 {
-
-    protected $data = array(
-        'text_translations' => array()
-    );
 
     /**
      * @param string $value
-     * @return \NetBricks\Page\Document\Paragraph
+     * @return \NetBricks\Common\Component\Form\Extended\Renderer\Text
      */
-    public function setText($value)
+    public function setLabelField($value)
     {
-        $this->data['text_translations'][$this->getLanguage()] = (string)$value;
+        $this->options['label_field'] = (string)$value;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getText()
+    public function getLabelField()
     {
-        return (string)@$this->data['text_translations'][$this->getLanguage()];
+        return isset($this->options['label_field'])
+                ? (string)$this->options['label_field'] : 'name';
     }
 
-    /**
-     * @param array $value
-     * @return \NetBricks\Page\Document\Paragraph
-     */
-    public function setTextTranslations($value)
+    public function render()
     {
-        $this->data['text_translations'] = (array)$value;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getTextTranslations()
-    {
-        return (array)@$this->data['text_translations'];
+        return \NetCore\Renderer::renderObjectProperty($this->getData(), $this->getLabelField());
     }
 
 }

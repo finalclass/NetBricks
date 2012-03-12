@@ -1,0 +1,14 @@
+<?php
+/** @var $this \NetBricks\Common\Component\Extended\ComboBox  */
+$data = $this->getDataProvider();
+?>
+
+<div class="nb_extended_combo_box">
+    <ul class="nb_extended_combo_box_ddl">
+        <?php foreach ($data as $listItem): ?>
+        <li>
+            <?php echo $this->renderer->setData($listItem); ?>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+</div>

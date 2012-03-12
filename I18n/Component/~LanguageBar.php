@@ -32,11 +32,20 @@ use \NetBricks\Facade as _;
  * @date: 28.02.12
  * @time: 17:34
  */
-class LanguageBar extends ComponentAbstract
+class LanguageBar2 extends ComponentAbstract
 {
 
     public function __construct($options = array())
     {
+        $name = 'i18n_language_bar';
+        $head = _::head();
+
+        if (!$head->scripts->hasScript($name)) {
+            $head->scripts->appendScript($this->renderVariable(array($this, 'getJS')), 'text/javascript', $name);
+        }
+        if (!$head->styleSheets->hasCss($name)) {
+            $head->styleSheets->appendCss($this->renderVariable(array($this, 'getCSS')), $name);
+        }
         parent::__construct($options);
     }
 
@@ -50,6 +59,14 @@ class LanguageBar extends ComponentAbstract
             display: block;
             overflow: hidden;
             cursor: default;
+        }
+
+        .language_bar_arrow {
+            width: 10px;
+            height: 20px;
+            display:block;
+            overflow: hidden;
+            float:left;
         }
 
         .drop_down_list {
@@ -91,6 +108,14 @@ class LanguageBar extends ComponentAbstract
             float: left;
         }
 
+        .drop_down_list_container {
+                    display: block;
+                    overflow: hidden;
+                    width: 102px;
+                    height: 20px;
+                    float: left;
+                }
+
         .language_bar_prev, .language_bar_next {
             display: block;
             background: red;
@@ -98,16 +123,10 @@ class LanguageBar extends ComponentAbstract
         }
 
         .language_bar .absolute {
-            position:absolute;
+            position: absolute;
         }
 
-        .drop_down_list_container {
-            display:block;
-            overflow:hidden;
-            width: 102px;
-            height: 20px;
-            float:left;
-        }
+
 
     </style>
     <?php
@@ -125,10 +144,16 @@ class LanguageBar extends ComponentAbstract
                 var $selected;
                 var isOpen = false;
                 var $ddl = $this.find('.drop_down_list');
+                var api = new Object();
+                var $prevArrow = $this.find('.language_bar_prev');
+                var $nextArrow = $this.find('.language_bar_next');
+                $this.data('language_bar', api);
 
                 function init() {
                     setSelected($this.find('.drop_down_list li:first'));
                     closeDropDownList();
+                    api.nextLanguage = nextLanguage;
+                    api.prevLanguage = prevLanguage;
                 }
 
                 function openDropDownList() {
@@ -149,12 +174,30 @@ class LanguageBar extends ComponentAbstract
                     $this.find('.drop_down_list li').removeClass('selected');
                     $item.addClass('selected');
                     $this.find('.drop_down_list li').not($selected)
-                            .slideUp(function() {
+                            .slideUp(function () {
                                 $selected.slideDown();
                             });
 
-                    $this.data('selectedLanguage', $selected.data('language'));
+                    api.selectedLanguage = $selected.data('language');
+                    updateLeftArrowVisibility();
+                    updateRightArrowVisibility();
                     $this.trigger('change');
+                }
+
+                function updateLeftArrowVisibility() {
+                    if ($selected.prev('li').length == 0) {
+                        $prevArrow.fadeOut();
+                    } else {
+                        $prevArrow.fadeIn();
+                    }
+                }
+
+                function updateRightArrowVisibility() {
+                    if ($selected.next('li').length == 0) {
+                        $nextArrow.fadeOut();
+                    } else {
+                        $nextArrow.fadeIn();
+                    }
                 }
 
                 $this.find('.drop_down_button').click(function (event) {
@@ -168,28 +211,30 @@ class LanguageBar extends ComponentAbstract
                 $('body').not($this).click(function (event) {
                     var parents = $(event.target).parents();
                     for (var i in parents) {
-                        if (parents.hasOwnProperty(i)) {
-                            if (parents[i] == $this.get(0)) {
-                                return; //is child of $this
-                            }
+                        if (parents.hasOwnProperty(i) && parents[i] == $this.get(0)) {
+                            return; //is child of $this
                         }
                     }
                     closeDropDownList();
                 });
 
-                $this.find('.language_bar_prev').click(function () {
+                function prevLanguage() {
                     var $prev = $selected.prev('li');
                     if ($prev.length > 0) {
                         setSelected($prev);
                     }
-                });
+                }
 
-                $this.find('.language_bar_next').click(function () {
+                function nextLanguage() {
                     var $next = $selected.next('li');
                     if ($next.length > 0) {
                         setSelected($next);
                     }
-                });
+                }
+
+                $prevArrow.click(prevLanguage);
+
+                $nextArrow.click(nextLanguage);
 
                 $this.find('.drop_down_list li').click(function () {
                     if (!isOpen) {
@@ -201,6 +246,8 @@ class LanguageBar extends ComponentAbstract
                 });
 
                 init();
+
+
             });
 
         });
@@ -213,7 +260,9 @@ class LanguageBar extends ComponentAbstract
     {
         ?>
     <div class="language_bar">
-        <div class="language_bar_prev">&lt;</div>
+        <div class="language_bar_arrow">
+            <div class="language_bar_prev">&lt;</div>
+        </div>
         <div class="drop_down_list_container">
             <ul class="drop_down_list">
                 <?php foreach (_::languages()->getAvailable() as $l): ?>
@@ -226,8 +275,9 @@ class LanguageBar extends ComponentAbstract
             </ul>
         </div>
         <div class="drop_down_button">\/</div>
-
-        <div class="language_bar_next">&gt;</div>
+        <div class="language_bar_arrow">
+            <div class="language_bar_next">&gt;</div>
+        </div>
     </div>
 
     <?php

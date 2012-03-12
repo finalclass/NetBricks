@@ -42,6 +42,7 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
 
     public function __construct($options = array())
     {
+        $this->initHeader();
         foreach (_::languages()->getAvailable() as $l) {
             $element = $this->createElement();
             $this->elements[$l->getCode()] = $element;
@@ -50,6 +51,20 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
         $this->languageBar = _::loader('/NetBricks/I18n/Component/LanguageBar')->create();
         parent::__construct($options);
     }
+
+    private function initHeader()
+    {
+        $name = 'multi_lang_form_element_abstract';
+        $head = _::head();
+
+        if (!$head->scripts->hasScript($name)) {
+            $head->scripts->appendScript($this->renderVariable(array($this, 'getJS')), 'text/javascript', $name);
+        }
+        if (!$head->styleSheets->hasCss($name)) {
+            $head->styleSheets->appendCss($this->renderVariable(array($this, 'getCSS')), $name);
+        }
+    }
+
 
     static public function getCSS()
     {
@@ -72,10 +87,22 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
                 var $elements = $container.find('.multi_lang_form_element');
                 var $languageBar = $container.find('.language_bar');
                 var $current = null;
+                var isShiftDown = false;
+
+                $container.keydown(function (event) {
+                    if(event.ctrlKey) {
+                        if(event.which == 39) { //shift + right arow)
+                            $languageBar.data('language_bar').nextLanguage();
+                        } else if(event.which == 37){
+                            $languageBar.data('language_bar').prevLanguage();
+                        }
+                    }
+                });
 
                 function showCorrectFormElement() {
                     var $oldCurrent = $current ? $current : $elements;
-                    var langCode = $languageBar.data('selectedLanguage');
+                    var langBarApi = $languageBar.data('language_bar');
+                    var langCode = langBarApi ? $languageBar.data('language_bar').selectedLanguage : false;
 
                     if (langCode) {
                         $current = $container.find('.multi_lang_form_element_' + langCode);
@@ -83,9 +110,9 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
                         $current = $elements.find(':first');
                     }
                     $oldCurrent.slideUp(function () {
-                        $current.slideDown();
-                    });
 
+                        $current.slideDown().find('input').add($current.find('textarea')).focus();
+                    });
                 }
 
                 $languageBar.bind('change', showCorrectFormElement);

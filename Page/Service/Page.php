@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace NetBricks\Page\Service;
 use \NetBricks\Facade as _;
-use \NetBricks\Page\Model\Page as PageModel;
+use \NetBricks\Page\Document\Page as PageModel;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -42,9 +42,28 @@ class Page
         return new \NetBricks\Page\Document\Page\Repository();
     }
 
+    /**
+     * @return \NetBricks\Page\Document\Page[]
+     */
     public function all()
     {
         return $this->getRepo()->all();
+    }
+
+    /**
+     * @return \NetBricks\Page\Document\Page
+     */
+    public function get()
+    {
+        return $this->getRepo()->find(_::request()->id->getString());
+    }
+
+    /**
+     * @return \NetBricks\Page\Document\Page
+     */
+    public function post()
+    {
+
     }
 
 }

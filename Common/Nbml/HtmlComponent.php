@@ -22,56 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Document;
-
-use \NetBricks\Common\Document\MultiLangDocument;
+namespace NetBricks\Common\Nbml;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 01.03.12
- * @time: 22:22
+ * @date: 11.03.12
+ * @time: 14:11
  */
-class Paragraph extends MultiLangDocument
+interface HtmlComponent
 {
-
-    protected $data = array(
-        'text_translations' => array()
-    );
-
-    /**
-     * @param string $value
-     * @return \NetBricks\Page\Document\Paragraph
-     */
-    public function setText($value)
-    {
-        $this->data['text_translations'][$this->getLanguage()] = (string)$value;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getText()
-    {
-        return (string)@$this->data['text_translations'][$this->getLanguage()];
-    }
-
-    /**
-     * @param array $value
-     * @return \NetBricks\Page\Document\Paragraph
-     */
-    public function setTextTranslations($value)
-    {
-        $this->data['text_translations'] = (array)$value;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getTextTranslations()
-    {
-        return (array)@$this->data['text_translations'];
-    }
-
+    public function toString();
 }

@@ -33,6 +33,12 @@ use \NetBricks\Facade as _;
  * @time: 10:11
  *
  * @property \NetBricks\Common\Component\Form\MultiLang\TextInput $title
+ * @property \NetBricks\Common\Component\Form\MultiLang\TextArea $brief
+ * @property \NetBricks\Common\Component\Form\CheckBox $robotsIndex
+ * @property \NetBricks\Common\Component\Form\CheckBox $robotsFollow
+ * @property \NetBricks\Common\Component\Form\MultiLang\TextInput $metaTitle
+ * @property \NetBricks\Common\Component\Form\MultiLang\TextInput $metaKeywords
+ * @property \NetBricks\Common\Component\Form\MultiLang\TextArea $metaDescription
  * @property \NetBricks\Common\Component\Form\Submit $submit
  */
 class Form extends CoreForm
@@ -40,11 +46,40 @@ class Form extends CoreForm
 
     public function __construct($options = array())
     {
-        parent::__construct($options);
-        $this->title = _::loader('/NetBricks/Common/Component/Form/MultiLang/TextInput')->create()
-                            ->setName('title');
+        $textInputNS = '\NetBricks\Common\Component\Form\MultiLang\TextInput';
+        $textAreaNS = '\NetBricks\Common\Component\Form\MultiLang\TextArea';
+        $submitNS = '\NetBricks\Common\Component\Form\Submit';
+        $checkBoxNS = '\NetBricks\Common\Component\Form\CheckBox';
 
-        $this->submit = _::loader('/NetBricks/Common/Component/Form/Submit')->create();
+        $this->title = _::loader($textInputNS)->create()->setName('title_translations');
+        $this->brief = _::loader($textAreaNS)->create()->setName('brief_translations');
+        $this->robotsIndex = _::loader($checkBoxNS)->create()->setName('robots_index');
+        $this->robotsFollow = _::loader($checkBoxNS)->create()->setName('robots_follow');
+        $this->metaTitle = _::loader($textInputNS)->create()->setName('meta_title_translations');
+        $this->metaKeywords = _::loader($textInputNS)->create()->setName('meta_keywords_translations');
+        $this->metaDescription = _::loader($textAreaNS)->create()->setName('meta_description_translations');
+        $this->submit = _::loader($submitNS)->create()->setName('form')->setValue('page_management');
+
+        parent::__construct($options);
+    }
+
+    private function getService()
+    {
+        return new \NetBricks\Page\Service\Page();
+    }
+
+    public function init()
+    {
+        if(_::request()->isPost() && _::request()->post->form == 'page_management') {
+            $data = $this->getService()->post();
+            if($data->hasErrors()) {
+                $this->setValues($data);
+            } else {
+                _::url()->addParam('action', 'list')->redirect();
+            }
+        } else if(_::request()->id->exists()){
+            $this->setValues($this->getService()->get());
+        }
     }
 
 
@@ -54,10 +89,38 @@ class Form extends CoreForm
 <form <?php echo $this->renderTagAttributes($this->defaultAttributes); ?>>
     
     <p>
-        <label for="page_title">
-            Tytuł
-        </label>
+        <label for="page_title">Title</label>
         <?php echo $this->title->setId('page_title'); ?>
+    </p>
+
+    <p>
+        <label for="page_brief">Brief</label>
+        <?php echo $this->brief->setId('page_brief'); ?>
+    </p>
+
+    <p>
+        <label for="page_robots_index">Index by robots</label>
+        <?php echo $this->robotsIndex->setId('page_robots_index'); ?>
+    </p>
+
+    <p>
+        <label for="page_robots_follow">Robots follow links?</label>
+        <?php echo $this->robotsFollow->setId('page_robots_follow'); ?>
+    </p>
+
+    <p>
+        <label for="page_meta_title">Meta title</label>
+        <?php echo $this->metaTitle->setId('page_meta_title'); ?>
+    </p>
+
+    <p>
+        <label for="page_meta_keywords">Meta keywords</label>
+        <?php echo $this->metaKeywords->setId('page_meta_keywords'); ?>
+    </p>
+
+    <p>
+        <label for="page_meta_description">Meta description</label>
+        <?php echo $this->metaDescription->setId('page_meta_description'); ?>
     </p>
 
     <?php echo $this->submit->setLabel('Save'); ?>

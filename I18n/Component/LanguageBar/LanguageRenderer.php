@@ -22,56 +22,41 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Document;
+namespace NetBricks\I18n\Component\LanguageBar;
 
-use \NetBricks\Common\Document\MultiLangDocument;
+use \NetBricks\Common\Component\Extended\Renderer;
+use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 01.03.12
- * @time: 22:22
+ * @date: 12.03.12
+ * @time: 11:42
  */
-class Paragraph extends MultiLangDocument
+class LanguageRenderer extends Renderer
 {
 
-    protected $data = array(
-        'text_translations' => array()
-    );
-
     /**
-     * @param string $value
-     * @return \NetBricks\Page\Document\Paragraph
+     * @return \NetBricks\I18n\Model\Language
      */
-    public function setText($value)
+    private function getLanguage()
     {
-        $this->data['text_translations'][$this->getLanguage()] = (string)$value;
-        return $this;
+        $data = $this->getData();
+        if(!$data instanceof \NetBricks\I18n\Model\Language) {
+            throw new \NetBricks\I18n\Exception\WrongModelForRenderer();
+        }
+        return $this->getData();
     }
 
-    /**
-     * @return string
-     */
-    public function getText()
+    public function render()
     {
-        return (string)@$this->data['text_translations'][$this->getLanguage()];
+        $lang = $this->getLanguage();
+        ?>
+            <img src="<?php echo _::loader('/NetBricks/I18n/flags/' . $lang->getCode() . '.png')->getPath(); ?>"
+                 alt="<?php echo $lang->getName(); ?>"
+                 title="<?php echo $lang->getName(); ?>"/>
+            <span class="language_name">
+                <?php echo $lang->getName(); ?>
+            </span>
+        <?php
     }
-
-    /**
-     * @param array $value
-     * @return \NetBricks\Page\Document\Paragraph
-     */
-    public function setTextTranslations($value)
-    {
-        $this->data['text_translations'] = (array)$value;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getTextTranslations()
-    {
-        return (array)@$this->data['text_translations'];
-    }
-
 }

@@ -24,24 +24,24 @@ SOFTWARE.
 
 namespace NetBricks\Page\Document;
 
-use \NetCore\CouchDB\Document;
+use \NetBricks\Common\Document\MultiLangDocument;
 
 /**
  * @author: Sel <s@finalclass.net>
  * @date: 01.03.12
  * @time: 22:22
  */
-class Photo extends Document
+class Photo extends MultiLangDocument
 {
 
     protected $data = array(
         'big_src' => '',
         'thumb_src' => '',
-        'name' => array(),
         'big_width' => 800,
         'big_height' => 600,
         'thumb_width' => 120,
         'thumb_height' => 80,
+        'name_translations' => array(),
     );
 
     /**
@@ -116,27 +116,6 @@ class Photo extends Document
         return $this->data['big_width'];
     }
 
-    /**
-     * @param string $value
-     * @return \NetBricks\Page\Document\Photo
-     */
-    public function setName($value)
-    {
-        $this->data['name'] = $value;
-        return $this;
-    }
-
-    /**
-     * @param null $language 2 letters country code
-     * @return string
-     */
-    public function getName($language = null)
-    {
-        if($language != null) {
-            return (string) @$this->data['name'][$language];
-        }
-        return $this->data['name'];
-    }
 
     /**
      * @param string $value
@@ -172,6 +151,46 @@ class Photo extends Document
     public function getThumbSrc()
     {
         return $this->data['thumb_src'];
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Name
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Document\Photo
+     */
+    public function setName($value)
+    {
+        $this->data['name_translations'][$this->getLanguage()] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return (string)@$this->data['name_translations'][$this->getLanguage()];
+    }
+
+    /**
+     * @param array $value
+     * @return \NetBricks\Page\Document\Photo
+     */
+    public function setNameTranslations(array $value)
+    {
+        $this->data['name_translations'] = $this->filterTranslations($value);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNameTranslations()
+    {
+        return (array)@$this->data['name_translations'];
     }
 
 }
