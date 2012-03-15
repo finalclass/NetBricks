@@ -92,14 +92,14 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
                 var $current = null;
                 var isShiftDown = false;
 
-                $languageBar.find('.prev_button').attr('title', 'CTRL + left');
-                $languageBar.find('.next_button').attr('title', 'CTRL + right');
+                $languageBar.find('.prev_button').attr('title', 'CTRL + up');
+                $languageBar.find('.next_button').attr('title', 'CTRL + down');
 
                 $container.keydown(function (event) {
                     if(event.ctrlKey && !event.altKey && !event.shiftKey) {
-                        if(event.which == 39) { //shift + right arow)
+                        if(event.which == 40){ //ctrl + down arrow
                             $languageBar.data('nb_i18n_language_bar').nextLanguage();
-                        } else if(event.which == 37){
+                        } else if(event.which == 38) { //ctrl + up arrow
                             $languageBar.data('nb_i18n_language_bar').prevLanguage();
                         }
                     }
