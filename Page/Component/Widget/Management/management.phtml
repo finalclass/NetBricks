@@ -1,0 +1,12 @@
+<?php /** @var $this \NetBricks\Page\Component\Widget\Management  */ ?>
+<div <?php echo $this->renderDefaultAttributes(); ?>>
+
+    <div class="widget_container">
+        <?php foreach($this->getDataProvider() as $widget): ?>
+            <?php echo $this->createWidget($widget['type']); ?>
+        <?php endforeach; ?>
+    </div>
+
+    <a href="#" class="add_widget">Add widget</a>
+
+</div>

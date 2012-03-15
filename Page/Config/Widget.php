@@ -21,47 +21,44 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-
-namespace NetBricks\Page;
+namespace NetBricks\Page\Config;
 
 use \NetCore\Configurable\OptionsAbstract;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 04.03.12
- * @time: 15:29
+ * @date: 15.03.12
+ * @time: 13:30
  */
-class Config extends OptionsAbstract
+class Widget extends OptionsAbstract
 {
 
-    /**
-     * @var \NetBricks\Page\Config\Photo
-     */
-    private $photo;
+    protected $options = array(
+        'types' => array()
+    );
 
-    /** @var \NetBricks\Page\Config\Widget */
-    private $widget;
-
-    /**
-     * @return Config\Photo
-     */
-    public function getPhoto()
+    public function addType($name, $class)
     {
-        if (!$this->photo) {
-            $this->photo = new \NetBricks\Page\Config\Photo((array)@$this->options['photo']);
-        }
-        return $this->photo;
+        $this->options['types'][$class] = $name;
+        return $this;
     }
 
     /**
+     * @param array $value
      * @return \NetBricks\Page\Config\Widget
      */
-    public function getWidget()
+    public function setTypes($value)
     {
-        if(!$this->widget) {
-            $this->widget = new \NetBricks\Page\Config\Widget((array)@$this->options['widget']);
-        }
-        return $this->widget;
+        $this->options['types'] = (array)$value;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTypes()
+    {
+        return (array)@$this->options['types'];
     }
 
 }

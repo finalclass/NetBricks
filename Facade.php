@@ -269,14 +269,16 @@ class Facade
         if (!isset(static::$options[__FUNCTION__])) {
             $r = new Router();
 
-            $r->addRoute('default', '/{stage}/{content}/{action}',
-                array(
-                    'stage' => 'default',
-                    'content' => 'default',
-                    'action' => 'default'
-                ));
             $r->addRoute('service', '/-{service}');
             $r->addRoute('service_with_id', '/-{service}/{id}');
+            $r->addRoute('component', '/component={stage}');
+
+            $r->addRoute('default', '/{stage}/{content}/{action}',
+                            array(
+                                'stage' => 'default',
+                                'content' => 'default',
+                                'action' => 'default'
+                            ));
 
             static::$options[__FUNCTION__] = $r;
         }

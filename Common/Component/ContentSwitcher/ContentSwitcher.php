@@ -71,17 +71,20 @@ class ContentSwitcher extends Container
         }
 
         if(!$this->selectedCase) {
-            $this->selectedCase = $this->getDefaultCase();
-        }
-
-        if(!$this->selectedCase) {
-            $this->dispatchEvent(new ContentSwitcherEvent(ContentSwitcherEvent::CONTENT_NOT_FOUND));
+            $className = $this->switchPossibilities[0];
         } else {
             $className = $this->selectedCase->getContentClassName();
-            $this->content = _::loader($className)->create();
-            $this->addChild($this->content);
-            $this->dispatchEvent(new ContentSwitcherEvent(ContentSwitcherEvent::AFTER_SWITCH, $this->getContent()));
         }
+
+        $className = str_replace('/', '\\', $className);
+
+        if(!is_subclass_of($className, '\NetBricks\Common\Component\ComponentAbstract')) {
+            throw new \NetBricks\Common\Component\Exception\NotAComponent($className . ' is not a component');
+        }
+        $this->content = _::loader($className)->create();
+        $this->addChild($this->content);
+        $this->dispatchEvent(new ContentSwitcherEvent(ContentSwitcherEvent::AFTER_SWITCH, $this->getContent()));
+
     }
 
     /**

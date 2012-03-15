@@ -40,6 +40,8 @@ use \NetBricks\Facade as _;
  * @property \NetBricks\Common\Component\Form\MultiLang\TextInput $metaKeywords
  * @property \NetBricks\Common\Component\Form\MultiLang\TextArea $metaDescription
  * @property \NetBricks\Common\Component\Form\Submit $submit
+ *
+ * @property \NetBricks\Page\Component\Widget\Management $widgetManagement
  */
 class Form extends CoreForm
 {
@@ -59,7 +61,7 @@ class Form extends CoreForm
         $this->metaKeywords = _::loader($textInputNS)->create()->setName('meta_keywords_translations');
         $this->metaDescription = _::loader($textAreaNS)->create()->setName('meta_description_translations');
         $this->submit = _::loader($submitNS)->create()->setName('form')->setValue('page_management');
-
+        $this->widgetManagement = _::loader('\NetBricks\Page\Component\Widget\Management')->create();
         parent::__construct($options);
     }
 
@@ -74,11 +76,14 @@ class Form extends CoreForm
             $data = $this->getService()->post();
             if($data->hasErrors()) {
                 $this->setValues($data);
+                $this->widgetManagement->setDataProvider($data['widhets']);
             } else {
                 _::url()->addParam('action', 'list')->redirect();
             }
         } else if(_::request()->id->exists()){
-            $this->setValues($this->getService()->get());
+            $page = $this->getService()->get();
+            $this->setValues($page);
+            $this->widgetManagement->setDataProvider($page->getWidgets());
         }
     }
 
@@ -122,6 +127,8 @@ class Form extends CoreForm
         <label for="page_meta_description">Meta description</label>
         <?php echo $this->metaDescription->setId('page_meta_description'); ?>
     </p>
+
+    <?php echo $this->widgetManagement; ?>
 
     <?php echo $this->submit->setLabel('Save'); ?>
 

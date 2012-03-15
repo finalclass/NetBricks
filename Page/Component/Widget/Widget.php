@@ -22,46 +22,49 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page;
+namespace NetBricks\Page\Component;
 
-use \NetCore\Configurable\OptionsAbstract;
+use \NetBricks\Common\Component\Tag;
+use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 04.03.12
- * @time: 15:29
+ * @date: 15.03.12
+ * @time: 13:27
  */
-class Config extends OptionsAbstract
+class Widget extends Tag
 {
 
-    /**
-     * @var \NetBricks\Page\Config\Photo
-     */
-    private $photo;
-
-    /** @var \NetBricks\Page\Config\Widget */
-    private $widget;
-
-    /**
-     * @return Config\Photo
-     */
-    public function getPhoto()
+    public function __construct($options = array())
     {
-        if (!$this->photo) {
-            $this->photo = new \NetBricks\Page\Config\Photo((array)@$this->options['photo']);
-        }
-        return $this->photo;
+        parent::__construct($options);
+        $this->setClass($this->getClass() . ' nb_page_widget');
     }
 
-    /**
-     * @return \NetBricks\Page\Config\Widget
-     */
-    public function getWidget()
+    public function renderDefaultAttributes()
     {
-        if(!$this->widget) {
-            $this->widget = new \NetBricks\Page\Config\Widget((array)@$this->options['widget']);
-        }
-        return $this->widget;
+        return $this->renderTagAttributes(array('id', 'class', 'style'));
+    }
+
+    public function getJS()
+    {
+        return file_get_contents(_::loader($this)->find('widget.js')->getFullPath());
+    }
+
+    public function render()
+    {
+        $widgetTypes = _::cfg()->getPage()->getWidget()->getTypes();
+        ?>
+<div <?php echo $this->renderDefaultAttributes(); ?>>
+
+    <?php foreach($widgetTypes as $class => $name): ?>
+    <p class="<?php echo $class; ?> widget_type" data-type="<?php echo $class; ?>">
+        <?php echo $name; ?>
+    </p>
+    <?php endforeach; ?>
+
+</div>
+        <?php
     }
 
 }
