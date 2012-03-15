@@ -55,14 +55,8 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
     private function initHeader()
     {
         $name = 'multi_lang_form_element_abstract';
-        $head = _::head();
-
-        if (!$head->scripts->hasScript($name)) {
-            $head->scripts->appendScript($this->renderVariable(array($this, 'getJS')), 'text/javascript', $name);
-        }
-        if (!$head->styleSheets->hasCss($name)) {
-            $head->styleSheets->appendCss($this->renderVariable(array($this, 'getCSS')), $name);
-        }
+        $this->addCSS($name, array($this, 'getCSS'));
+        $this->addJS($name, array($this, 'getJS'));
     }
 
 
@@ -72,6 +66,15 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
     <style type="text/css">
         .multi_lang_form_element {
             display: none;
+            float:left;
+        }
+
+        .multi_lang_form_element input[type="text"], .multi_lang_form_element input[type="file"] {
+            height: 20px;
+        }
+
+        .multi_lang_form_element_container {
+            overflow: hidden;
         }
     </style>
     <?php
@@ -85,38 +88,45 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
             $('.multi_lang_form_element_container').each(function () {
                 var $container = $(this);
                 var $elements = $container.find('.multi_lang_form_element');
-                var $languageBar = $container.find('.language_bar');
+                var $languageBar = $container.find('.nb_i18n_language_bar');
                 var $current = null;
                 var isShiftDown = false;
 
+                $languageBar.find('.prev_button').attr('title', 'CTRL + left');
+                $languageBar.find('.next_button').attr('title', 'CTRL + right');
+
                 $container.keydown(function (event) {
-                    if(event.ctrlKey) {
+                    if(event.ctrlKey && !event.altKey && !event.shiftKey) {
                         if(event.which == 39) { //shift + right arow)
-                            $languageBar.data('language_bar').nextLanguage();
+                            $languageBar.data('nb_i18n_language_bar').nextLanguage();
                         } else if(event.which == 37){
-                            $languageBar.data('language_bar').prevLanguage();
+                            $languageBar.data('nb_i18n_language_bar').prevLanguage();
                         }
                     }
                 });
 
                 function showCorrectFormElement() {
-                    var $oldCurrent = $current ? $current : $elements;
-                    var langBarApi = $languageBar.data('language_bar');
-                    var langCode = langBarApi ? $languageBar.data('language_bar').selectedLanguage : false;
+                    var $oldCurrent = $current;
+                    var langBarApi = $languageBar.data('nb_i18n_language_bar');
+                    var langCode = langBarApi ? $languageBar.data('nb_i18n_language_bar').getSelectedLanguage() : false;
 
                     if (langCode) {
                         $current = $container.find('.multi_lang_form_element_' + langCode);
                     } else {
                         $current = $elements.find(':first');
                     }
-                    $oldCurrent.slideUp(function () {
 
+                    function showCurrent() {
                         $current.slideDown().find('input').add($current.find('textarea')).focus();
-                    });
+                    }
+
+                    if($oldCurrent) {
+                        $oldCurrent.hide();
+                    }
+                    showCurrent();
                 }
 
                 $languageBar.bind('change', showCorrectFormElement);
-                showCorrectFormElement();
 
             });
         });
@@ -151,12 +161,12 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
     {
         ?>
     <div class="multi_lang_form_element_container">
-        <?php echo $this->languageBar; ?>
         <?php foreach ($this->elements as $lang => $element): ?>
         <div class="multi_lang_form_element multi_lang_form_element_<?php echo $lang; ?>">
             <?php echo $element; ?>
         </div>
         <?php endforeach; ?>
+        <?php echo $this->languageBar; ?>
     </div>
     <?php
     }

@@ -6,7 +6,7 @@ $data = $this->getDataProvider();
 <div class="nb_extended_combo_box">
     <ul class="nb_extended_combo_box_ddl">
         <?php foreach ($data as $listItem): ?>
-        <li>
+        <li class="combo_item">
             <?php echo $this->renderer->setData($listItem); ?>
         </li>
         <?php endforeach; ?>

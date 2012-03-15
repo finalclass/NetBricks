@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace NetBricks\I18n\Component;
 
-use \NetBricks\Common\Component\Container;
+use \NetBricks\Common\Component\Tag;
 use \NetBricks\Common\Component\ComponentAbstract;
 use \NetBricks\I18n\Component\LanguageBar\PrevButton;
 use \NetBricks\I18n\Component\LanguageBar\NextButton;
@@ -41,7 +41,7 @@ use \NetBricks\Facade as _;
  * @property \NetBricks\Common\Component\ComponentAbstract $nextButton
  * @property \NetBricks\Common\Component\Extended\ComboBox $comboBox;
  */
-class LanguageBar extends Container
+class LanguageBar extends Tag
 {
 
     public function __construct($options = array())
@@ -58,6 +58,18 @@ class LanguageBar extends Container
         $this->comboBox = $this->createComboBox();
     }
 
+    private function renderDefaultAtrtibutes()
+    {
+        return $this->renderTagAttributes(array('class', 'style', 'id'));
+    }
+
+    public function getClass()
+    {
+        if(!isset($this->options['class'])) {
+            $this->options['class'] = 'nb_i18n_language_bar';
+        }
+        return $this->options['class'];
+    }
 
     protected function createPrevButton()
     {

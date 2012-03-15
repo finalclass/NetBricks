@@ -24,24 +24,24 @@ SOFTWARE.
 
 namespace NetBricks\I18n\Component\LanguageBar;
 
-use \NetBricks\Common\Component\ComponentAbstract;
-
 /**
  *
  * @author: Sel <s@finalclass.net>
  * @date: 12.03.12
  * @time: 10:52
  */
-class NextButton extends ComponentAbstract
+class NextButton extends ButtonAbstract
 {
+
+
 
     public function render()
     {
         ?>
-            <div class="nb_i18n_language_bar_next_button">
-                /\
-            </div>
-        <?php
+    <div class="nb_i18n_language_bar_next_button nb_i18n_language_bar_button_abstract">
+
+    </div>
+    <?php
     }
 
 }

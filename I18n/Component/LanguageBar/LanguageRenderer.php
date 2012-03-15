@@ -41,7 +41,7 @@ class LanguageRenderer extends Renderer
     private function getLanguage()
     {
         $data = $this->getData();
-        if(!$data instanceof \NetBricks\I18n\Model\Language) {
+        if (!$data instanceof \NetBricks\I18n\Model\Language) {
             throw new \NetBricks\I18n\Exception\WrongModelForRenderer();
         }
         return $this->getData();
@@ -51,12 +51,12 @@ class LanguageRenderer extends Renderer
     {
         $lang = $this->getLanguage();
         ?>
-            <img src="<?php echo _::loader('/NetBricks/I18n/flags/' . $lang->getCode() . '.png')->getPath(); ?>"
-                 alt="<?php echo $lang->getName(); ?>"
-                 title="<?php echo $lang->getName(); ?>"/>
-            <span class="language_name">
-                <?php echo $lang->getName(); ?>
-            </span>
-        <?php
+    <div class="one_language" data-language="<?php echo $lang->getCode(); ?>">
+        <img src="<?php echo _::loader('/NetBricks/I18n/Component/LanguageBar/flags/' . $lang->getCode() . '.png')->getPath(); ?>"
+             alt="<?php echo $lang->getName(); ?>"
+             title="<?php echo $lang->getName(); ?>"/>
+            <?php echo $lang->getCode(); ?>
+    </div>
+    <?php
     }
 }

@@ -24,21 +24,41 @@ SOFTWARE.
 
 namespace NetBricks\I18n\Component\LanguageBar;
 
+use \NetBricks\Common\Component\ComponentAbstract;
+
 /**
- *
  * @author: Sel <s@finalclass.net>
- * @date: 12.03.12
- * @time: 10:54
+ * @date: 15.03.12
+ * @time: 11:53
  */
-class PrevButton extends ButtonAbstract
+class ButtonAbstract extends ComponentAbstract
 {
 
-    public function render()
+    public function __construct($options = array())
+    {
+        parent::__construct($options);
+        $this->addCSS('nb_i18n_language_bar_button_abstract', array($this, 'getCSS'));
+    }
+
+    static public function getCSS()
     {
         ?>
-    <div class="nb_i18n_language_bar_prev_button nb_i18n_language_bar_button_abstract">
+    <style type="text/css">
+        .nb_i18n_language_bar_button_abstract {
+            width: 14px;
+            height: 7px;
+            background-color: #00f;
 
-    </div>
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+        }
+
+        .nb_i18n_language_bar_button_abstract:hover {
+            background-color: #8b0000;
+            cursor: pointer;
+        }
+    </style>
     <?php
     }
 

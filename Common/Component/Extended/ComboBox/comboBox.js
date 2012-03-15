@@ -19,39 +19,47 @@ $(function () {
       return that;
     };
 
+    api.getFirstItem = function() {
+      return $ddl.find('li.combo_item:first');
+    };
+
+    api.getTotalItems = function() {
+      return $ddl.find('li.combo_item').length;
+    };
+
     api.getSelectedItem = function() {
-      return $ddl.find('li:nth-child(' + api.getSelectedIndex() + ')');
+      return $ddl.find('li.combo_item:nth-child(' + (api.getSelectedIndex() + 1).toString() + ')');
     };
 
     api.setSelectedIndex = function (index) {
       $that.trigger('before_change', index);
 
-      $that.find('li').removeClass('selected');
-      $selected = $ddl.find('li').eq(index);
+      $that.find('li.combo_item').removeClass('selected');
+      $selected = $ddl.find('li.combo_item').eq(index);
       $selected.addClass('selected');
-      $that.find('li').not($selected).slideUp(function () {
+      $that.find('li.combo_item').not($selected).slideUp(function () {
             $selected.slideDown();
         });
       $that.trigger('change', index);
     };
 
     api.getSelectedIndex = function () {
-      return $ddl.index($selected);
+      return $selected.index();
     };
 
     api.open = function () {
       $('body').not($that).bind('click', onBodyClick);
-      $ddl.find('li').bind('click', onElementMouseSelect);
+      $ddl.find('li.combo_item').bind('click', onElementMouseSelect);
       $ddl.addClass('absolute');
-      $ddl.find('li').slideDown();
+      $ddl.find('li.combo_item').slideDown();
       isOpen = true;
     };
 
     api.close = function () {
       $('body').not($that).unbind('click', onBodyClick);
-      $ddl.find('li').unbind('click', onElementMouseSelect);
+      $ddl.find('li.combo_item').unbind('click', onElementMouseSelect);
       $ddl.removeClass('absolute');
-      $ddl.find('li').not($selected).slideUp();
+      $ddl.find('li.combo_item').not($selected).slideUp();
       isOpen = false;
     };
 
