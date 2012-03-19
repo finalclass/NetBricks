@@ -62,76 +62,12 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
 
     static public function getCSS()
     {
-        ?>
-    <style type="text/css">
-        .multi_lang_form_element {
-            display: none;
-            float:left;
-        }
-
-        .multi_lang_form_element input[type="text"], .multi_lang_form_element input[type="file"] {
-            height: 20px;
-        }
-
-        .multi_lang_form_element_container {
-            overflow: hidden;
-        }
-    </style>
-    <?php
+        return file_get_contents(_::loader(__CLASS__ . '/formElementAbstract.css')->getFullPath());
     }
 
     static public function getJS()
     {
-        ?>
-    <script type="text/javascript">
-        $(function () {
-            $('.multi_lang_form_element_container').each(function () {
-                var $container = $(this);
-                var $elements = $container.find('.multi_lang_form_element');
-                var $languageBar = $container.find('.nb_i18n_language_bar');
-                var $current = null;
-                var isShiftDown = false;
-
-                $languageBar.find('.prev_button').attr('title', 'CTRL + up');
-                $languageBar.find('.next_button').attr('title', 'CTRL + down');
-
-                $container.keydown(function (event) {
-                    if(event.ctrlKey && !event.altKey && !event.shiftKey) {
-                        if(event.which == 40){ //ctrl + down arrow
-                            $languageBar.data('nb_i18n_language_bar').nextLanguage();
-                        } else if(event.which == 38) { //ctrl + up arrow
-                            $languageBar.data('nb_i18n_language_bar').prevLanguage();
-                        }
-                    }
-                });
-
-                function showCorrectFormElement() {
-                    var $oldCurrent = $current;
-                    var langBarApi = $languageBar.data('nb_i18n_language_bar');
-                    var langCode = langBarApi ? $languageBar.data('nb_i18n_language_bar').getSelectedLanguage() : false;
-
-                    if (langCode) {
-                        $current = $container.find('.multi_lang_form_element_' + langCode);
-                    } else {
-                        $current = $elements.find(':first');
-                    }
-
-                    function showCurrent() {
-                        $current.slideDown().find('input').add($current.find('textarea')).focus();
-                    }
-
-                    if($oldCurrent) {
-                        $oldCurrent.hide();
-                    }
-                    showCurrent();
-                }
-
-                $languageBar.bind('change', showCorrectFormElement);
-
-            });
-        });
-    </script>
-    <?php
+       return file_get_contents(_::loader(__CLASS__ . '/formElementAbstract.js')->getFullPath());
     }
 
     public function setName($value)

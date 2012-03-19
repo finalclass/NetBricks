@@ -38,27 +38,28 @@ use \NetBricks\Common\Component\BasicCrud\ItemMenu;
 class ManageMany extends Table
 {
 
-    private function getService()
+    /**
+     * @return \NetBricks\Page\Document\Photo\Repository
+     */
+    private function getRepo()
     {
-        static $service;
-        if(!$service) {
-            $service = new PhotoService();
+        static $repo;
+        if(!$repo) {
+            $repo = _::loader('\NetBricks\Page\Document\Photo\Repository')->create();
         }
-        return $service;
+        return $repo;
     }
 
     public function __construct($options = array())
     {
-        $this->setDataProvider($this->getService()->all())
+        $this->setDataProvider($this->getRepo()->all())
             ->column('src', 'Photo', function($that, PhotoDocument $record) {
                 return '<img src="' . $record->getThumbSrc() . '" '
-                         . 'alt="' . $record->getName(_::languages()->getCurrent()) .'" '
+                         . 'alt="' . $record->getName() .'" '
                           . 'width="' . $record->getThumbWidth() . 'px" '
                           . 'height="' . $record->getThumbHeight() . 'px"/>';
             })
-            ->column('name', 'Name', function($that, PhotoDocument $record) {
-                return $record->getName(_::languages()->getCurrent());
-            })
+            ->column('name', 'Name')
             ->column('operations', 'Operations', function($that, PhotoDocument $record) {
                 return ItemMenu::factory()
                         ->setRecordId($record->getId())

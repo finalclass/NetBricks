@@ -1,9 +1,6 @@
-$.fn.nb_page_widget = function () {
-  return this.each(function () {
+$.Component('nb_page_widget', function () {
     var that = this;
     var $this = $(this);
-    var api = new Object();
-    $this.data('nb_page_widget', api);
 
     function init() {
       $this.find('.widget_type').bind('click', onWidgetClick);
@@ -23,9 +20,4 @@ $.fn.nb_page_widget = function () {
     }
 
     init();
-  });
-};
-
-  $(function () {
-    $('.nb_page_widget').nb_page_widget();
-  });
+});

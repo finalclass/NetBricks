@@ -1,0 +1,12 @@
+.multi_lang_form_element {
+    display: none;
+    float: left;
+}
+
+.multi_lang_form_element input[type="text"], .multi_lang_form_element input[type="file"] {
+    height: 20px;
+}
+
+.multi_lang_form_element_container {
+    overflow: hidden;
+}

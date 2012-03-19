@@ -84,7 +84,7 @@ class Facade
         }
         $loader = static::$options[__FUNCTION__];
         if ($resource) {
-            $loader->find($resource);
+            $loader->find('/')->find($resource);
         }
         return $loader;
     }
@@ -271,7 +271,8 @@ class Facade
 
             $r->addRoute('service', '/-{service}');
             $r->addRoute('service_with_id', '/-{service}/{id}');
-            $r->addRoute('component', '/component={stage}');
+            $r->addRoute('component', '/component={component}',
+                array('stage' => '\NetBricks\Common\Component\Document\SingleComponent'));
 
             $r->addRoute('default', '/{stage}/{content}/{action}',
                             array(

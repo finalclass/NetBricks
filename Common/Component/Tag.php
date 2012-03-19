@@ -70,7 +70,7 @@ class Tag extends Container
         return $htmlAttributes;
     }
 
-    private function renderData()
+    protected function renderData()
     {
         $data = $this->getData();
         $out = array();

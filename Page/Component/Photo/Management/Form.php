@@ -45,7 +45,8 @@ class Form extends BaseForm
     {
         $this->id = _::loader('\NetBricks\Common\Component\Form\Hidden')->create()->setName('_id');
         $this->rev = _::loader('\NetBricks\Common\Component\Form\Hidden')->create()->setName('_rev');
-        $this->name = _::loader('\NetBricks\Common\Component\Form\MultiLang\TextInput')->create()->setName('name');
+        $this->name = _::loader('\NetBricks\Common\Component\Form\MultiLang\TextInput')->create()
+                ->setName('name_translations');
         $this->file = _::loader('\NetBricks\Common\Component\Form\File')->create()->setName('photo');
         $this->submit = _::loader('\NetBricks\Common\Component\Form\Submit')->create()->setLabel('Save')
                             ->setName('form')->setValue('page_photo_form');

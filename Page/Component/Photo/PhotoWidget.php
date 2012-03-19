@@ -21,66 +21,38 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+namespace NetBricks\Page\Component\Photo;
 
-namespace NetBricks\Page\Component;
-
-use \NetBricks\Common\Component\ComponentAbstract;
-use \NetBricks\Page\Document\Photo as PhotoDocument;
-use \NetBricks\Facade as _;
-use \NetBricks\Page\Document\Photo\Repository as PhotoRepository;
-use \NetBricks\Common\Component\Image;
+use \NetBricks\Common\Component\Container;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 15.03.12
- * @time: 15:02
- * @property \NetBricks\Common\Component\Image $image
+ * @date: 19.03.12
+ * @time: 12:28
  */
-class Photo extends ComponentAbstract
+class PhotoWidget extends Container
 {
 
-    public function __construct($options = array())
-    {
-        $this->image = isset($this->image) ? $this->image :
-                _::loader('\NetBricks\Common\Component\Image')->create();
-        parent::__construct($options);
-    }
-
-    public function beforeRender()
+    public function init()
     {
         $doc = $this->getPhotoDocument();
-        if (!$doc) {
-            $photo = $this->getService()->get();
-            if($photo) {
-                $this->setPhotoDocument($photo);
-            }
+        if($doc) {
+            $photo = new \NetBricks\Page\Component\Photo\Thumb();
+            $photo->setPhotoDocument($doc);
+            $this->addChild($photo);
+        } else {
+            $selector = new Selector();
+            $this->addChild($selector);
         }
     }
 
     public function render()
     {
-        return $this->image->addData('id', $this->getPhotoDocumentId());
-    }
-
-    /**
-     * @return \NetBricks\Page\Service\Photo
-     */
-    public function getService()
-    {
-        static $service;
-        if (!$service) {
-            $service = _::loader('\NetBricks\Page\Service\Photo')->create();
-        }
-        return $service;
-    }
-
-    public function getRepo()
-    {
-        static $repo;
-        if (!$repo) {
-            $repo = new PhotoRepository();
-        }
-        return $repo;
+        ?>
+            <div class="nb_page_photo_widget">
+                <?php echo join(PHP_EOL, $this->children); ?>
+            </div>
+        <?php
     }
 
     /**

@@ -66,17 +66,17 @@ class ComboBox extends Container
 
     public function getCSS()
     {
-        return _::loader($this)->find('comboBox.css')->getFileContents();
+        return _::loader(__CLASS__)->find('comboBox.css')->getFileContents();
     }
 
     public function getJS()
     {
-        return _::loader($this)->find('comboBox.js')->getFileContents();
+        return _::loader(__CLASS__)->find('comboBox.js')->getFileContents();
     }
 
     public function render()
     {
-        include _::loader($this)->find('comboBox.phtml')->getFullPath();
+        include _::loader(__CLASS__)->find('comboBox.phtml')->getFullPath();
     }
 
     /**

@@ -21,7 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-
 namespace NetBricks\Common\Component\Document;
 
 use \NetBricks\Common\Component\Container;
@@ -29,61 +28,27 @@ use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 01.03.12
- * @time: 11:37
+ * @date: 19.03.12
+ * @time: 12:57
  *
- * @property \NetBricks\Common\Component\Header $head
- * @property \NetBricks\Common\Component\Tag $body
+ * @property \NetBricks\Common\Component\ComponentAbstract $component
  */
-class Html5 extends Container
+class SingleComponent extends Container
 {
 
     public function __construct($options = array())
     {
-        //In case someone will overrdie __construct and add custom components
-        $this->head = $this->head ? $this->head : _::head();
-        $this->body = $this->body ? $this->body : _::loader('/NetBricks/Common/Component/Tag')->create(array('tagName' => 'body'));
-        $this->head->scripts->prependScriptFile(_::loader(__CLASS__ . '/../jquery-1.7.1.min.js'));
-        $this->head->scripts->prependScript(
-            $this->renderVariable(array($this, 'getHtml5JS')),
-            'text/javascript',
-            'html5');
         parent::__construct($options);
+        $this->component = _::loader(_::request()->component->toString())->create();
     }
-
-    public function getHtml5JS()
-    {
-        return file_get_contents(_::loader(__CLASS__ . '/../component.js')->getFullPath());
-    }
-
-    /**
-     * @param string $value
-     * @return \NetBricks\Common\Component\Document\Html5
-     */
-    public function setLang($value)
-    {
-        $this->options['lang'] = $value;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLang()
-    {
-        return empty($this->options['lang']) ? 'en' : $this->options['lang'];
-    }
-
 
     public function render()
     {
         ?>
-    <!DOCTYPE html>
-    <html lang="<?php echo $this->getLang(); ?>">
-        <?php echo $this->head; ?>
-        <?php echo $this->body; ?>
-    </html>
-    <?php
+            <?php echo _::head()->scripts; ?>
+            <?php echo _::head()->styleSheets; ?>
+            <?php echo $this->component; ?>
+        <?php
     }
 
 }

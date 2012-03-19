@@ -57,8 +57,8 @@ class Photo
         $post = _::request()->post->getArray();
         $repo = $this->getRepo();
         unset($post['form']);
-        if(!empty($post['_id'])) {
-            $doc = $repo->find($post['id']);
+        if (!empty($post['_id'])) {
+            $doc = $repo->find($post['_id']);
             $doc->fromArray($post);
         } else {
             $doc = new \NetBricks\Page\Document\Photo();
@@ -67,13 +67,14 @@ class Photo
             $doc->fromArray($post);
         }
 
-        $bigPath = $this->createBigImage($_FILES['photo']['tmp_name']);
-        $thumbPath = $this->createThumbImage($_FILES['photo']['tmp_name']);
+        if (@$_FILES['photo']['tmp_name']) {
+            $bigPath = $this->createBigImage($_FILES['photo']['tmp_name']);
+            $thumbPath = $this->createThumbImage($_FILES['photo']['tmp_name']);
 
-        $doc->addAttachment('original.jpg', $_FILES['photo']['tmp_name']);
-        $doc->addAttachment('big.jpg', $bigPath);
-        $doc->addAttachment('thumb.jpg', $thumbPath);
-
+            $doc->addAttachment('original.jpg', $_FILES['photo']['tmp_name']);
+            $doc->addAttachment('big.jpg', $bigPath);
+            $doc->addAttachment('thumb.jpg', $thumbPath);
+        }
         return $repo->save($doc);
     }
 
@@ -83,12 +84,12 @@ class Photo
         $img = new \NetCore\Image();
 
         $img->getConfig()
-            ->setSource($sourceFilePath)
-            ->setWidth($cfg->getBigWidth())
-            ->setRatioHeight(true)
-            ->setRatioNoZoomIn(true)
-            ->setAutoConvertByExtension(false)
-            ->setConvertTo('jpg');
+                ->setSource($sourceFilePath)
+                ->setWidth($cfg->getBigWidth())
+                ->setRatioHeight(true)
+                ->setRatioNoZoomIn(true)
+                ->setAutoConvertByExtension(false)
+                ->setConvertTo('jpg');
 
         $destinationPath = tempnam(_::cfg()->getTempDir(), 'thumb');
         $img->save($destinationPath);
@@ -100,12 +101,12 @@ class Photo
         $cfg = _::cfg()->getPage()->getPhoto();
         $img = new \NetCore\Image();
         $img->getConfig()
-            ->setSource($sourceFilePath)
-            ->setWidth($cfg->getThumbWidth())
-            ->setRatioHeight(true)
-            ->setRatioNoZoomIn(true)
-            ->setAutoConvertByExtension(false)
-            ->setConvertTo('jpg');
+                ->setSource($sourceFilePath)
+                ->setWidth($cfg->getThumbWidth())
+                ->setRatioHeight(true)
+                ->setRatioNoZoomIn(true)
+                ->setAutoConvertByExtension(false)
+                ->setConvertTo('jpg');
 
         $destinationPath = tempnam(_::cfg()->getTempDir(), 'thumb');
         $img->save($destinationPath);

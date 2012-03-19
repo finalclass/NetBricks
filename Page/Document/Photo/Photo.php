@@ -25,6 +25,7 @@ SOFTWARE.
 namespace NetBricks\Page\Document;
 
 use \NetBricks\Common\Document\MultiLangDocument;
+use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -35,8 +36,6 @@ class Photo extends MultiLangDocument
 {
 
     protected $data = array(
-        'big_src' => '',
-        'thumb_src' => '',
         'big_width' => 800,
         'big_height' => 600,
         'thumb_width' => 120,
@@ -117,40 +116,19 @@ class Photo extends MultiLangDocument
     }
 
 
-    /**
-     * @param string $value
-     * @return \NetBricks\Page\Document\Photo
-     */
-    public function setBigSrc($value)
-    {
-        $this->data['big_src'] = $value;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getBigSrc()
     {
-        return $this->data['big_src'];
+        return _::couchdb()->getUrl() . '/' . $this->getId() . '/big.jpg';
     }
 
-    /**
-     * @param string $value
-     * @return \NetBricks\Page\Document\Photo
-     */
-    public function setThumbSrc($value)
-    {
-        $this->data['thumb_src'] = $value;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getThumbSrc()
     {
-        return $this->data['thumb_src'];
+        return _::couchdb()->getUrl() . '/' . $this->getId() . '/thumb.jpg';
+    }
+
+    public function getOriginalSrc()
+    {
+        return _::couchdb()->getUrl() . '/' . $this->getId() . '/original.jpg';
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
