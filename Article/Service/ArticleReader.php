@@ -11,13 +11,13 @@ use \NetBricks\Facade as _;
  */
 class ArticleReader
 {
-    public function all()
+    public function all($params)
     {
         return ArticleModel::findAll('list_order', 'asc');
     }
 
-    public function get()
+    public function get($params)
     {
-        return ArticleModel::find(_::request()->id->getString());
+        return ArticleModel::find($params['id']);
     }
 }

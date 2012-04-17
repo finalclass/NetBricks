@@ -42,29 +42,29 @@ class Photo
         return new \NetBricks\Page\Document\Photo\Repository();
     }
 
-    public function get()
+    public function get($params)
     {
-        return $this->getRepo()->find(_::request()->get->id->getString());
+        return $this->getRepo()->find($params['id']);
     }
 
-    public function all()
+    public function all($params = array())
     {
         return $this->getRepo()->all();
     }
 
-    public function post()
+    public function post($params)
     {
-        $post = _::request()->post->getArray();
+
         $repo = $this->getRepo();
-        unset($post['form']);
-        if (!empty($post['_id'])) {
-            $doc = $repo->find($post['_id']);
-            $doc->fromArray($post);
+        unset($params['form']);
+        if (!empty($params['_id'])) {
+            $doc = $repo->find($params['_id']);
+            $doc->fromArray($params);
         } else {
             $doc = new \NetBricks\Page\Document\Photo();
-            unset($post['_rev']);
-            unset($post['_id']);
-            $doc->fromArray($post);
+            unset($params['_rev']);
+            unset($params['_id']);
+            $doc->fromArray($params);
         }
 
         if (@$_FILES['photo']['tmp_name']) {
@@ -113,9 +113,9 @@ class Photo
         return $destinationPath;
     }
 
-    public function delete()
+    public function delete($params)
     {
-        return _::couchdb()->delete(_::request()->id, _::request()->rev);
+        return _::couchdb()->delete($params['id'], $params['rev']);
     }
 
 }

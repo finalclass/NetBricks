@@ -25,7 +25,7 @@ SOFTWARE.
 namespace NetBricks\Page\Document\Page;
 
 use \NetBricks\Facade as _;
-use NetBricks\Common\Document\Repository as BaseRepository;
+use \NetBricks\Common\Document\Repository as BaseRepository;
 
 /**
  * @author: Sel <s@finalclass.net>

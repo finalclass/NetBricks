@@ -17,7 +17,7 @@ class CrudList extends Table
     public function __construct()
     {
         parent::__construct();
-        $this->setDataProvider(_::services()->news()->get())
+        $this->setDataProvider(_::services()->news()->get(_::request()->get->getArray()))
                 ->column('title', 'Tytuł')
                 ->column('operations', 'Operacje', function(CrudList $table, NewsModel $record)
         {

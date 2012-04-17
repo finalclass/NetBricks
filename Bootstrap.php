@@ -72,7 +72,9 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
                 $method = _::request()->getMethod();
             }
 
-            $result = _::services()->$serviceName()->$method();
+            $params = _::request()->getAllParams();
+
+            $result = _::services()->$serviceName()->$method($params);
             $response = array();
 
             if (is_array($result)) {

@@ -30,7 +30,7 @@ class LoginForm extends Form
         $this->errors = _::loader('\NetBricks\Common\Component\UnorderedList')->create();
 
         if (_::request()->isPost() && _::request()->post->form->toString() == 'login') {
-            $user = _::services()->login()->post();
+            $user = _::services()->login()->post(_::request()->post->getArray());
             if(empty($user['errors']) ) {
                 header('Location: ' . $this->getRedirectUrl());
             } else {

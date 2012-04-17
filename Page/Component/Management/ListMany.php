@@ -48,7 +48,7 @@ class ListMany extends Table
 
     public function __construct($options = array())
     {
-        $this->setDataProvider($this->getService()->all())
+        $this->setDataProvider($this->getService()->all(array()))
                 ->column('title', 'Title', function($that, PageDocument $doc)
         {
             return $doc->getTitleForLanguage();

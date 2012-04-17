@@ -34,13 +34,12 @@ use \NetBricks\User\Model\CurrentUser;
 class Login
 {
 
-    public function post()
+    public function post($params)
     {
         $u = CurrentUser::getInstance();
-        $post = _::request()->post;
-        $u->login($post->email->getString(), $post->password->getString());
+        $u->login($params['email'], $params['password']);
         $out = $u->toArray();
-        $out['email'] = $post->email->getString();
+        $out['email'] = $params['email'];
         if(!$u->isLogged()) {
             $out['errors'] = array('Wrong username or password');
         }

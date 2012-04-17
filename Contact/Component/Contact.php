@@ -55,7 +55,7 @@ class Contact extends Form
         $this->errorsList = _::loader('/NetCore/Component/UnorderedList')->create()->setClass('errors');
 
         if(_::request()->isPost() && _::request()->post->form == 'contact') {
-            $result = _::services()->contact()->post();
+            $result = _::services()->contact()->post(_::request()->post->getArray());
             $this->setValues($result);
             if(empty($result['errors'])) {
                 $this->isSent = true;

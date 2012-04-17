@@ -20,23 +20,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
- */
-
-namespace NetBricks\Page\Service;
-
-use \NetBricks\Facade as _;
-
-/**
  * @author: Sel <s@finalclass.net>
- * @date: 24.02.12
- * @time: 10:23
+ * @date: 20.03.12
+ * @time: 15:45
  */
-class WidgetType
+class Service
 {
 
-    public function all($params = array())
-    {
-
-    }
 
 }

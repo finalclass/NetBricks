@@ -33,8 +33,11 @@ use \NetBricks\Facade as _;
 class Contact extends \NetCore\Configurable\OptionsAbstract
 {
 
-    public function post()
+    private $params = array();
+
+    public function post($params)
     {
+        $this->params = $params;
         $data = $this->getValidatedAndFilteredPostData();
         $to = $this->getEmail();
         $subject = $this->getSubject();
@@ -53,16 +56,16 @@ class Contact extends \NetCore\Configurable\OptionsAbstract
     private function getValidatedAndFilteredPostData()
     {
         $data = array();
-        $post = _::request()->post;
+        $post = $this->params;
         $emailValidator = new \Zend_Validate_EmailAddress();
         $strLenValidator = new \Zend_Validate_StringLength(array('min' => 10));
         $filter = new \Zend_Filter();
         $filter->addFilter(new \Zend_Filter_StringTrim())
             ->addFilter(new \Zend_Filter_StripTags());
 
-        $data['email'] = $filter->filter($post->email->getString());
-        $data['name'] = $filter->filter($post->name->getString());
-        $data['body'] = $filter->filter($post->body->getString());
+        $data['email'] = $filter->filter(@(string)$post['email']);
+        $data['name'] = $filter->filter(@(string)$post['name']);
+        $data['body'] = $filter->filter(@(string)$post['body']);
         $data['errors'] = array();
 
         if(!$emailValidator->isValid($data['email'])) {

@@ -21,20 +21,44 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+namespace NetBricks;
 
-namespace NetBricks\Page\Service;
-
-use \NetBricks\Facade as _;
-
+use \NetCore\DependencyInjection\ConfigurableContainer;
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.02.12
- * @time: 10:23
+ * @date: 20.03.12
+ * @time: 12:51
  */
-class WidgetType
+class HeaderConfig extends ConfigurableContainer
 {
 
-    public function all($params = array())
+
+
+
+    /**
+     * @param array $value
+     * @return \NetBricks\HeaderConfig
+     */
+    public function setScriptFiles($value)
+    {
+        $this->options['script_files'] = (array)$value;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getScriptFiles()
+    {
+        return array_unique((array)@$this->options['script_files']);
+    }
+
+    public function addScriptFile($filePath)
+    {
+        $this->options['script_files'][] = $filePath;
+    }
+
+    public function removeScriptFile($filePath)
     {
 
     }

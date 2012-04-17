@@ -13,17 +13,17 @@ use \NetBricks\Article\Service\ArticleReader;
 class Article extends ArticleReader
 {
 
-    public function post()
+    public function post($params)
     {
 
     }
 
-    public function put()
+    public function put($params)
     {
 
     }
 
-    public function delete()
+    public function delete($params)
     {
 
     }

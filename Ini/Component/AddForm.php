@@ -21,7 +21,7 @@ class AddForm extends ComponentAbstract {
             <head>
                 <meta charset="UTF-8"/>
             </head>
-            <h3><center>PARAMETERS CONFIGURATION</h3></center>
+            <h3><center>PARAMETERS CONFIGURATION</center></h3>
         <div>
             <a href="/config/add">Add variable</a> <a href="/config">List</a><br/><br/>
             <form action="/config/add" method="POST">

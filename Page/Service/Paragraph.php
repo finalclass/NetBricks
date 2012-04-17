@@ -41,25 +41,25 @@ class Paragraph
         return new \NetBricks\Page\Document\Paragraph\Repository();
     }
 
-    public function get()
+    public function get($params)
     {
-        return $this->getRepo()->find(_::request()->get->id->getString());
+        return $this->getRepo()->find($params['id']);
     }
 
-    public function all()
+    public function all($params = array())
     {
         return $this->getRepo()->all();
     }
 
-    public function post()
+    public function post($params)
     {
         $repo = $this->getRepo();
-        return $repo->save(_::request()->post->getArray());
+        return $repo->save($params);
     }
 
-    public function delete()
+    public function delete($params)
     {
-        return _::couchdb()->delete(_::request()->id, _::request()->rev);
+        return _::couchdb()->delete($params['id'], $params['rev']);
     }
 
 }

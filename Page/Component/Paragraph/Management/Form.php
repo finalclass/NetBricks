@@ -63,14 +63,14 @@ class Form extends BaseForm
     public function init()
     {
         if(_::request()->post->form == get_class($this)) {
-            $document = _::services()->paragraph()->post();
+            $document = _::services()->paragraph()->post(_::request()->post->getArray());
             if(!$document->hasErrors()) {
                 _::url()->addParam('action', 'list')->redirect();
             }
 
             $this->setValues($document->toArray());
         } else {
-            $paragraph = _::services()->paragraph()->get();
+            $paragraph = _::services()->paragraph()->get(_::request()->get->getArray());
             $this->setValues($paragraph->toArray());
         }
 

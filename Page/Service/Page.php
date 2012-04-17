@@ -43,25 +43,28 @@ class Page
     }
 
     /**
+     * @param $params
      * @return \NetBricks\Page\Document\Page[]
      */
-    public function all()
+    public function all($params = array())
     {
         return $this->getRepo()->all();
     }
 
     /**
+     * @param $params
      * @return \NetBricks\Page\Document\Page
      */
-    public function get()
+    public function get($params)
     {
-        return $this->getRepo()->find(_::request()->id->getString());
+        return $this->getRepo()->find($params['id']);
     }
 
     /**
+     * @param $params
      * @return \NetBricks\Page\Document\Page
      */
-    public function post()
+    public function post($params)
     {
 
     }
