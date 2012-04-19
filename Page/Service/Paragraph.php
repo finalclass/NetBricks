@@ -43,7 +43,7 @@ class Paragraph
 
     public function get($params)
     {
-        return $this->getRepo()->find($params['id']);
+        return $this->getRepo()->find(@$params['id']);
     }
 
     public function all($params = array())

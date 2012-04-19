@@ -98,7 +98,7 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
             }
 
             header('Content-type: application/json');
-            echo \Zend_Json::prettyPrint(\Zend_Json::encode($response));
+            echo json_encode($response);
             return;
         }
 

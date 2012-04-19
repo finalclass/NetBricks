@@ -20,23 +20,16 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-<<<<<<< Updated upstream
-=======
  */
 namespace NetBricks\Common;
 
 use \NetBricks\Facade as _;
+
 /**
->>>>>>> Stashed changes
  * @author: Sel <s@finalclass.net>
  * @date: 20.03.12
  * @time: 15:45
  */
-<<<<<<< Updated upstream
-class Service
-{
-
-=======
 class ComponentService
 {
 
@@ -45,12 +38,13 @@ class ComponentService
         $component = _::loader(_::request()->get->id->toString())->create();
         $cfg = _::cfg()->getHeader();
 
+        _::stage()->addChild($component);
+
         return array(
-            'html' => (string)$component,
-            'scripts' => $cfg->getScripts()->getUnique(),
-            'styles' => $cfg->getStyleSheets()->getUnique()
+            'scripts' => array_values($cfg->getScripts()->getUnique()),
+            'styles' => array_values($cfg->getStyleSheets()->getUnique()),
+            'html' => (string)$component
         );
     }
->>>>>>> Stashed changes
 
 }

@@ -194,8 +194,6 @@ abstract class ComponentAbstract extends ConfigurableEventDispatcher
         $this->dispatchEvent(new ComponentEvent(ComponentEvent::BEFORE_SET_STAGE));
         $this->options['stage'] = $value;
 
-
-
         $this->addStyleSheets();
         $this->addScripts();
 

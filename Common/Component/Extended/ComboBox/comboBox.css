@@ -23,6 +23,8 @@
     margin: 0;
     padding: 0;
     line-height: 20px;
+    float:left;
+    display:block;
 }
 
 .nb_extended_combo_box_ddl li img {

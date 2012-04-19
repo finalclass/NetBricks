@@ -2,7 +2,6 @@
   window.nb = {
 
     /**
-     *
      * @param component
      * @param callback
      */
@@ -10,6 +9,9 @@
       return $.getJSON('-component/' + component.replace('\\', '/'), function (response) {
         var newScripts = response.scripts;
         var newStyles = response.styles;
+        var $head = $('head');
+        var i;
+        callback(response.html);
 
         $('script').each(function () {
           var $script = $(this);
@@ -18,14 +20,30 @@
             newScripts.splice(pos, 1);
           }
         });
+
+        for (i in newScripts) {
+          if (newScripts.hasOwnProperty(i)) {
+            $head.append(
+              $('<script type="text/javascript" src="' + newScripts[i] + '"></script>')
+            )
+          }
+        }
+
         $('link').each(function () {
           var $link = $(this);
           var pos = newStyles.indexOf($link.attr('href'));
-          if (pos == -1) {
+          if (pos != -1) {
             newStyles.splice(pos, 1);
           }
         });
-        callback(response.html);
+
+        for (i in newStyles) {
+          if (newStyles.hasOwnProperty(i)) {
+            $head.append(
+              $('<link rel="stylesheet" href="' + newStyles[i] + '"/>')
+            )
+          }
+        }
       });
     },
 

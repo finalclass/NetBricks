@@ -37,7 +37,7 @@ class Thumb extends Photo
 
     /**
      * @param \NetBricks\Page\Document\Photo $doc
-     * @return \NetBricks\Page\Component\Thumb
+     * @return \NetBricks\Page\Component\Photo\Thumb
      */
     public function setPhotoDocument(\NetBricks\Page\Document\Photo $doc)
     {

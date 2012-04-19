@@ -47,7 +47,7 @@ class Selector extends Container
                 ->addJQuery();
 
         $this->comboBox = _::loader('\NetBricks\Common\Component\Extended\ComboBox')->create();
-        $this->comboBox->renderer = new PhotoRenderer();
+        $this->comboBox->setRenderer(new PhotoRenderer());
         $this->comboBox->setDataProvider($this->getRepo()->all());
         parent::__construct($options);
     }

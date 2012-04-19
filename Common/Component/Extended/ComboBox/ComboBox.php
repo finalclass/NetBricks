@@ -34,11 +34,11 @@ use \NetBricks\Facade as _;
  * @date: 11.03.12
  * @time: 19:31
  *
- * @property \NetBricks\Common\Component\Extended\Renderer $renderer
- *
  */
 class ComboBox extends Container
 {
+
+    protected $renderer;
 
     public function __construct($options = array())
     {
@@ -47,9 +47,9 @@ class ComboBox extends Container
             ->prepend('/NetBricks/Common/js/jquery.js');
 
         if(isset($options['renderer'])) {
-            $this->renderer = new $options['renderer']();
+            $this->setRenderer(new $options['renderer']());
         } else {
-            $this->renderer = $this->createRenderer();
+            $this->setRenderer($this->createRenderer());
         }
 
         parent::__construct($options);
@@ -63,6 +63,13 @@ class ComboBox extends Container
     protected function createRenderer()
     {
         return new TextRenderer();
+    }
+
+    public function setRenderer($renderer)
+    {
+        $this->renderer = $renderer;
+        $this->removeChild('renderer');
+        $this->addChild($renderer, 'renderer');
     }
 
     public function render()
