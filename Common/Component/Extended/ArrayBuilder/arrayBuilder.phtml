@@ -1,9 +1,10 @@
 <?php /** @var $this \NetBricks\Common\Component\Extended\ArrayBuilder\ArrayBuilder */ ?>
-<div <?php echo $this->renderTagAttributes($this->getDefaultAttributes()); ?>>
+<div <?php echo $this->renderTagAttributes($this->getDefaultAttributes()); ?>
+        data-name="<?php echo $this->getName(); ?>">
 
-    <div class="array_builder_list">
+    <ul class="array_builder_list">
 
-    </div>
+    </ul>
 
     <div class="array_builder_form">
         <input type="text" class="array_builder_text">

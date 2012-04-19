@@ -92,13 +92,13 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
                 $response = $result->toArray();
             }
 
-            if(isset($params['redirect'])) {
+            if (isset($params['redirect'])) {
                 header('Location: ' . urldecode($params['redirect']));
                 exit;
             }
 
             header('Content-type: application/json');
-            echo json_encode($response);
+            echo \Zend_Json::prettyPrint(\Zend_Json::encode($response));
             return;
         }
 

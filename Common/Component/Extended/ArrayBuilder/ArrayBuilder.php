@@ -39,7 +39,7 @@ class ArrayBuilder extends FormElementAbstract
     public function __construct($options = array())
     {
         parent::__construct($options);
-        $this->addClass(get_class($this));
+        $this->addClass('nb_extended_array_builder');
     }
 
     public function setValue($value)
@@ -50,16 +50,6 @@ class ArrayBuilder extends FormElementAbstract
     public function getValue()
     {
         return @(array)parent::getValue();
-    }
-
-    public function getCSS()
-    {
-        return _::loader(__CLASS__)->find('arrayBuilder.css')->getFileContents();
-    }
-
-    public function getJS()
-    {
-        return _::loader(__CLASS__)->find('arrayBuilder.js')->getFileContents();
     }
 
     public function render()

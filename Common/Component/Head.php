@@ -20,13 +20,15 @@ class Head extends ComponentAbstract
         <title><?php echo $cfg->getTitle(); ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $cfg->getCharset(); ?>">
         <meta charset="<?php echo $cfg->getCharset(); ?>">
-        <?php foreach($cfg->getScripts()->getUnique() as $file): ?>
-        <script type="text/javascript" src="<?php echo $file; ?>"></script>
-        <?php endforeach; ?>
 
         <?php foreach($cfg->getStyleSheets()->getUnique() as $file): ?>
         <link rel="stylesheet" href="<?php echo $file; ?>"/>
         <?php endforeach; ?>
+
+        <?php foreach($cfg->getScripts()->getUnique() as $file): ?>
+        <script type="text/javascript" src="<?php echo $file; ?>"></script>
+        <?php endforeach; ?>
+
     </head>
         <?php
     }

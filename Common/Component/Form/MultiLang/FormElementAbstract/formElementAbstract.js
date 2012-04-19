@@ -32,7 +32,7 @@ nb.component('multi_lang_form_element_container', function () {
     }
 
     function showCurrent() {
-      $current.slideDown().find('input').add($current.find('textarea')).focus();
+      $current.slideDown().find('input, textarea').focus();
     }
 
     if ($oldCurrent) {

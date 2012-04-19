@@ -1,48 +1,59 @@
 (function () {
   window.nb = {
 
-    /**
-     * @param component
-     * @param callback
-     */
-    loader:function (component, callback) {
-      return $.getJSON('-component/' + component.replace('\\', '/'), function (response) {
-        var newScripts = response.scripts;
-        var newStyles = response.styles;
-        var $head = $('head');
-        var i;
-        callback(response.html);
-
-        $('script').each(function () {
-          var $script = $(this);
-          var pos = newScripts.indexOf($script.attr('src'));
-          if (pos != -1) {
-            newScripts.splice(pos, 1);
-          }
-        });
-
-        for (i in newScripts) {
-          if (newScripts.hasOwnProperty(i)) {
-            $head.append(
-              $('<script type="text/javascript" src="' + newScripts[i] + '"></script>')
-            )
-          }
+    addScriptFiles:function (scripts) {
+      var $head = $('head');
+      $('script').each(function () {
+        var $script = $(this);
+        var pos = scripts.indexOf($script.attr('src'));
+        if (pos != -1) {
+          scripts.splice(pos, 1);
         }
+      });
 
-        $('link').each(function () {
-          var $link = $(this);
-          var pos = newStyles.indexOf($link.attr('href'));
-          if (pos != -1) {
-            newStyles.splice(pos, 1);
-          }
-        });
+      for (var i in scripts) {
+        if (scripts.hasOwnProperty(i)) {
+          $head.append(
+            $('<script type="text/javascript" src="' + scripts[i] + '"></script>')
+          );
+        }
+      }
+    },
 
-        for (i in newStyles) {
-          if (newStyles.hasOwnProperty(i)) {
-            $head.append(
-              $('<link rel="stylesheet" href="' + newStyles[i] + '"/>')
-            )
-          }
+    addStyleFiles:function (links) {
+      var $head = $('head');
+      $('link').each(function () {
+        var $link = $(this);
+        var pos = links.indexOf($link.attr('href'));
+        if (pos != -1) {
+          links.splice(pos, 1);
+        }
+      });
+
+      for (var i in links) {
+        if (links.hasOwnProperty(i)) {
+          $head.append(
+            $('<link rel="stylesheet" href="' + links[i] + '"/>')
+          );
+        }
+      }
+    },
+
+    /**
+     * @param component String The component name
+     * @param beforeScriptsLoaded Function(html) optional
+     * @param afterScriptsLoaded Function(html) optional
+     */
+    loader:function (component, beforeScriptsLoaded, afterScriptsLoaded) {
+      component = component.replace(new RegExp(/\\/g), '/');
+      return $.getJSON('-component/' + component, function (response) {
+        nb.addStyleFiles(response.styles);
+        if(beforeScriptsLoaded) {
+          beforeScriptsLoaded(response.html);
+        }
+        nb.addScriptFiles(response.scripts);
+        if(afterScriptsLoaded) {
+          afterScriptsLoaded(response.html);
         }
       });
     },
@@ -74,7 +85,6 @@
         $('.' + name)[name]();
       });
     }
-
 
   };
 })();
