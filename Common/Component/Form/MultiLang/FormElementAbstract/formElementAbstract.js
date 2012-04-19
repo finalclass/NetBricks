@@ -1,4 +1,4 @@
-$.Component('multi_lang_form_element_container', function () {
+nb.component('multi_lang_form_element_container', function () {
   var $container = $(this);
   var $elements = $container.find('.multi_lang_form_element');
   var $languageBar = $container.find('.nb_i18n_language_bar');

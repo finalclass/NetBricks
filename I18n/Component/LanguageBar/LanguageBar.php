@@ -44,18 +44,21 @@ use \NetBricks\Facade as _;
 class LanguageBar extends Tag
 {
 
-    public function __construct($options = array())
-    {
-        $this->addCSS('nb_i18n_language_bar', array($this, 'getCSS'));
-        $this->addJS('nb_i18n_language_bar', array($this, 'getJS'));
-        parent::__construct($options);
-    }
-
     protected function construct()
     {
+        _::cfg()->getHeader()->getScripts()
+                ->prepend('/NetBricks/Common/js/nb.js')
+                ->prepend('/NetBricks/Common/js/jquery.js');
+
         $this->prevButton = $this->createPrevButton();
         $this->nextButton = $this->createNextButton();
         $this->comboBox = $this->createComboBox();
+    }
+
+    public function setParent(\NetBricks\Common\Component\Container $parent)
+    {
+        $this->isRunning = true;
+        parent::setParent($parent);
     }
 
     private function renderDefaultAtrtibutes()
@@ -65,7 +68,7 @@ class LanguageBar extends Tag
 
     public function getClass()
     {
-        if(!isset($this->options['class'])) {
+        if (!isset($this->options['class'])) {
             $this->options['class'] = 'nb_i18n_language_bar';
         }
         return $this->options['class'];
@@ -92,16 +95,6 @@ class LanguageBar extends Tag
     protected function beforeRender()
     {
         $this->comboBox->setDataProvider(_::languages()->getAvailable());
-    }
-
-    public function getCSS()
-    {
-        return file_get_contents(_::loader($this)->find('languageBar.css')->getFullPath());
-    }
-
-    public function getJS()
-    {
-        return file_get_contents(_::loader($this)->find('languageBar.js')->getFullPath());
     }
 
     public function render()

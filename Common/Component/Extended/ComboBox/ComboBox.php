@@ -42,8 +42,9 @@ class ComboBox extends Container
 
     public function __construct($options = array())
     {
-        $this->addJS('nb_extended_combo_box', array($this, 'getJS'));
-        $this->addCSS('nb_extended_combo_box', array($this, 'getCSS'));
+        _::cfg()->getHeader()->getScripts()
+            ->prepend('/NetBricks/Common/js/nb.js')
+            ->prepend('/NetBricks/Common/js/jquery.js');
 
         if(isset($options['renderer'])) {
             $this->renderer = new $options['renderer']();
@@ -62,16 +63,6 @@ class ComboBox extends Container
     protected function createRenderer()
     {
         return new TextRenderer();
-    }
-
-    public function getCSS()
-    {
-        return _::loader(__CLASS__)->find('comboBox.css')->getFileContents();
-    }
-
-    public function getJS()
-    {
-        return _::loader(__CLASS__)->find('comboBox.js')->getFileContents();
     }
 
     public function render()

@@ -51,13 +51,13 @@ class Facade
      * @static
      * @return \NetBricks\Common\Component\Header
      */
-    static public function head()
+   /* static public function head()
     {
         if (!isset(static::$options[__FUNCTION__])) {
             static::$options[__FUNCTION__] = static::loader('/NetBricks/Common/Component/Header')->create();
         }
         return static::$options[__FUNCTION__];
-    }
+    }*/
 
     /**
      * @static
@@ -160,6 +160,7 @@ class Facade
         if (!isset(static::$options[__FUNCTION__])) {
             $s = new Factory(static::config()->services->getArray());
             $s->setRoles(static::user()->getRoles());
+            $s->component->setNamespace('\NetBricks\Common\ComponentService');
             static::$options[__FUNCTION__] = $s;
         }
         return static::$options[__FUNCTION__];
@@ -227,7 +228,6 @@ class Facade
 
             $router = static::router();
             $route = $router->findRouteByUri($uri);
-
             if ($route) {
                 $get = array_merge($route->getParamsForUri($uriWithoutParams), $_GET);
                 $params = static::createParams($get);

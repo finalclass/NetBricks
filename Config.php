@@ -40,6 +40,9 @@ class Config extends ConfigurableContainer
     /** @var \NetBricks\Page\Config */
     private $page;
 
+    /** @var \NetBricks\Common\HeaderConfig */
+    private $header;
+
     /** @return \NetCore\CouchDB\Config */
     public function getCouchdb()
     {
@@ -74,6 +77,17 @@ class Config extends ConfigurableContainer
     public function getTempDir()
     {
         return (string)@$this->options['temp_dir'];
+    }
+
+    /**
+     * @return \NetBricks\Common\HeaderConfig
+     */
+    public function getHeader()
+    {
+        if(!$this->header) {
+            $this->header = new \NetBricks\Common\HeaderConfig((array)@$this->options['header']);
+        }
+        return $this->header;
     }
 
 }

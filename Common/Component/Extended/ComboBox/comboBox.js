@@ -1,4 +1,4 @@
-$.Component('nb_extended_combo_box', function () {
+nb.component('nb_extended_combo_box', function () {
   var that = this;
   var $that = $(this);
   var $ddl = $that.find('.nb_extended_combo_box_ddl');

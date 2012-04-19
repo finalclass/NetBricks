@@ -37,29 +37,6 @@ class ButtonAbstract extends ComponentAbstract
     public function __construct($options = array())
     {
         parent::__construct($options);
-        $this->addCSS('nb_i18n_language_bar_button_abstract', array($this, 'getCSS'));
-    }
-
-    static public function getCSS()
-    {
-        ?>
-    <style type="text/css">
-        .nb_i18n_language_bar_button_abstract {
-            width: 14px;
-            height: 7px;
-            background-color: #00f;
-
-            -webkit-border-radius: 2px;
-            -moz-border-radius: 2px;
-            border-radius: 2px;
-        }
-
-        .nb_i18n_language_bar_button_abstract:hover {
-            background-color: #8b0000;
-            cursor: pointer;
-        }
-    </style>
-    <?php
     }
 
 }

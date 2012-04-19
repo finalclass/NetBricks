@@ -35,6 +35,7 @@ use \NetBricks\Facade as _;
  *
  * @property \NetBricks\Common\Component\Link $editButton
  * @property \NetBricks\Common\Component\Link $removeButton
+ * @property string $stateParam
  */
 class ItemMenu extends UnorderedList
 {
@@ -62,7 +63,6 @@ class ItemMenu extends UnorderedList
 
         $this->editButton = IconLink::factory()
                 ->setIconClass('edit')
-                ->addParam('action', 'edit')
                 ->setLabel('edit');
 
         $this->removeButton = IconLink::factory()
@@ -75,7 +75,8 @@ class ItemMenu extends UnorderedList
     public function beforeRender()
     {
         if(!$this->editButton->getParam('id')) {
-            $this->editButton->addParam('id', $this->getRecordId());
+            $this->editButton->addParam('id', $this->getRecordId())
+            ->addParam($this->stateParam(), 'edit');
         }
 
         $service = $this->getServiceName();
@@ -101,6 +102,16 @@ class ItemMenu extends UnorderedList
     {
         return $this->serviceName;
     }
+
+	public function stateParam($value = null)
+	{
+		if(!$value) {
+			return empty($this->options['state_param'])
+					? 'action' : $this->options['state_param'];
+		}
+		$this->options['state_param'] = $value;
+		return $this;
+	}
 
     public function setRecordId($id)
     {

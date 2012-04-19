@@ -42,35 +42,14 @@ class Selector extends Container
 
     public function __construct($options = array())
     {
+        _::cfg()->getHeader()->getScripts()
+                ->prepend('/NetBricks/Common/js/nb.js')
+                ->addJQuery();
+
         $this->comboBox = _::loader('\NetBricks\Common\Component\Extended\ComboBox')->create();
         $this->comboBox->renderer = new PhotoRenderer();
         $this->comboBox->setDataProvider($this->getRepo()->all());
-        $this->addCSS('nb_page_photo_selector', array($this, 'getSelectorCSS'));
-        $this->addJS('nb_page_photo_selector', array($this, 'getSelectorJS'));
         parent::__construct($options);
-    }
-
-    public function getSelectorJS()
-    {
-        return file_get_contents(_::loader(__CLASS__ . '/selector.js')->getFullPath());
-    }
-
-    public function getSelectorCSS()
-    {
-        $height = _::cfg()->getPage()->getPhoto()->getThumbHeight();
-        ?>
-    <style type="text/css">
-        .nb_page_photo_selector .nb_extended_combo_box {
-            height: <?php echo $height . 'px'; ?>,
-        }
-        .nb_page_photo_selector .nb_extended_combo_box {
-            height: <?php echo $height+4 . 'px'; ?>
-        }
-        .nb_page_photo_selector img:hover {
-            opacity: 0.7;
-        }
-    </style>
-        <?php
     }
 
     public function render()

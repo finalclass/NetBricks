@@ -1,0 +1,11 @@
+.nb_page_photo_selector .nb_extended_combo_box {
+    height: 100px
+}
+
+.nb_page_photo_selector .nb_extended_combo_box {
+    height: 104px;
+}
+
+.nb_page_photo_selector img:hover {
+    opacity: 0.7;
+}

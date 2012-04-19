@@ -1,4 +1,4 @@
-$.Component('nb_i18n_language_bar', function () {
+nb.component('nb_i18n_language_bar', function () {
   var that = this;
   var $this = $(this);
   var api;

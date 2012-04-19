@@ -2,8 +2,10 @@
 <div <?php echo $this->renderDefaultAttributes(); ?>>
 
     <div class="widget_container">
-        <?php foreach($this->getDataProvider() as $widget): ?>
+        <?php foreach ($this->getDataProvider() as $widget): ?>
+        <div class="widget_selector">
             <?php echo $this->createWidget($widget['type']); ?>
+        </div>
         <?php endforeach; ?>
     </div>
 

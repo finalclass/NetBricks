@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-namespace NetBricks\Common\HeadConfig;
+namespace NetBricks\Common\HeaderConfig;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -30,12 +30,60 @@ namespace NetBricks\Common\HeadConfig;
  */
 class Title
 {
-
-    private $title;
+    private $title = '';
+    private $separator = ' - ';
 
     public function __construct($title)
     {
-        
+        $this->title = $title;
     }
 
+    public function setSeparator($seprarator)
+    {
+        //First explode current title by old separator
+        $exploded = explode($this->separator, $this->title);
+        $this->separator = $seprarator;
+        //Now join with the new glue:
+        $this->title = join($this->separator, $exploded);
+        return $this;
+    }
+
+    public function getSeparator()
+    {
+        return $this->separator;
+    }
+
+    public function add($titlePart)
+    {
+        $exploded = explode($this->separator, $this->title);
+        $exploded[] = $titlePart;
+        $this->title = join($this->separator, $this->title);
+    }
+
+    public function set($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function get()
+    {
+        return $this->title;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
+    }
+
+    public function setOptions($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function getOptions()
+    {
+        return $this->title;
+    }
 }

@@ -25,6 +25,7 @@ SOFTWARE.
 namespace NetBricks\Common\Component\Header;
 
 use \NetBricks\Common\Component\Container;
+use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -37,6 +38,7 @@ class Scripts extends Container
     protected $scriptFiles = array();
     protected $scripts = array();
     protected $addedScriptsNames = array();
+    protected $componentScripts = array();
 
     protected function beforeRender()
     {
@@ -44,8 +46,28 @@ class Scripts extends Container
             $this->addChild($file);
         }
 
+        $this->addComponentScripts();
+
         foreach ($this->scripts as $type => $contentArray) {
             $this->addChild(Script::factory()->setType($type)->setContent(join(PHP_EOL, $contentArray)));
+        }
+    }
+
+    private function addComponentScripts()
+    {
+        $addedClasses = array();
+        foreach($this->componentScripts as $fullClassName) {
+            if(isset($addedClasses[$fullClassName])) {
+                continue;
+            }
+            $exploded = explode('\\', $fullClassName);
+            $className = end($exploded);
+            $className = ucfirst($className);
+            $fileName = $className . '.js';
+            $exploded[count($exploded)] = $fileName;
+            $path = join(DIRECTORY_SEPARATOR, $exploded);
+            $this->addChild(_::loader($path)->getPath());
+            $addedClasses[$fullClassName] = true;
         }
     }
 
@@ -66,7 +88,7 @@ class Scripts extends Container
         if (!isset($this->scripts[$type])) {
             $this->scripts[$type] = array();
         }
-        $this->scripts[$type][] = \NetCore\Renderer::removeTag('script', $scriptContent);
+        //$this->scripts[$type][] = \NetCore\Renderer::removeTag('script', $scriptContent);
         if ($name) {
             $this->addedScriptsNames[$name] = true;
         }
@@ -90,5 +112,35 @@ class Scripts extends Container
         return $this;
     }
 
+    public function appendComponentScript($componentClassName)
+    {
+        $this->componentScripts[] = $componentClassName;
+    }
+
+    public function prependComponentScript($componentClassName)
+    {
+        array_unshift($this->componentScripts, $componentClassName);
+    }
+
+    public function hasComponentScript($componentClassName)
+    {
+        foreach($this->componentScripts as $className) {
+            if($componentClassName == $className) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function removeComponentScript($componentClassName)
+    {
+        $count = count($this->componentScripts);
+        for($i = 0; $i < $count; $i++) {
+            $cmp = $this->componentScripts[$i];
+            if($cmp == $componentClassName) {
+                unset($this->componentScripts[$i]);
+            }
+        }
+    }
 
 }

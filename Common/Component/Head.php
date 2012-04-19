@@ -2,63 +2,33 @@
 
 namespace NetBricks\Common\Component;
 
-use \NetBricks\Common\Component\Tag;
+use \NetBricks\Common\Component\ComponentAbstract;
+use \NetBricks\Facade as _;
 
 /**
  * @author: Szymon Wygnański <s@finalclass.net>
  */
-class Head extends Tag
+class Head extends ComponentAbstract
 {
 
-    /**
-     * @var \NetBricks\Common\Component\Title
-     */
-    public $title;
 
-    /**
-     * @var \NetBricks\Common\Component\HeadScripts
-     */
-    public $scripts;
-
-    /**
-     * @var \NetBricks\Common\Component\HeadLinks
-     */
-    public $links;
-
-    /**
-     * @var \NetBricks\Common\Component\HeadMeta
-     */
-    public $meta;
-
-    protected $defaultAttributes = array();
-
-    /**
-     * @static
-     * @param array $options
-     * @return Head
-     */
-    static public function factory($options = array())
+    public function render()
     {
-        $class = get_called_class();
-        return new $class($options);
-    }
+        $cfg = _::cfg()->getHeader();
+        ?>
+    <head>
+        <title><?php echo $cfg->getTitle(); ?></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $cfg->getCharset(); ?>">
+        <meta charset="<?php echo $cfg->getCharset(); ?>">
+        <?php foreach($cfg->getScripts()->getUnique() as $file): ?>
+        <script type="text/javascript" src="<?php echo $file; ?>"></script>
+        <?php endforeach; ?>
 
-    public function preConstruct()
-    {
-        $this->title = Title::factory();
-        $this->scripts = HeadScripts::factory();
-        $this->links = HeadLinks::factory();
-        $this->meta = HeadMeta::factory();
-
-        $this->addChild($this->title)
-            ->addChild($this->scripts)
-            ->addChild($this->links)
-            ->addChild($this->meta);
-    }
-
-    public function getTagName()
-    {
-        return 'head';
+        <?php foreach($cfg->getStyleSheets()->getUnique() as $file): ?>
+        <link rel="stylesheet" href="<?php echo $file; ?>"/>
+        <?php endforeach; ?>
+    </head>
+        <?php
     }
 
 }

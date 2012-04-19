@@ -21,9 +21,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-namespace NetBricks;
+
+namespace NetBricks\Common;
 
 use \NetCore\DependencyInjection\ConfigurableContainer;
+use \NetCore\Configurable\OptionsCollection;
+use \NetBricks\Common\HeaderConfig\Title;
+
 /**
  * @author: Sel <s@finalclass.net>
  * @date: 20.03.12
@@ -33,15 +37,73 @@ class HeaderConfig extends ConfigurableContainer
 {
 
 
+    /** @var \NetCore\Configurable\OptionsCollection */
+    private $scripts;
 
+    /** @var \NetCore\Configurable\OptionsCollection */
+    private $styleSheets;
+
+    /** @var \NetBricks\Common\Component\Header\Title */
+    private $title;
 
     /**
-     * @param array $value
-     * @return \NetBricks\HeaderConfig
+     * @return \NetCore\Configurable\OptionsCollection
      */
-    public function setScriptFiles($value)
+    public function getScripts()
     {
-        $this->options['script_files'] = (array)$value;
+        if(!$this->scripts) {
+            $this->scripts = new OptionsCollection((array)@$this->options['scripts']);
+        }
+        return $this->scripts;
+    }
+
+    /**
+     * @return \NetCore\Configurable\OptionsCollection
+     */
+    public function getStyleSheets()
+    {
+        if(!$this->styleSheets) {
+            $this->styleSheets = new OptionsCollection((array)@$this->options['style_sheets']);
+        }
+        return $this->styleSheets;
+    }
+
+    /**
+     * @return \NetBricks\Common\HeaderConfig\Title
+     */
+    public function getTitle()
+    {
+        if(!$this->title) {
+            $this->title = new Title((string)@$this->options['title']);
+        }
+        return $this->title;
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Common\HeaderConfig
+     */
+    public function setCharset($value)
+    {
+        $this->options['charset'] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCharset()
+    {
+        return isset($this->options['charset']) ? $this->options['charset'] : 'utf-8';
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Common\HeaderConfig
+     */
+    public function setRobots($value)
+    {
+        $this->options['robots'] = (string)$value;
         return $this;
     }
 
@@ -58,9 +120,48 @@ class HeaderConfig extends ConfigurableContainer
         $this->options['script_files'][] = $filePath;
     }
 
-    public function removeScriptFile($filePath)
+    /**
+     * @return string
+     */
+    public function getRobots()
     {
+        return isset($this->options['robots']) ? $this->options['robots'] : 'index, follow';
+    }
 
+    /**
+     * @param string $value
+     * @return \NetBricks\Common\HeaderConfig
+     */
+    public function setDescription($value)
+    {
+        $this->options['description'] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return (string)@$this->options['description'];
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Common\HeaderConfig
+     */
+    public function setKeywords($value)
+    {
+        $this->options['keywords'] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKeywords()
+    {
+        return (string)@$this->options['keywords'];
     }
 
 }

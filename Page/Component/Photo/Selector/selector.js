@@ -1,4 +1,4 @@
-$.Component('nb_page_photo_selector', function () {
+nb.component('nb_page_photo_selector', function () {
   var $this = $(this);
   var $combo = $this.find('.nb_extended_combo_box');
 

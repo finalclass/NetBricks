@@ -37,15 +37,13 @@ class Management extends Tag
 
     public function __construct($options = array())
     {
-        $this->addJS('nb_page_widget_management', array($this, 'getJS'));
-        $this->addJS('nb_page_widget', array(new \NetBricks\Page\Component\Widget(), 'getJS'));
         parent::__construct($options);
-        $this->setClass($this->getClass() . ' nb_page_widget_management');
-    }
+        _::cfg()->getHeader()->getScripts()
+                ->prepend('/NetBricks/Common/js/nb.js')
+                ->prepend('/NetBricks/Common/js/jquery.js')
+                ->append(_::loader(__CLASS__ . '/../widget.js')->getPath());
 
-    public function getJS()
-    {
-        return file_get_contents(_::loader($this)->find('management.js')->getFullPath());
+        $this->setClass($this->getClass() . ' nb_page_widget_management'    );
     }
 
     public function render()
@@ -78,7 +76,7 @@ class Management extends Tag
 
     public function createWidget($type)
     {
-        if(is_subclass_of($type, '\NetBricks\Common\Component\ComponentAbstract')) {
+        if (is_subclass_of($type, '\NetBricks\Common\Component\ComponentAbstract')) {
             return _::loader($type)->create();
         } else {
             throw new \NetBricks\Common\Component\Exception\NotAComponent('Widget is supposed to be a component');

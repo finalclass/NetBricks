@@ -44,10 +44,27 @@ class SingleComponent extends Container
 
     public function render()
     {
+        /*$cfg = _::cfg()->getHeader();
+
+        return \Zend_Json::prettyPrint(\Zend_Json::encode(array(
+            'scripts' => $cfg->getScripts()->getUnique(),
+            'styles' => $cfg->getStyleSheets()->getUnique(),
+            'html' => (string)$this->component
+        )));*/
+
+        $cfg = _::cfg()->getHeader();
         ?>
-            <?php echo _::head()->scripts; ?>
-            <?php echo _::head()->styleSheets; ?>
-            <?php echo $this->component; ?>
+
+    <?php foreach ($cfg->getScripts()->getUnique() as $file): ?>
+        <script type="text/javascript" src="<?php echo $file; ?>"></script>
+    <?php endforeach; ?>
+
+    <?php foreach ($cfg->getStyleSheets()->getUnique() as $file): ?>
+        <link rel="stylesheet" href="<?php echo $file; ?>">
+    <?php endforeach; ?>
+
+    <?php echo $this->component; ?>
+
         <?php
     }
 

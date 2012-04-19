@@ -5,7 +5,7 @@ namespace NetBricks\Common\Component;
 use \NetCore\Configurable\OptionsAbstract;
 use \NetCore\Event\ConfigurableEventDispatcher;
 use \NetBricks\Common\Component\Event\ComponentEvent;
-
+use \NetCore\Utils\ClassUtils;
 use \NetBricks\Facade as _;
 
 
@@ -31,32 +31,6 @@ abstract class ComponentAbstract extends ConfigurableEventDispatcher
     public function render()
     {
 
-    }
-
-    /**
-     * @param $name
-     * @param \Closure|string $css can be any callable variable or string
-     * @return \NetBricks\Common\Component\ComponentAbstract
-     */
-    protected function addCSS($name, $css)
-    {
-        if (!_::head()->styleSheets->hasCss($name)) {
-            _::head()->styleSheets->appendCss($this->renderVariable($css), $name);
-        }
-        return $this;
-    }
-
-    /**
-     * @param $name
-     * @param \Closure|string $js can be any callable variable or string
-     * @return \NetBricks\Common\Component\ComponentAbstract
-     */
-    protected function addJS($name, $js)
-    {
-        if (!_::head()->scripts->hasScript($name)) {
-            _::head()->scripts->appendScript($this->renderVariable($js), 'text/javascript', $name);
-        }
-        return $this;
     }
 
     /**
@@ -219,9 +193,42 @@ abstract class ComponentAbstract extends ConfigurableEventDispatcher
     {
         $this->dispatchEvent(new ComponentEvent(ComponentEvent::BEFORE_SET_STAGE));
         $this->options['stage'] = $value;
+
+
+
+        $this->addStyleSheets();
+        $this->addScripts();
+
         $this->dispatchEvent(new ComponentEvent(ComponentEvent::AFTER_SET_STAGE));
         return $this;
     }
+
+    private function addStyleSheets()
+    {
+        $classes = ClassUtils::getAncestorsClassUntil(get_called_class(), __CLASS__);
+        $classes[] = get_called_class();
+        $styles = _::cfg()->getHeader()->getStyleSheets();
+        foreach ($classes as $className) {
+            $exploded = explode('\\', $className);
+            if (_::loader($className)->find(lcfirst(end($exploded)) . '.css')->exists()) {
+                $styles->append(_::loader()->getPath());
+            }
+        }
+    }
+
+    private function addScripts()
+    {
+        $classes = ClassUtils::getAncestorsClassUntil(get_called_class(), __CLASS__);
+        $classes[] = get_called_class();
+        $scripts = _::cfg()->getHeader()->getScripts();
+        foreach ($classes as $className) {
+            $exploded = explode('\\', $className);
+            if (_::loader($className)->find(lcfirst(end($exploded)) . '.js')->exists()) {
+                $scripts->append(_::loader()->getPath());
+            }
+        }
+    }
+
 
     /**
      * @return string

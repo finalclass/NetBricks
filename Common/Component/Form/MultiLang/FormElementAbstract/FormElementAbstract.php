@@ -42,7 +42,10 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
 
     public function __construct($options = array())
     {
-        $this->initHeader();
+        _::cfg()->getHeader()->getScripts()
+                ->prepend('/NetBricks/Common/js/nb.js')
+                ->prepend('/NetBricks/Common/js/jquery.js');
+
         foreach (_::languages()->getAvailable() as $l) {
             $element = $this->createElement();
             $this->elements[$l->getCode()] = $element;
@@ -50,24 +53,6 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
         }
         $this->languageBar = _::loader('/NetBricks/I18n/Component/LanguageBar')->create();
         parent::__construct($options);
-    }
-
-    private function initHeader()
-    {
-        $name = 'multi_lang_form_element_abstract';
-        $this->addCSS($name, array($this, 'getCSS'));
-        $this->addJS($name, array($this, 'getJS'));
-    }
-
-
-    static public function getCSS()
-    {
-        return file_get_contents(_::loader(__CLASS__ . '/formElementAbstract.css')->getFullPath());
-    }
-
-    static public function getJS()
-    {
-       return file_get_contents(_::loader(__CLASS__ . '/formElementAbstract.js')->getFullPath());
     }
 
     public function setName($value)

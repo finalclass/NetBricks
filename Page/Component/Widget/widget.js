@@ -1,4 +1,4 @@
-$.Component('nb_page_widget', function () {
+nb.component('nb_page_widget', function () {
     var that = this;
     var $this = $(this);
 
@@ -12,7 +12,7 @@ $.Component('nb_page_widget', function () {
 
     function onWidgetClick(event) {
       var type = $(event.target).data('type');
-      $.get('/component=' + type, function(data) {
+      nb.loader(type, function(data) {
         destruct();
         $this.html(data);
       });

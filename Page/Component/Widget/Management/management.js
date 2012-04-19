@@ -1,4 +1,4 @@
-$.Component('nb_page_widget_management', function () {
+nb.component('nb_page_widget_management', function () {
   var that = this;
   var $this = $(this);
   var $addButton = $this.find('.add_widget');
@@ -9,6 +9,12 @@ $.Component('nb_page_widget_management', function () {
     $this.trigger('initialized');
   }
 
+  $container.on('widget_set', function(event, data) {
+    var widgetSelector = $(event.target).closest('.widget_selector');
+    console.log(widgetSelector);
+    console.log(arguments);
+  });
+
   function prevent(callback) {
     return function (event) {
       event.preventDefault();
@@ -17,8 +23,9 @@ $.Component('nb_page_widget_management', function () {
   }
 
   function addWidget() {
-    $.get('/component=/NetBricks/Page/Component/Widget', function (data) {
-      var $widget = $(data).nb_page_widget();
+    nb.loader('/NetBricks/Page/Component/Widget', function(component) {
+      var $widget = $(component).nb_page_widget();
+      var $div = $("<div/>");
       $container.append($widget);
     });
   }

@@ -102,4 +102,5 @@ class Table extends Tag
     {
         return isset($this->options['data_provider']) ? $this->options['data_provider'] : array();
     }
+
 }

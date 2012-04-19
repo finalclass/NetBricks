@@ -18,6 +18,17 @@ class Tag extends Container
         return $this->defaultAttributes;
     }
 
+	/**
+	 * @return \NetBricks\Common\Component\Attributes
+	 */
+	public function attrs()
+	{
+		if(!isset($this->options['attrs'])) {
+			$this->options['attrs'] = new \NetBricks\Common\Component\Attributes();
+		}
+		return $this->options['attrs'];
+	}
+
     /**
      * @static
      * @param string $optionsOrTagName

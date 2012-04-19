@@ -37,6 +37,9 @@ class Widget extends Tag
 
     public function __construct($options = array())
     {
+        _::cfg()->getHeader()->getScripts()
+                ->prepend('/NetBricks/Common/js/nb.js')
+                ->prepend('/NetBricks/Common/js/jquery.js');
         parent::__construct($options);
         $this->setClass($this->getClass() . ' nb_page_widget');
     }
@@ -55,16 +58,16 @@ class Widget extends Tag
     {
         $widgetTypes = _::cfg()->getPage()->getWidget()->getTypes();
         ?>
-<div <?php echo $this->renderDefaultAttributes(); ?>>
+    <div <?php echo $this->renderDefaultAttributes(); ?>>
 
-    <?php foreach($widgetTypes as $class => $name): ?>
-    <p class="<?php echo $class; ?> widget_type" data-type="<?php echo $class; ?>">
-        <?php echo $name; ?>
-    </p>
-    <?php endforeach; ?>
+        <?php foreach ($widgetTypes as $class => $name): ?>
+        <p class="<?php echo $class; ?> widget_type" data-type="<?php echo $class; ?>">
+            <?php echo $name; ?>
+        </p>
+        <?php endforeach; ?>
 
-</div>
-        <?php
+    </div>
+    <?php
     }
 
 }
