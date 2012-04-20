@@ -40,6 +40,9 @@ class ArrayBuilder extends FormElementAbstract
     {
         parent::__construct($options);
         $this->addClass('nb_extended_array_builder');
+        _::cfg()->getHeader()->getScripts()
+                ->addNetBricks()
+                ->addFcjs();
     }
 
     public function setValue($value)

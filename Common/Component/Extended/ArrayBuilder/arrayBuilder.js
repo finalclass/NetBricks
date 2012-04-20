@@ -1,3 +1,10 @@
+var Nb_Extended_ArrayBuilderViewModel = function() {
+
+  fc(this, 'text').bindable();
+  this.text = '';
+
+};
+
 nb.component('nb_extended_array_builder', function () {
   var that = this;
   var $this = $(this);
@@ -22,10 +29,7 @@ nb.component('nb_extended_array_builder', function () {
     }
   };
 
-  
-
-
-  ko.applyBindings(viewModel, that );
+  $this.model();
 
   return api;
 });

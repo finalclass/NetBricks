@@ -54,7 +54,19 @@ class ScriptsCollection extends OptionsCollection
      */
     public function addNetBricks()
     {
-        return $this->set(-148, '/NetBricks/Common/js/netbricks-0.1.js');
+        return $this->addJQuery()
+                ->set(-148, '/NetBricks/Common/js/netbricks-0.1.js');
+    }
+
+    /**
+     * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
+     */
+    public function addFcjs()
+    {
+        return $this->addJQuery()
+                ->addKnockout()
+                ->set(-147, '/NetBricks/Common/js/fcjs/fc.js')
+                ->set(-146, '/NetBricks/Common/js/fcjs/jquery-model.js');
     }
 
 }

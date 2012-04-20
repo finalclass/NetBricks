@@ -109,14 +109,6 @@ class HeaderConfig extends ConfigurableContainer
     }
 
     /**
-     * @return array
-     */
-    public function getScriptFiles()
-    {
-        return array_unique((array)@$this->options['script_files']);
-    }
-
-    /**
      * @return string
      */
     public function getRobots()
