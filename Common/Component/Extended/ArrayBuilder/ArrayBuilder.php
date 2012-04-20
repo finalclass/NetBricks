@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-namespace NetBricks\Common\Component\Extended\ArrayBuilder;
+namespace NetBricks\Common\Component\Extended;
 
 use \NetBricks\Common\Component\Form\FormElementAbstract;
 use \NetBricks\Facade as _;

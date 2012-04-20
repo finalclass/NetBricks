@@ -339,6 +339,7 @@ class Facade
         if (!isset(static::$options[__FUNCTION__])) {
             static::$options[__FUNCTION__] = \NetBricks\User\Model\CurrentUser::getInstance();
         }
+
         return static::$options[__FUNCTION__];
     }
 

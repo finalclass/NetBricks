@@ -43,8 +43,8 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
     public function __construct($options = array())
     {
         _::cfg()->getHeader()->getScripts()
-                ->prepend('/NetBricks/Common/js/nb.js')
-                ->prepend('/NetBricks/Common/js/jquery.js');
+                ->addNetBricks()
+                ->addJQuery();
 
         foreach (_::languages()->getAvailable() as $l) {
             $element = $this->createElement();

@@ -21,53 +21,40 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+namespace NetBricks\Common\HeaderConfig;
 
-namespace NetBricks\Page\Component;
-
-use \NetBricks\Common\Component\Tag;
-use \NetBricks\Facade as _;
+use \NetCore\Configurable\OptionsCollection;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 15.03.12
- * @time: 13:27
+ * @date: 20.04.12
+ * @time: 09:29
  */
-class Widget extends Tag
+class ScriptsCollection extends OptionsCollection
 {
 
-    public function __construct($options = array())
+    /**
+     * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
+     */
+    public function addJQuery()
     {
-        _::cfg()->getHeader()->getScripts()
-                ->addNetBricks()
-                ->addJQuery();
-        parent::__construct($options);
-        $this->setClass($this->getClass() . ' nb_page_widget');
+        return $this->set(-150, '/NetBricks/Common/js/jquery-1.7.2.js');
     }
 
-    public function renderDefaultAttributes()
+    /**
+     * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
+     */
+    public function addKnockout()
     {
-        return $this->renderTagAttributes(array('id', 'class', 'style'));
+        return $this->set(-149, '/NetBricks/Common/js/knockout-2.1.0rc.js');
     }
 
-    public function getJS()
+    /**
+     * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
+     */
+    public function addNetBricks()
     {
-        return file_get_contents(_::loader($this)->find('widget.js')->getFullPath());
-    }
-
-    public function render()
-    {
-        $widgetTypes = _::cfg()->getPage()->getWidget()->getTypes();
-        ?>
-    <div <?php echo $this->renderDefaultAttributes(); ?>>
-
-        <?php foreach ($widgetTypes as $class => $name): ?>
-        <p class="<?php echo $class; ?> widget_type" data-type="<?php echo $class; ?>">
-            <?php echo $name; ?>
-        </p>
-        <?php endforeach; ?>
-
-    </div>
-    <?php
+        return $this->set(-148, '/NetBricks/Common/js/netbricks-0.1.js');
     }
 
 }

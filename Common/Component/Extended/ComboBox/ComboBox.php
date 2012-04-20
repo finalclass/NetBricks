@@ -43,8 +43,8 @@ class ComboBox extends Container
     public function __construct($options = array())
     {
         _::cfg()->getHeader()->getScripts()
-            ->prepend('/NetBricks/Common/js/nb.js')
-            ->prepend('/NetBricks/Common/js/jquery.js');
+            ->addJQuery()
+            ->addNetBricks();
 
         if(isset($options['renderer'])) {
             $this->setRenderer(new $options['renderer']());

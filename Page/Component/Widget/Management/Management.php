@@ -39,11 +39,11 @@ class Management extends Tag
     {
         parent::__construct($options);
         _::cfg()->getHeader()->getScripts()
-                ->prepend('/NetBricks/Common/js/nb.js')
-                ->prepend('/NetBricks/Common/js/jquery.js')
+                ->addNetBricks()
+                ->addJQuery()
                 ->append(_::loader(__CLASS__ . '/../widget.js')->getPath());
 
-        $this->setClass($this->getClass() . ' nb_page_widget_management'    );
+        $this->setClass($this->getClass() . ' nb_page_widget_management');
     }
 
     public function render()

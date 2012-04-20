@@ -27,6 +27,7 @@ namespace NetBricks\Common;
 use \NetCore\DependencyInjection\ConfigurableContainer;
 use \NetCore\Configurable\OptionsCollection;
 use \NetBricks\Common\HeaderConfig\Title;
+use \NetBricks\Common\HeaderConfig\ScriptsCollection;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -37,7 +38,7 @@ class HeaderConfig extends ConfigurableContainer
 {
 
 
-    /** @var \NetCore\Configurable\OptionsCollection */
+    /** @var \NetBricks\Common\HeaderConfig\ScriptsCollection */
     private $scripts;
 
     /** @var \NetCore\Configurable\OptionsCollection */
@@ -47,12 +48,12 @@ class HeaderConfig extends ConfigurableContainer
     private $title;
 
     /**
-     * @return \NetCore\Configurable\OptionsCollection
+     * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
      */
     public function getScripts()
     {
         if(!$this->scripts) {
-            $this->scripts = new OptionsCollection((array)@$this->options['scripts']);
+            $this->scripts = new ScriptsCollection((array)@$this->options['scripts']);
         }
         return $this->scripts;
     }
@@ -113,11 +114,6 @@ class HeaderConfig extends ConfigurableContainer
     public function getScriptFiles()
     {
         return array_unique((array)@$this->options['script_files']);
-    }
-
-    public function addScriptFile($filePath)
-    {
-        $this->options['script_files'][] = $filePath;
     }
 
     /**

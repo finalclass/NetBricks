@@ -47,8 +47,8 @@ class LanguageBar extends Tag
     protected function construct()
     {
         _::cfg()->getHeader()->getScripts()
-                ->prepend('/NetBricks/Common/js/nb.js')
-                ->prepend('/NetBricks/Common/js/jquery.js');
+                ->addNetBricks()
+                ->addJQuery();
 
         $this->prevButton = $this->createPrevButton();
         $this->nextButton = $this->createNextButton();
