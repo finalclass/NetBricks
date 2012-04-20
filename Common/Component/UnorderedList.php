@@ -17,6 +17,17 @@ class UnorderedList extends Tag
         return 'ul';
     }
 
+    /**
+     * @static
+     * @param array $options
+     * @return UnorderedList
+     */
+    public static function factory($options = array())
+    {
+        $class = get_called_class();
+        return new $class($options);
+    }
+
     public function getContent()
     {
         $out = array();

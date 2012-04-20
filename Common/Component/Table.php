@@ -60,6 +60,16 @@ class Table extends Tag
         }
     }
 
+    public function renderVariable($view, $record = null)
+    {
+        if($view instanceof \NetBricks\Common\Component\Extended\Renderer) {
+            $view->setData($record);
+            return (string)$view;
+        } else {
+            return parent::renderVariable($view, $record);
+        }
+    }
+
     public function getRecordFieldValue($record, $fieldName)
     {
        return \NetCore\Renderer::renderObjectProperty($record, $fieldName);

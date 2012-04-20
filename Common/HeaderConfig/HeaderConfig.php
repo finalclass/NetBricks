@@ -28,6 +28,7 @@ use \NetCore\DependencyInjection\ConfigurableContainer;
 use \NetCore\Configurable\OptionsCollection;
 use \NetBricks\Common\HeaderConfig\Title;
 use \NetBricks\Common\HeaderConfig\ScriptsCollection;
+use \NetBricks\Common\HeaderConfig\StyleSheetsCollection;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -41,7 +42,7 @@ class HeaderConfig extends ConfigurableContainer
     /** @var \NetBricks\Common\HeaderConfig\ScriptsCollection */
     private $scripts;
 
-    /** @var \NetCore\Configurable\OptionsCollection */
+    /** @var \NetBricks\Common\HeaderConfig\StyleSheetsCollection */
     private $styleSheets;
 
     /** @var \NetBricks\Common\Component\Header\Title */
@@ -59,12 +60,12 @@ class HeaderConfig extends ConfigurableContainer
     }
 
     /**
-     * @return \NetCore\Configurable\OptionsCollection
+     * @return \NetBricks\Common\HeaderConfig\StyleSheetsCollection
      */
     public function getStyleSheets()
     {
         if(!$this->styleSheets) {
-            $this->styleSheets = new OptionsCollection((array)@$this->options['style_sheets']);
+            $this->styleSheets = new StyleSheetsCollection((array)@$this->options['style_sheets']);
         }
         return $this->styleSheets;
     }

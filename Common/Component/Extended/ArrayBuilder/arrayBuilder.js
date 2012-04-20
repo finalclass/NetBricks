@@ -1,35 +1,53 @@
-var Nb_Extended_ArrayBuilderViewModel = function() {
-
-  fc(this, 'text').bindable();
-  this.text = '';
-
-};
-
 nb.component('nb_extended_array_builder', function () {
   var that = this;
-  var $this = $(this);
-  var formElemetnName = $this.data('name');
-  var $list = $this.find('.array_builder_list');
-  var $textInput = $this.find('.array_builder_text');
-  var $submit = $this.find('.array_builder_add_button');
-  var api;
+  var api = new Object();
+  var comapnies = $.parseJSON($(that).find('.data').text())
+    .filter(function (item) {
+      return item.length > 0;
+    });
 
-  function buildItem(item) {
-    var $hidden = $('<input type="hidden" name="' + formElemetnName + '[]" value="' + item + '"/>');
-    var $text = $('<span/>').text(item);
-    var $li = $('<li/>');
-    return $li.append($hidden).append($text);
-  }
+  var ViewModel = function (items) {
 
-  api = {
+    this.items = ko.observableArray(items);
 
-    addItem:function (item) {
-      var $item = buildItem(item);
-      $list.append($item);
-    }
-  };
+    this.itemToAdd = ko.observable('');
 
-  $this.model();
+    this.selectedOptions = ko.observableArray([]);
 
-  return api;
-});
+    this.removeSelected = function () {
+      this.items.removeAll(this.selectedOptions());
+    }.bind(this);
+
+    this.addItem = function () {
+      if (this.itemToAdd() != '') {
+        this.items.push(this.itemToAdd()); // Adds the item. Writing to the "items" observableArray causes any associated UI to update.
+        this.itemToAdd(''); // Clears the text box, because it's bound to the "itemToAdd" observable
+      }
+    }.bind(this);  // Ensure that "this" is always this view model
+
+    this.removeItem = function (item) {
+      this.items.remove(item);
+    }.bind(this);
+
+    this.editItem = function (item) {
+      var pr = prompt('Set new name', item);
+      var indexOf = this.items.indexOf(item);
+      this.items.splice(indexOf, 1, pr);
+    }.bind(this);
+
+    this.onInputKeyDown = function (me, event) {
+      if (event.keyCode === 13) {
+        this.addItem();
+        return false;
+      }
+      return true;
+  }.bind(this);
+};
+
+api.init = function () {
+  ko.applyBindings(new ViewModel(comapnies), that);
+};
+
+return api;
+})
+;

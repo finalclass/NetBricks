@@ -89,9 +89,8 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
                     $response = $result;
                 }
             } else {
-                $response = $result->toArray();
+                $response = $result ? $result->toArray() : '';
             }
-
             if (isset($params['redirect'])) {
                 header('Location: ' . urldecode($params['redirect']));
                 exit;

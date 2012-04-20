@@ -42,12 +42,16 @@ class ArrayBuilder extends FormElementAbstract
         $this->addClass('nb_extended_array_builder');
         _::cfg()->getHeader()->getScripts()
                 ->addNetBricks()
-                ->addFcjs();
+                ->addKnockout();
+
+        _::cfg()->getHeader()->getStyleSheets()->addJqueryUi();
     }
 
     public function setValue($value)
     {
+        $value = array_filter($value);
         parent::setValue($value);
+        return $this;
     }
 
     public function getValue()

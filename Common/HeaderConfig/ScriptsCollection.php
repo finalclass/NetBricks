@@ -61,12 +61,10 @@ class ScriptsCollection extends OptionsCollection
     /**
      * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
      */
-    public function addFcjs()
+    public function addJqueryUi()
     {
         return $this->addJQuery()
-                ->addKnockout()
-                ->set(-147, '/NetBricks/Common/js/fcjs/fc.js')
-                ->set(-146, '/NetBricks/Common/js/fcjs/jquery-model.js');
+                ->set(-148, '/NetBricks/Common/js/jquery-ui-1.8.19.min');
     }
 
 }

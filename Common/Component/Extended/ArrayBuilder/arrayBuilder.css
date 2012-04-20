@@ -1,0 +1,35 @@
+.nb_extended_array_builder .data {
+    display: none;
+}
+
+.nb_extended_array_builder select {
+    width: 150px;
+}
+
+.array_builder_form input {
+    float: left;
+}
+
+.array_builder_form a {
+    overflow:hidden;
+    margin: 0 3px;
+}
+
+.nb-button {
+    font-size: 12px;
+    padding: 0 4px 0 20px;
+    text-decoration: none;
+    position: relative;
+    outline: 0 !important;
+}
+
+.nb-button:hover {
+    opacity: 0.7;
+}
+
+.nb-button .ui-icon {
+    margin: -9px 0 0 0;
+    position: absolute;
+    left: 2px;
+    top: 50%;
+}

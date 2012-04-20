@@ -48,7 +48,7 @@ class Repository
     public function find($id)
     {
         $response = _::couchdb()->get($id);
-        if(@$response['error'] == 'not_found') {
+        if (@$response['error'] == 'not_found') {
             return null;
         }
 
@@ -72,6 +72,7 @@ class Repository
         foreach ($response['rows'] as $record) {
             $documents[] = $this->createDocument((array)@$record['value']);
         }
+
         return $documents;
     }
 
@@ -81,21 +82,28 @@ class Repository
      */
     public function save($document)
     {
-        if(is_array($document)) {
+        if (is_array($document)) {
             //to make sure the document has all necessery fields set
             //set all unset fields by creating the document
             $document = $this->createDocument($document);
         }
-        if(!is_a($document, $this->documentClassName)) {
+        if (!is_a($document, $this->documentClassName)) {
             throw new InvalidDocumentType('document ' . get_class($document) . ' shoulb be of type : '
                     . $this->documentClassName);
         }
 
 
-
         $array = _::couchdb()->save($document->toArray());
         $document->fromArray($array);
         return $document;
+    }
+
+    public function remove($document)
+    {
+        $id = \NetCore\Renderer::renderObjectProperty($document, 'id');
+        $rev = \NetCore\Renderer::renderObjectProperty($document, 'rev');
+
+        return _::couchdb()->delete($id, $rev);
     }
 
     public function createDocument(array $array)

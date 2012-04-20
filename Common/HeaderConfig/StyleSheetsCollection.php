@@ -21,35 +21,46 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-
-namespace NetBricks\Common\Component\Extended;
-
-
-use \NetBricks\Common\Component\Container;
+namespace NetBricks\Common\HeaderConfig;
+use \NetCore\Configurable\OptionsCollection;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 11.03.12
- * @time: 19:35
+ * @date: 20.04.12
+ * @time: 12:26
  */
-class Renderer extends Container
+class StyleSheetsCollection extends OptionsCollection
 {
 
     /**
-     * @param \stdClass $value
-     * @return \NetBricks\Common\Component\Extended\Renderer
+     * @param string $value
+     * @return \NetBricks\Common\HeaderConfig\StyleSheetsCollection
      */
-    public function setData($value)
+    public function setDefaultJqueryUiTheme($value)
     {
-        $this->options['data'] = $value;
+        $this->options['default_jquery_ui_theme'] = (string)$value;
         return $this;
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getData()
+    public function getDefaultJqueryUiTheme()
     {
-        return @$this->options['data'];
+        return isset($this->options['default_jquery_ui_theme'])
+                ? $this->options['default_jquery_ui_theme'] : 'dark-hive';
     }
+
+    /**
+     * @param null $theme
+     * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
+     */
+    public function addJqueryUi($theme = null)
+    {
+        if(!$theme) {
+            $theme = $this->getDefaultJqueryUiTheme();
+        }
+        return $this->append('/NetBricks/Common/css/' . $theme . '/jquery-ui.css');
+    }
+
 }

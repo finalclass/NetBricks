@@ -1,15 +1,51 @@
-<?php /** @var $this \NetBricks\Common\Component\Extended\ArrayBuilder\ArrayBuilder */ ?>
-<div <?php echo $this->renderTagAttributes($this->getDefaultAttributes()); ?>
-        data-name="<?php echo $this->getName(); ?>"
-        data-model="Nb_Extended_ArrayBuilderViewModel">
+<?php /** @var $this \NetBricks\Common\Component\Extended\ArrayBuilder */ ?>
+<div <?php echo $this->renderTagAttributes($this->getDefaultAttributes()); ?>>
 
-    <ul class="array_builder_list">
-
-    </ul>
+    <div class="data">
+        <?php echo Zend_Json::encode($this->getValue()); ?>
+    </div>
 
     <div class="array_builder_form">
-        <input type="text" class="array_builder_text">
-        <a href="#" class="array_builder_add_button">+</a>
+        <input type="text" class="array_builder_text"
+               data-bind="value: itemToAdd, valueUpdate: 'afterkeydown', event: {keydown: onInputKeyDown}">
+
+        <a href="#"
+           onclick="return false;"
+           class="ui-state-default ui-corner-all nb-button"
+           data-bind="enable: itemToAdd().length > 0, click: addItem">
+            <span class="ui-icon ui-icon-plus"></span>
+            add
+        </a>
     </div>
+
+    <ul class="array_builder_list"
+        data-bind="foreach: items">
+        <li>
+            <span data-bind="text: $data"></span>
+            <input type="hidden"
+                   name="<?php echo $this->getName();?>[]"
+                   data-bind="value: $data"/>
+            <a href="#"
+               class="nb-button ui-state-default ui-corner-all"
+               data-bind="click: $parent.removeItem">
+                <span class="ui-icon ui-icon-trash"></span>
+                remove
+            </a>
+            &nbsp;
+            <a href="#"
+               class="nb-button ui-state-default ui-corner-all"
+               data-bind="click: $parent.editItem">
+                <span class="ui-icon ui-icon-wrench"></span>
+                edit
+            </a>
+        </li>
+    </ul>
+
+    <a href="#"
+       onclick="return false"
+       class="remove_selected"
+       data-bind="visible: selectedOptions().length > 0, click: removeSelected">
+        -remove
+    </a>
 
 </div>
