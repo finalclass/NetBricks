@@ -53,7 +53,7 @@ class StyleSheetsCollection extends OptionsCollection
 
     /**
      * @param null $theme
-     * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
+     * @return \NetBricks\Common\HeaderConfig\StyleSheetsCollection
      */
     public function addJqueryUi($theme = null)
     {
