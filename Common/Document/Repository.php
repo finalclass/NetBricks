@@ -92,7 +92,6 @@ class Repository
                     . $this->documentClassName);
         }
 
-
         $array = _::couchdb()->save($document->toArray());
         $document->fromArray($array);
         return $document;

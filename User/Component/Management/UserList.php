@@ -38,7 +38,7 @@ class UserList extends Table
          * @var \NetBricks\Common\Component\IconLink $editLink
          * @var \NetBricks\Common\Component\IconLink $removeLink
          */
-        $linkFactory = _::factory()->netBricks->common->iconLink;
+        $linkFactory = _::factory()->netBricks->common->component->iconLink;
 
         $editLink = $linkFactory()
                 ->setIconClass('ui-icon ui-icon-wrench')

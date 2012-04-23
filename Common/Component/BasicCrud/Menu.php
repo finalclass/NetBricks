@@ -40,19 +40,45 @@ class Menu extends UnorderedList
 
     public function __construct($options = array())
     {
+        if(!isset($options['param_to_switch'])) {
+            $options['param_to_switch'] = 'action';
+        }
+
         $this->setClass('buttons');
 
         $this->addButton = IconLink::factory()
                 ->setIconClass('plus')
-                ->setLabel('Add')
-                ->addParam('action', 'add');
+                ->setLabel('Add');
 
         $this->listButton = IconLink::factory()
                 ->setIconClass('list')
-                ->setLabel('List')
-                ->addParam('action', 'list');
+                ->setLabel('List');
 
         parent::__construct($options);
+    }
+
+    public function beforeRender()
+    {
+        $this->addButton->addParam($this->getParamToSwitch(), 'add');
+        $this->listButton->addParam($this->getParamToSwitch(), 'list');
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Common\Component\BasicCrud\Menu
+     */
+    public function setParamToSwitch($value)
+    {
+        $this->options['param_to_switch'] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParamToSwitch()
+    {
+        return (string)@$this->options['param_to_switch'];
     }
 
 }

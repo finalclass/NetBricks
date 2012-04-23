@@ -31,6 +31,9 @@ nb.component('nb_extended_array_builder', function () {
 
     this.editItem = function (item) {
       var pr = prompt('Set new name', item);
+      if(pr === null) {
+        return;
+      }
       var indexOf = this.items.indexOf(item);
       this.items.splice(indexOf, 1, pr);
     }.bind(this);
