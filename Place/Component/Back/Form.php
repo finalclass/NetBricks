@@ -27,6 +27,7 @@ use \NetBricks\Common\Component\Form\TextInput;
 use \NetBricks\Common\Component\Form\Hidden;
 use \NetBricks\Common\Component\Form\TextArea;
 use \NetBricks\Common\Component\Form\Submit;
+use \NetBricks\Common\Component\Form\NicEditor;
 use \NetBricks\Facade as _;
 
 /**
@@ -42,8 +43,8 @@ use \NetBricks\Facade as _;
  * @property \NetBricks\Common\Component\Form\TextInput $addressStreet
  * @property \NetBricks\Common\Component\Form\TextInput $addressCity
  * @property \NetBricks\Common\Component\Form\TextInput $addressPostcode
- * @property \NetBricks\Common\Component\Form\TextInput $information
- * @property \NetBricks\Common\Component\Form\TextInput $description
+ * @property \NetBricks\Common\Component\Form\NicEditor $information
+ * @property \NetBricks\Common\Component\Form\NicEditor $description
  * @property \NetBricks\Common\Component\Form\Submit $submit
  */
 class Form extends BaseForm
@@ -59,8 +60,8 @@ class Form extends BaseForm
         $this->addressStreet = TextInput::factory()->setName('address[street]');
         $this->addressCity = TextInput::factory()->setName('address[city]');
         $this->addressPostcode = TextInput::factory()->setName('address[postcode]');
-        $this->information = TextArea::factory()->setName('information');
-        $this->description = TextArea::factory()->setName('description');
+        $this->information = NicEditor::factory()->setName('information');
+        $this->description = NicEditor::factory()->setName('description');
         $this->submit = Submit::factory()->setName('form')->setValue('place');
         parent::__construct($options);
     }
