@@ -3,6 +3,9 @@ nb.component('nb_page_photo_form_element', function () {
   var that = this;
   var api = new Object();
   var selectedPhotos = $.parseJSON($this.find('.data.selected_photos').text());
+  if(!selectedPhotos) {
+    selectedPhotos = new Array();
+  }
 
   var ViewModel = function (selectedPhotos) {
     var that = this;
