@@ -28,6 +28,7 @@ use \NetBricks\Common\Component\Form\Hidden;
 use \NetBricks\Common\Component\Form\TextArea;
 use \NetBricks\Common\Component\Form\Submit;
 use \NetBricks\Common\Component\Form\NicEditor;
+use \NetBricks\Common\Component\Form\Address;
 use \NetBricks\Facade as _;
 
 /**
@@ -38,11 +39,7 @@ use \NetBricks\Facade as _;
  * @property \NetBricks\Common\Component\Form\Hidden $id;
  * @property \NetBricks\Common\Component\Form\Hidden $rev;
  * @property \NetBricks\Common\Component\Form\TextInput $name
- * @property \NetBricks\Common\Component\Form\TextInput $addressName
- * @property \NetBricks\Common\Component\Form\TextInput $addressCountry
- * @property \NetBricks\Common\Component\Form\TextInput $addressStreet
- * @property \NetBricks\Common\Component\Form\TextInput $addressCity
- * @property \NetBricks\Common\Component\Form\TextInput $addressPostcode
+ * @property \NetBricks\Common\Component\Form\Address $address
  * @property \NetBricks\Common\Component\Form\NicEditor $information
  * @property \NetBricks\Common\Component\Form\NicEditor $description
  * @property \NetBricks\Common\Component\Form\Submit $submit
@@ -55,11 +52,7 @@ class Form extends BaseForm
         $this->id = Hidden::factory()->setName('_id');
         $this->rev = Hidden::factory()->setName('_rev');
         $this->name = TextInput::factory()->setName('name');
-        $this->addressName = TextInput::factory()->setName('address[name]');
-        $this->addressCountry = TextInput::factory()->setName('address[country]');
-        $this->addressStreet = TextInput::factory()->setName('address[street]');
-        $this->addressCity = TextInput::factory()->setName('address[city]');
-        $this->addressPostcode = TextInput::factory()->setName('address[postcode]');
+        $this->address = Address::factory()->setName('address');
         $this->information = NicEditor::factory()->setName('information');
         $this->description = NicEditor::factory()->setName('description');
         $this->submit = Submit::factory()->setName('form')->setValue('place');
@@ -103,29 +96,9 @@ class Form extends BaseForm
                 <?php echo $this->name->setId('place_name'); ?>
             </dd>
 
-            <dt><label for="place_address_name">Address name</label></dt>
+            <dt><label for="">Address</label></dt>
             <dd>
-                <?php echo $this->addressName->setId('place_address_name'); ?>
-            </dd>
-
-            <dt><label for="place_address_country">Address country</label></dt>
-            <dd>
-                <?php echo $this->addressCountry->setId('place_address_country'); ?>
-            </dd>
-
-            <dt><label for="place_address_street">Address street</label></dt>
-            <dd>
-                <?php echo $this->addressStreet->setId('place_address_street'); ?>
-            </dd>
-
-            <dt><label for="place_address_postcode">Address Postcode</label></dt>
-            <dd>
-                <?php echo $this->addressPostcode->setId('place_address_postcode'); ?>
-            </dd>
-
-            <dt><label for="place_address_city">Address City</label></dt>
-            <dd>
-                <?php echo $this->addressCity->setId('place_address_city'); ?>
+                <?php echo $this->address; ?>
             </dd>
 
             <dt><label for="place_information">Information</label></dt>
