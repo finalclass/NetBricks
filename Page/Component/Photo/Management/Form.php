@@ -49,7 +49,7 @@ class Form extends BaseForm
                 ->setName('name_translations');
         $this->file = _::loader('\NetBricks\Common\Component\Form\File')->create()->setName('photo');
         $this->submit = _::loader('\NetBricks\Common\Component\Form\Submit')->create()->setLabel('Save')
-                            ->setName('form')->setValue('page_photo_form');
+                ->setName('form')->setValue('page_photo_form');
         $this->setEncType('multipart/form-data');
         parent::__construct($options);
     }
@@ -61,34 +61,41 @@ class Form extends BaseForm
 
     public function init()
     {
-        if(_::request()->isPost() && _::request()->post->form->toString() == 'page_photo_form') {
-            $result = $this->getService()->post();
-            if(!$result->hasErrors()) {
-                _::url()->addParam('action', 'list')->redirect();
+        if (_::request()->isPost() && _::request()->post->form->toString() == 'page_photo_form') {
+            $result = $this->getService()->post(_::request()->post->getArray());
+            if (!$result->hasErrors()) {
+                _::url()->addCurrentParams()
+                        ->addParam('action', 'list')
+                        ->addParam('new_photo_id', $result->getId())
+                        ->redirect();
             }
             $this->setValues($result->toArray());
-        } else {
-            $this->setValues($this->getService()->get()->toArray());
+        } else if (_::request()->id->exists()) {
+            $photo = $this->getService()->get(_::request()->getAllParams());
+            if ($photo) {
+                $this->setValues($photo->toArray());
+            }
         }
     }
 
     public function render()
     {
         ?>
-<form <?php echo $this->renderTagAttributes($this->defaultAttributes); ?>>
-    <?php echo $this->id; ?>
-    <?php echo $this->rev; ?>
-    <p>
-        <label for="photo_name">Photo name</label>
-        <?php echo $this->name->setId('photo_name'); ?>
-    </p>
-    <p>
-        <label for="photo_file">Photo file</label>
-        <?php echo $this->file->setId('photo_file'); ?>
-    </p>
-    <?php echo $this->submit; ?>
-</form>
-        <?php
+    <form <?php echo $this->renderTagAttributes($this->defaultAttributes); ?>>
+        <?php echo $this->id; ?>
+        <?php echo $this->rev; ?>
+        <p>
+            <label for="photo_name">Photo name</label>
+            <?php echo $this->name->setId('photo_name'); ?>
+        </p>
+
+        <p>
+            <label for="photo_file">Photo file</label>
+            <?php echo $this->file->setId('photo_file'); ?>
+        </p>
+        <?php echo $this->submit; ?>
+    </form>
+    <?php
     }
 
 }

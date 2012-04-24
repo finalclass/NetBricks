@@ -130,7 +130,7 @@ class UrlBuilder extends OptionsAbstract
                     . ltrim($route->buildUri($this->params, _::request()->get->getArray()), '/');
 
         } catch (RouterException $e) {
-            $params = http_build_query($this->params, '&amp');
+            $params = @(array)http_build_query($this->params, '&amp');
             return _::request()->getBaseUrl() . '?' . join('&', $params);
         }
     }

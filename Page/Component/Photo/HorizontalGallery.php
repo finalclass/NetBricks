@@ -21,44 +21,33 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-
 namespace NetBricks\Page\Component\Photo;
-
-use \NetBricks\Page\Document\Photo as PhotoDocument;
-use \NetBricks\Page\Component\Photo;
-
+use \NetBricks\Common\Component\UnorderedList;
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 19.03.12
- * @time: 12:17
+ * @date: 24.04.12
+ * @time: 13:19
  */
-class Thumb extends Photo
+class HorizontalGallery extends UnorderedList
 {
 
-    /**
-     * @static
-     * @param array $options
-     * @return \NetBricks\Page\Component\Photo\Thumb
-     */
-    static public function factory($options = array())
+    public function __construct($options = array())
     {
-        $class = get_called_class();
-        return new $class($options);
+        parent::__construct($options);
     }
 
-    /**
-     * @param \NetBricks\Page\Document\Photo $doc
-     * @return \NetBricks\Page\Component\Photo\Thumb
-     */
-    public function setPhotoDocument(\NetBricks\Page\Document\Photo $doc)
+    public function getService()
     {
-        parent::setPhotoDocument($doc);
-        $this->image
-                ->setWidth($doc->getThumbWidth())
-                ->setHeight($doc->getThumbHeight())
-                ->setSrc($doc->getThumbSrc())
-                ->addData('id', $doc->getId());
-        return $this;
+        return new \NetBricks\Page\Service\Photo();
+    }
+
+    public function beforeRender()
+    {
+        foreach($this->getService()->get() as $photo) {
+            $child = new Thumb();
+            $child->setPhotoDocument($photo);
+            $this->addChild($child);
+        }
     }
 
 }

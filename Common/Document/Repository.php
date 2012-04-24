@@ -51,7 +51,6 @@ class Repository
         if (@$response['error'] == 'not_found') {
             return null;
         }
-
         return $this->createDocument($response);
     }
 

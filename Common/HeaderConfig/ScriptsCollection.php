@@ -24,6 +24,7 @@ SOFTWARE.
 namespace NetBricks\Common\HeaderConfig;
 
 use \NetCore\Configurable\OptionsCollection;
+use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -61,10 +62,22 @@ class ScriptsCollection extends OptionsCollection
     /**
      * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
      */
-    public function addJqueryUi()
+    public function addJQueryUi()
     {
         return $this->addJQuery()
-                ->set(-148, '/NetBricks/Common/js/jquery-ui-1.8.19.min');
+                ->set(-147, '/NetBricks/Common/js/jquery-ui-1.8.19.min.js');
+    }
+
+    public function addJQueryWindow($includeDefaultStyleSheet = true, $jQueryUITheme = null)
+    {
+        $src = _::env() == 'development' ? 'jquery.window.js' : 'jquery.window.min.js';
+
+        if ($includeDefaultStyleSheet) {
+            _::cfg()->getHeader()->getStyleSheets()->addJQueryWindow();
+        }
+
+        return $this->addJQueryUi($jQueryUITheme)
+                ->set(-146, '/NetBricks/Common/js/jquery-window-5.03/' . $src);
     }
 
 }

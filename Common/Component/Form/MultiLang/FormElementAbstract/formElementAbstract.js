@@ -4,6 +4,7 @@ nb.component('multi_lang_form_element_container', function () {
   var $languageBar = $container.find('.nb_i18n_language_bar');
   var $current = null;
   var isShiftDown = false;
+  var api = new Object();
 
   $languageBar.find('.prev_button').attr('title', 'CTRL + up');
   $languageBar.find('.next_button').attr('title', 'CTRL + down');
@@ -42,5 +43,7 @@ nb.component('multi_lang_form_element_container', function () {
   }
 
   $languageBar.bind('change', showCorrectFormElement);
+  $languageBar.bind('ready', showCorrectFormElement);
 
+  return api;
 });

@@ -1,0 +1,21 @@
+.nb_page_photo_form_element .data {
+    display:none;
+}
+
+.nb_page_photo_form_element .photos {
+    width: 100%;
+    overflow: hidden;
+}
+
+.nb_page_photo_form_element .photos .photo {
+    float:left;
+    display:block;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.nb_page_photo_form_element .photos .photo p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}

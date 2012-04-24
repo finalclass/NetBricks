@@ -45,6 +45,7 @@ nb.component('nb_extended_array_builder', function () {
       }
       return true;
   }.bind(this);
+
 };
 
 api.init = function () {

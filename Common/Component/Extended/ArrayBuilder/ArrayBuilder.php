@@ -44,7 +44,7 @@ class ArrayBuilder extends FormElementAbstract
                 ->addNetBricks()
                 ->addKnockout();
 
-        _::cfg()->getHeader()->getStyleSheets()->addJqueryUi();
+        _::cfg()->getHeader()->getStyleSheets()->addNetBricks();
     }
 
     public function setValue($value)

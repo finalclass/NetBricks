@@ -42,8 +42,11 @@ class Photo
         return new \NetBricks\Page\Document\Photo\Repository();
     }
 
-    public function get($params)
+    public function get($params = array())
     {
+        if(!isset($params['id'])) {
+            return $this->all();
+        }
         return $this->getRepo()->find($params['id']);
     }
 

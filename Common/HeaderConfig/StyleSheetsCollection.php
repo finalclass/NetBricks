@@ -55,12 +55,31 @@ class StyleSheetsCollection extends OptionsCollection
      * @param null $theme
      * @return \NetBricks\Common\HeaderConfig\StyleSheetsCollection
      */
-    public function addJqueryUi($theme = null)
+    public function addJQueryUi($theme = null)
     {
         if(!$theme) {
             $theme = $this->getDefaultJqueryUiTheme();
         }
         return $this->append('/NetBricks/Common/css/' . $theme . '/jquery-ui.css');
+    }
+
+    /**
+     * @param null $theme
+     * @return \NetBricks\Common\HeaderConfig\StyleSheetsCollection
+     */
+    public function addNetBricks($theme = null)
+    {
+        return $this->addJQueryUi($theme)
+            ->append('/NetBricks/Common/css/netbricks.css');
+    }
+
+    /**
+     * @return \NetBricks\Common\HeaderConfig\StyleSheetsCollection
+     */
+    public function addJQueryWindow()
+    {
+        return $this->addJQueryUi()
+                ->append('/NetBricks/Common/js/jquery-window-5.03/css/jquery.window.css');
     }
 
 }

@@ -21,44 +21,41 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-
 namespace NetBricks\Page\Component\Photo;
-
-use \NetBricks\Page\Document\Photo as PhotoDocument;
-use \NetBricks\Page\Component\Photo;
+use \NetBricks\Common\Component\Tag;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 19.03.12
- * @time: 12:17
+ * @date: 24.04.12
+ * @time: 13:16
+ *
+ * @property \NetBricks\Page\Component\Photo\Management\Form $photoForm
+ * @property HorizontalGallery $horizontalGallery
  */
-class Thumb extends Photo
+class PhotoSelector extends Tag
 {
 
-    /**
-     * @static
-     * @param array $options
-     * @return \NetBricks\Page\Component\Photo\Thumb
-     */
-    static public function factory($options = array())
+    public function __construct($options = array())
     {
-        $class = get_called_class();
-        return new $class($options);
+        parent::__construct($options);
+        $this->photoForm = new \NetBricks\Page\Component\Photo\Management\Form();
+        $this->horizontalGallery = new HorizontalGallery();
+        $this->addClass('nb_page_photo_selector');
     }
 
-    /**
-     * @param \NetBricks\Page\Document\Photo $doc
-     * @return \NetBricks\Page\Component\Photo\Thumb
-     */
-    public function setPhotoDocument(\NetBricks\Page\Document\Photo $doc)
+    public function render()
     {
-        parent::setPhotoDocument($doc);
-        $this->image
-                ->setWidth($doc->getThumbWidth())
-                ->setHeight($doc->getThumbHeight())
-                ->setSrc($doc->getThumbSrc())
-                ->addData('id', $doc->getId());
-        return $this;
+        ?>
+    <div <?php echo $this->renderTagAttributes($this->getDefaultAttributes()); ?>>
+
+        <iframe src="/?stage=/NetBricks/Page/Component/Photo/UploaderPage" frameborder="0"></iframe>
+
+        <?php echo $this->horizontalGallery; ?>
+
+    </div>
+        <?php
     }
+
+
 
 }

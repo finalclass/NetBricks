@@ -36,6 +36,7 @@ nb.component('nb_i18n_language_bar', function () {
       var current = cbApi.getSelectedIndex();
       current = (current + 1) % totalItems;
       cbApi.setSelectedIndex(current);
+      $this.trigger('ready');
     },
 
     /**

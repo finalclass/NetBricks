@@ -35,6 +35,7 @@ nb.component('nb_extended_combo_box', function () {
      */
     init:function () {
       api.setSelectedIndex(0);
+      $that.trigger('ready');
     },
 
     /**

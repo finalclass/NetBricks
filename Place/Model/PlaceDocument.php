@@ -144,12 +144,12 @@ class PlaceDocument extends Document
     }
 
     /**
-     * @param string $value
+     * @param array $value
      * @return \NetBricks\Place\Model\PlaceDocument
      */
     public function setPhotos($value)
     {
-        $this->data['photos'] = (string)$value;
+        $this->data['photos'] = (array)$value;
         return $this;
     }
 
@@ -161,7 +161,7 @@ class PlaceDocument extends Document
         if(!$this->photos) {
             $this->photos = new ArrayCollection($this->data['photos']);
         }
-        return (string)@$this->data['photos'];
+        return (array)@$this->data['photos'];
     }
 
 }

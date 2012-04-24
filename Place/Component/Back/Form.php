@@ -29,6 +29,8 @@ use \NetBricks\Common\Component\Form\TextArea;
 use \NetBricks\Common\Component\Form\Submit;
 use \NetBricks\Common\Component\Form\NicEditor;
 use \NetBricks\Common\Component\Form\Address;
+use \NetBricks\Page\Component\Photo\PhotosFormElement;
+use \NetBricks\Common\Component\Link;
 use \NetBricks\Facade as _;
 
 /**
@@ -42,7 +44,9 @@ use \NetBricks\Facade as _;
  * @property \NetBricks\Common\Component\Form\Address $address
  * @property \NetBricks\Common\Component\Form\NicEditor $information
  * @property \NetBricks\Common\Component\Form\NicEditor $description
+ * @property \NetBricks\Page\Component\Photo\PhotosFormElement $photos
  * @property \NetBricks\Common\Component\Form\Submit $submit
+ * @property \NetBricks\Common\Component\Link $cancel
  */
 class Form extends BaseForm
 {
@@ -55,7 +59,9 @@ class Form extends BaseForm
         $this->address = Address::factory()->setName('address');
         $this->information = NicEditor::factory()->setName('information');
         $this->description = NicEditor::factory()->setName('description');
+        $this->photos = PhotosFormElement::factory()->setName('photos');
         $this->submit = Submit::factory()->setName('form')->setValue('place');
+        $this->cancel = Link::factory()->addParam('nb_back_place', 'list');
         parent::__construct($options);
     }
 
@@ -111,7 +117,13 @@ class Form extends BaseForm
                 <?php echo $this->description; ?>
             </dd>
 
+            <dt><label for="place_photos">Photos</label></dt>
+            <dd>
+                <?php echo $this->photos; ?>
+            </dd>
+
             <?php echo $this->submit->setLabel('Save'); ?>
+            <?php echo $this->cancel->setLabel('Cancel'); ?>
 
         </dl>
 

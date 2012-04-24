@@ -48,11 +48,11 @@
       component = component.replace(new RegExp(/\\/g), '/');
       return $.getJSON('-component/' + component, function (response) {
         nb.addStyleFiles(response.styles);
-        if(beforeScriptsLoaded) {
+        if (beforeScriptsLoaded) {
           beforeScriptsLoaded(response.html);
         }
         nb.addScriptFiles(response.scripts);
-        if(afterScriptsLoaded) {
+        if (afterScriptsLoaded) {
           afterScriptsLoaded(response.html);
         }
       });
