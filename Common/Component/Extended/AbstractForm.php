@@ -53,7 +53,6 @@ abstract class AbstractForm extends BaseForm
         if (_::request()->isPost()) {
             if (_::request()->_id->exists() && _::request()->_rev->exists()) {
                 $out = $this->getService()->put(_::request()->post->getArray())->toArray();
-
             } else {
                 $out = $this->getService()->post(_::request()->post->getArray())->toArray();
             }

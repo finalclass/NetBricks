@@ -64,14 +64,22 @@ class Html5 extends Container
         return empty($this->options['lang']) ? 'en' : $this->options['lang'];
     }
 
-
-    public function render()
+    public function getView()
     {
+        $render = $this->renderVariable(array($this, 'render'));
         ?>
     <!DOCTYPE html>
     <html lang="<?php echo $this->getLang(); ?>">
         <?php echo $this->head; ?>
-        <?php echo $this->body; ?>
+
+        <?php if(isset($this->content)): ?>
+            <?php echo $this->content; ?>
+        <?php elseif($render): ?>
+            <body>
+                <?php echo $render; ?>
+        <?php else: ?>
+            <?php echo $this->body; ?>
+        <?php endif; ?>
     </html>
     <?php
     }

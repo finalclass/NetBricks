@@ -21,49 +21,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-
-namespace NetBricks\Page\Component\Paragraph\Management;
-
-use \NetBricks\Common\Component\Form\Form as BaseForm;
-use \NetBricks\Facade as _;
-use \NetBricks\Common\Component\Form\MultiLang\TextArea;
-use \NetBricks\Common\Component\Form\Hidden;
-use \NetBricks\Common\Component\Form\Submit;
-use \NetBricks\Common\Component\Extended\DefaultForm;
-use \NetBricks\Common\Component\Extended\DefaultForm\ElementContainer;
+namespace NetBricks\Layout\Admin;
+use \NetBricks\Common\Component\ComponentAbstract;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 02.03.12
- * @time: 11:10
- *
- * @property \NetBricks\Common\Component\Extended\DefaultForm\ElementContainer $text
+ * @date: 24.04.12
+ * @time: 21:06
  */
-class Form extends DefaultForm
+class Breadcrumb extends ComponentAbstract
 {
 
-    public function construct()
+    public function __construct($options = array())
     {
-        $this->setLegend('Paragraphs')
-                ->setSubLegend('Set the paragraph text');
-
-        $this->cancel->addParam('action', 'list');
-        $this->submit->setLabel('Save');
-
-        $this->addElement(ElementContainer::factory()
-                    ->setLabel('Text')
-                    ->element(TextArea::factory()->setName('text_translations'))
-        );
+        parent::__construct($options);
     }
 
-    public function getService()
+    public function render()
     {
-        return _::services()->paragraph();
-    }
 
-    public function redirect()
-    {
-        _::url()->addParam('action', 'list')->redirect();
     }
 
 }

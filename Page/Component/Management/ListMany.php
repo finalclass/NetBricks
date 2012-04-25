@@ -36,7 +36,6 @@ use \NetBricks\Common\Component\BasicCrud\ItemMenu;
 class ListMany extends Table
 {
 
-
     /**
      * @return \NetBricks\Page\Service\Page
      */
@@ -45,14 +44,10 @@ class ListMany extends Table
         return new \NetBricks\Page\Service\Page();
     }
 
-
     public function __construct($options = array())
     {
         $this->setDataProvider($this->getService()->all(array()))
-                ->column('title', 'Title', function($that, PageDocument $doc)
-        {
-            return $doc->getTitleForLanguage();
-        })
+                ->column('title', 'Title')
                 ->column('operations', 'Operations', function($that, PageDocument $doc)
         {
             return ItemMenu::factory()

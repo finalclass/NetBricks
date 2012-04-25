@@ -92,6 +92,9 @@ class Link extends Tag
 
     public function getContent()
     {
+        if(!empty($this->options['content'])) {
+            return $this->options['content'];
+        }
         return (count($this->children) == 0)
                 ? $this->getLabel() : parent::getContent();
     }

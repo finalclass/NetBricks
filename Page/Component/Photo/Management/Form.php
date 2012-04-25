@@ -26,6 +26,10 @@ namespace NetBricks\Page\Component\Photo\Management;
 
 use \NetBricks\Common\Component\Form\Form as BaseForm;
 use \NetBricks\Facade as _;
+use \NetBricks\Common\Component\Extended\DefaultForm;
+use \NetBricks\Common\Component\Extended\DefaultForm\ElementContainer;
+use \NetBricks\Common\Component\Form\MultiLang\TextInput;
+use \NetBricks\Common\Component\Form\File;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -38,64 +42,40 @@ use \NetBricks\Facade as _;
  * @property \NetBricks\Common\Component\Form\File $file
  * @property \NetBricks\Common\Component\Form\Submit $submit
  */
-class Form extends BaseForm
+class Form extends DefaultForm
 {
-
-    public function __construct($options = array())
+    public function construct()
     {
-        $this->id = _::loader('\NetBricks\Common\Component\Form\Hidden')->create()->setName('_id');
-        $this->rev = _::loader('\NetBricks\Common\Component\Form\Hidden')->create()->setName('_rev');
-        $this->name = _::loader('\NetBricks\Common\Component\Form\MultiLang\TextInput')->create()
-                ->setName('name_translations');
-        $this->file = _::loader('\NetBricks\Common\Component\Form\File')->create()->setName('photo');
-        $this->submit = _::loader('\NetBricks\Common\Component\Form\Submit')->create()->setLabel('Save')
-                ->setName('form')->setValue('page_photo_form');
-        $this->setEncType('multipart/form-data');
-        parent::__construct($options);
+        $this->setLegend('Photos')
+                ->setSubLegend('Upload photo or change its label');
+
+        $this->cancel->addParam('action', 'list');
+
+        $this->submit->setLabel('Save');
+
+        $this->addElement(ElementContainer::factory()
+                    ->setLabel('Photo label')
+                    ->setSubLabel('The name of the photo')
+                    ->element(TextInput::factory()->setName('name_translations'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Photo file')
+                    ->setSubLabel('Select file from your harddrive')
+                    ->element(File::factory()->setName('photo'))
+        );
     }
 
-    private function getService()
+    protected function getService()
     {
-        return new \NetBricks\Page\Service\Photo();
+        return _::services()->photo();
     }
 
-    public function init()
+    public function redirect()
     {
-        if (_::request()->isPost() && _::request()->post->form->toString() == 'page_photo_form') {
-            $result = $this->getService()->post(_::request()->post->getArray());
-            if (!$result->hasErrors()) {
-                _::url()->addCurrentParams()
-                        ->addParam('action', 'list')
-                        ->addParam('new_photo_id', $result->getId())
-                        ->redirect();
-            }
-            $this->setValues($result->toArray());
-        } else if (_::request()->id->exists()) {
-            $photo = $this->getService()->get(_::request()->getAllParams());
-            if ($photo) {
-                $this->setValues($photo->toArray());
-            }
-        }
-    }
-
-    public function render()
-    {
-        ?>
-    <form <?php echo $this->renderTagAttributes($this->defaultAttributes); ?>>
-        <?php echo $this->id; ?>
-        <?php echo $this->rev; ?>
-        <p>
-            <label for="photo_name">Photo name</label>
-            <?php echo $this->name->setId('photo_name'); ?>
-        </p>
-
-        <p>
-            <label for="photo_file">Photo file</label>
-            <?php echo $this->file->setId('photo_file'); ?>
-        </p>
-        <?php echo $this->submit; ?>
-    </form>
-    <?php
+        $values = $this->getValues();
+        _::url()->addCurrentParams()
+                ->addParam('action', 'list')
+                ->addParam('new_photo_id', @$values['_id'])
+                ->redirect();
     }
 
 }

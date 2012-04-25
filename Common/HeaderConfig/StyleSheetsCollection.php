@@ -57,7 +57,7 @@ class StyleSheetsCollection extends OptionsCollection
      */
     public function addJQueryUi($theme = null)
     {
-        if(!$theme) {
+        if (!$theme) {
             $theme = $this->getDefaultJqueryUiTheme();
         }
         return $this->append('/NetBricks/Common/css/' . $theme . '/jquery-ui.css');
@@ -70,7 +70,7 @@ class StyleSheetsCollection extends OptionsCollection
     public function addNetBricks($theme = null)
     {
         return $this->addJQueryUi($theme)
-            ->append('/NetBricks/Common/css/netbricks.css');
+                ->append('/NetBricks/Common/css/netbricks.css');
     }
 
     /**

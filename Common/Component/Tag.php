@@ -135,24 +135,6 @@ class Tag extends Container
      * @param $value
      * @return Tag
      */
-    public function setContent($value)
-    {
-        $this->options['content'] = $value;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContent()
-    {
-        return isset($this->options['content']) ? $this->options['content'] : '';
-    }
-
-    /**
-     * @param $value
-     * @return Tag
-     */
     public function setClass($value)
     {
         $this->options['class'] = $value;

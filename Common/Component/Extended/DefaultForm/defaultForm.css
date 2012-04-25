@@ -1,0 +1,68 @@
+form.nb-default-form, .nb-default-form form {
+    font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, sans-serif;
+}
+
+.nb-default-form fieldset {
+    padding: 0;
+    margin: 0;
+}
+
+.nb-default-form fieldset > * {
+
+}
+
+.nb-default-form {
+    overflow: hidden;
+}
+
+.nb-default-form .nb-hbox {
+    border-top: solid 1px #888;
+    padding-top: 20px;
+}
+
+.nb-default-form .nb-vbox > * {
+    margin: 10px 0;
+}
+
+.nb-default-form label {
+    width: 150px;
+    font-size: 12px;
+    text-align: right;
+    padding-right: 30px;
+    font-weight: bold;
+    display:block;
+    min-height: 3px;
+    font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, sans-serif;
+}
+
+.nb-default-form label sub {
+    display:block;
+    clear: both;
+    font-weight: normal;
+}
+
+.nb-default-form fieldset {
+    border: none;
+    outline: none;
+    text-align: left;
+}
+
+.nb-default-form .nb-form-element {
+    overflow:hidden;
+    float:none;
+}
+
+.nb-default-form legend {
+    font-weight: bold;
+    font-size: 18px;
+    font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, sans-serif;
+}
+
+.nb-default-form legend sub {
+    display:block;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.nb-default-form input[type="submit"] {
+}

@@ -27,7 +27,29 @@ class Container extends ComponentAbstract
      */
     public function render()
     {
+        $content = $this->getContent();
+        if ($content) {
+            return $this->renderVariable($content);
+        }
         return join(PHP_EOL, $this->children);
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent()
+    {
+        return isset($this->options['content']) ? $this->options['content'] : '';
+    }
+
+    /**
+     * @param $value
+     * @return Tag
+     */
+    public function setContent($value)
+    {
+        $this->options['content'] = $value;
+        return $this;
     }
 
     /**
@@ -37,7 +59,7 @@ class Container extends ComponentAbstract
     public function setStage($value)
     {
         parent::setStage($value);
-        foreach($this->children as $child) {
+        foreach ($this->children as $child) {
             $child->setStage($value);
         }
         return $this;
@@ -118,6 +140,17 @@ class Container extends ComponentAbstract
             $this->addChild($value, $name);
         } else {
             $this->$name = $value;
+        }
+    }
+
+    public function __call($name, $arguments)
+    {
+        if(count($arguments) == 1) {
+            $element = $arguments[0];
+            $this->$name = $element;
+            return $this;
+        } else {
+            return $this->$name;
         }
     }
 

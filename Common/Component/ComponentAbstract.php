@@ -119,10 +119,10 @@ abstract class ComponentAbstract extends ConfigurableEventDispatcher
     {
         $this->dispatchEvent(new ComponentEvent(ComponentEvent::BEFORE_RENDER));
         $this->beforeRender();
-        $view = $this->getView();
+        $view = $this->renderVariable(array($this, 'getView'));
         $out = '';
         if ($view) {
-            $out .= $this->renderVariable($view);
+            $out .= $view;
         } else if (file_exists($this->getSkin())) {
             ob_start();
             include $this->getSkin();

@@ -25,7 +25,13 @@ SOFTWARE.
 namespace NetBricks\Page\Component\Management;
 
 use \NetBricks\Common\Component\Form\Form as CoreForm;
+use \NetBricks\Common\Component\Extended\DefaultForm;
+use \NetBricks\Common\Component\Extended\DefaultForm\ElementContainer;
 use \NetBricks\Facade as _;
+use \NetBricks\Common\Component\Form\MultiLang\TextInput;
+use \NetBricks\Common\Component\Form\MultiLang\TextArea;
+use \NetBricks\Common\Component\Form\CheckBox;
+use \NetBricks\Page\Component\Widget\Management as WidgetManagement;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -43,34 +49,59 @@ use \NetBricks\Facade as _;
  *
  * @property \NetBricks\Page\Component\Widget\Management $widgetManagement
  */
-class Form extends CoreForm
+class Form extends DefaultForm
 {
 
-    public function __construct($options = array())
+    public function construct()
     {
-        $textInputNS = '\NetBricks\Common\Component\Form\MultiLang\TextInput';
-        $textAreaNS = '\NetBricks\Common\Component\Form\MultiLang\TextArea';
-        $submitNS = '\NetBricks\Common\Component\Form\Submit';
-        $checkBoxNS = '\NetBricks\Common\Component\Form\CheckBox';
+        $this->setLegend('Page')
+                ->setSubLegend('Fill the form and click "Save"');
 
-        $this->title = _::loader($textInputNS)->create()->setName('title_translations');
-        $this->brief = _::loader($textAreaNS)->create()->setName('brief_translations');
-        $this->robotsIndex = _::loader($checkBoxNS)->create()->setName('robots_index');
-        $this->robotsFollow = _::loader($checkBoxNS)->create()->setName('robots_follow');
-        $this->metaTitle = _::loader($textInputNS)->create()->setName('meta_title_translations');
-        $this->metaKeywords = _::loader($textInputNS)->create()->setName('meta_keywords_translations');
-        $this->metaDescription = _::loader($textAreaNS)->create()->setName('meta_description_translations');
-        $this->submit = _::loader($submitNS)->create()->setName('form')->setValue('page_management');
-        $this->widgetManagement = _::loader('\NetBricks\Page\Component\Widget\Management')->create();
-        parent::__construct($options);
+        $this->cancel->addParam('page_management', 'list');
+        $this->submit->setLabel('Save');
+
+        $this->addElement(ElementContainer::factory()
+                    ->setLabel('Title')
+                    ->element(TextInput::factory()->setName('title_translations'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Brief')
+                    ->element(TextInput::factory()->setName('brief_translations'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Index by robots')
+                    ->element(CheckBox::factory()->setname('robots_index'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Robots follow links?')
+                    ->element(CheckBox::factory()->setName('robots_follow'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Meta title')
+                    ->element(TextInput::factory()->setName('meta_title_translations'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Meta keywords')
+                    ->element(TextInput::factory()->setName('meta_keywords_translations'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Meta description')
+                    ->element(TextArea::factory()->setName('meta_description_translations'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Widget management')
+                    ->element(WidgetManagement::factory())
+        );
     }
 
-    private function getService()
+
+    public function redirect()
     {
-        return new \NetBricks\Page\Service\Page();
+        _::url()->addParam('action', 'list')->redirect();
     }
 
-    public function init()
+    /**
+     * @return \NetBricks\Page\Service\Page
+     */
+    public function getService()
+    {
+        return _::services()->page();
+    }
+
+    /* public function init()
     {
         if(_::request()->isPost() && _::request()->post->form == 'page_management') {
             $data = $this->getService()->post(_::request()->post->getArray());
@@ -85,55 +116,7 @@ class Form extends CoreForm
             $this->setValues($page);
             $this->widgetManagement->setDataProvider($page->getWidgets());
         }
-    }
+    }*/
 
-
-    public function render()
-    {
-?>
-<form <?php echo $this->renderTagAttributes($this->defaultAttributes); ?>>
-    
-    <p>
-        <label for="page_title">Title</label>
-        <?php echo $this->title->setId('page_title'); ?>
-    </p>
-
-    <p>
-        <label for="page_brief">Brief</label>
-        <?php echo $this->brief->setId('page_brief'); ?>
-    </p>
-
-    <p>
-        <label for="page_robots_index">Index by robots</label>
-        <?php echo $this->robotsIndex->setId('page_robots_index'); ?>
-    </p>
-
-    <p>
-        <label for="page_robots_follow">Robots follow links?</label>
-        <?php echo $this->robotsFollow->setId('page_robots_follow'); ?>
-    </p>
-
-    <p>
-        <label for="page_meta_title">Meta title</label>
-        <?php echo $this->metaTitle->setId('page_meta_title'); ?>
-    </p>
-
-    <p>
-        <label for="page_meta_keywords">Meta keywords</label>
-        <?php echo $this->metaKeywords->setId('page_meta_keywords'); ?>
-    </p>
-
-    <p>
-        <label for="page_meta_description">Meta description</label>
-        <?php echo $this->metaDescription->setId('page_meta_description'); ?>
-    </p>
-
-    <?php echo $this->widgetManagement; ?>
-
-    <?php echo $this->submit->setLabel('Save'); ?>
-
-</form>
-<?php
-    }
 
 }
