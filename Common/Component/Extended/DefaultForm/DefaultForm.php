@@ -44,6 +44,7 @@ abstract class DefaultForm extends AbstractForm
 
     public function __construct($options = array())
     {
+        $this->setEnctype('multipart/form-data');
         _::cfg()->getHeader()->getStyleSheets()
                 ->addNetBricks();
 

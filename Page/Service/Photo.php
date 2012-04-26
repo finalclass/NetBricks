@@ -57,7 +57,6 @@ class Photo
 
     public function post($params)
     {
-
         $repo = $this->getRepo();
         unset($params['form']);
         if (!empty($params['_id'])) {

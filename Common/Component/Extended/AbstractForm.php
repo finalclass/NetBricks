@@ -57,16 +57,21 @@ abstract class AbstractForm extends BaseForm
                 $out = $this->getService()->post(_::request()->post->getArray())->toArray();
             }
 
+            if($out) {
+                $this->setValues($out);
+            }
+
             if (empty($out['errors'])) {
                 $this->redirect();
             }
-            $this->setValues($out->toArray());
+
         } else if (_::request()->get->id->exists()) {
-            $this->setValues($this->getService()->get(_::request()->get->getArray())->toArray());
+            $document = $this->getService()->get(_::request()->get->getArray());
+            if($document) {
+                $this->setValues($document->toArray());
+            }
         }
     }
-
-
 
     public function formStart()
     {

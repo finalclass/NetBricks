@@ -43,6 +43,9 @@ class Config extends ConfigurableContainer
     /** @var \NetBricks\Common\HeaderConfig */
     private $header;
 
+    /** @var \NetBricks\I18n\Config */
+    private $i18n;
+
     /** @return \NetCore\CouchDB\Config */
     public function getCouchdb()
     {
@@ -88,6 +91,14 @@ class Config extends ConfigurableContainer
             $this->header = new \NetBricks\Common\HeaderConfig((array)@$this->options['header']);
         }
         return $this->header;
+    }
+
+    public function getI18n()
+    {
+        if(!$this->i18n) {
+            $this->i18n = new \NetBricks\I18n\Config((array)@$this->options['i18n']);
+        }
+        return $this->i18n;
     }
 
 }

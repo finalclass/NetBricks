@@ -21,33 +21,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-namespace NetBricks\Page\Component\Photo;
-use \NetBricks\Common\Component\UnorderedList;
+namespace NetBricks\I18n\Config;
+use \NetCore\Configurable\OptionsAbstract;
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.04.12
- * @time: 13:19
+ * @date: 26.04.12
+ * @time: 13:59
  */
-class HorizontalGallery extends UnorderedList
+class Translator extends OptionsAbstract
 {
 
-    public function __construct($options = array())
+    /**
+     * @param string $value
+     * @return \NetBricks\I18n\Config\Translator
+     */
+    public function setCsvDir($value)
     {
-        parent::__construct($options);
+        $this->options['csv_dir'] = (string)$value;
+        return $this;
     }
 
-    public function getService()
+    /**
+     * @return string
+     */
+    public function getCsvDir()
     {
-        return new \NetBricks\Page\Service\Photo();
-    }
-
-    public function beforeRender()
-    {
-        foreach($this->getService()->get() as $photo) {
-            $child = new Thumb();
-            $child->setPhotoDocument($photo);
-            $this->addChild($child);
-        }
+        return (string)@$this->options['csv_dir'];
     }
 
 }

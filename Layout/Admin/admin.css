@@ -27,7 +27,7 @@ body {
     font-size: 24px;
 }
 .top .quick-menu {
-    margin: 9px 9px 0 0;
+    margin: 7px 16px 0 0;
 }
 .top .quick-menu li {
     height: 18px;
@@ -67,4 +67,11 @@ body {
     font-weight: normal;
     margin: 12px 0 12px 0;
     padding: 0;
+}
+
+.window_panel .window_header .closeImg:hover,
+.window_panel .window_header .maximizeImg:hover,
+.window_panel .window_header .minimizeImg:hover
+{
+    opacity: 0.5;
 }

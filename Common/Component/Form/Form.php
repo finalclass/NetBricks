@@ -18,18 +18,18 @@ class Form extends Tag
      * @param $value
      * @return Form
      */
-    public function setEncType($value)
+    public function setEnctype($value)
     {
-        $this->options['enc_type'] = $value;
+        $this->options['enctype'] = $value;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getEncType()
+    public function getEnctype()
     {
-        return isset($this->options['enc_type']) ? $this->options['enc_type'] : '';
+        return isset($this->options['enctype']) ? $this->options['enctype'] : '';
     }
 
    /**

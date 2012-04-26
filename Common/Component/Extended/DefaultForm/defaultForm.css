@@ -66,3 +66,7 @@ form.nb-default-form, .nb-default-form form {
 
 .nb-default-form input[type="submit"] {
 }
+
+.nb-default-form textarea {
+    width:600px;
+}

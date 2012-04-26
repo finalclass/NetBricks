@@ -1,0 +1,8 @@
+.nb_user_management_layout ul.buttons, .nb_user_management_layout ul.operations {
+    list-style-type: none;
+}
+
+.nb_user_management_layout ul.buttons li, .nb_user_management_layout ul.operations li {
+    display: inline;
+    padding: 0 10px;
+}

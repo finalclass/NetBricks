@@ -15,6 +15,29 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
         unset($this->_pluginResources['FrontController']);
     }
 
+    protected function _initLocale()
+    {
+        try {
+            $locale = new \Zend_Locale('auto');
+        } catch (\Zend_Locale_Exception $e) {
+            $locale = new \Zend_Locale('en_US');
+        }
+        \Zend_Registry::set('Zend_Locale', $locale);
+        return $locale;
+    }
+
+    protected function _initLanguage()
+    {
+        $this->bootstrap('config')->bootstrap('locale');
+        $allLanguages = _::languages()->getAvailableLanguageCodes();
+        $detectedLanguage = \Zend_Registry::get('Zend_Locale')->getLanguage();
+        if(array_search($detectedLanguage, $allLanguages) === false) {
+            $detectedLanguage = $allLanguages[0];
+        }
+        _::languages()->setCurrent($detectedLanguage);
+    }
+
+
     protected function _initStaticResources()
     {
         try {

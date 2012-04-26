@@ -5,6 +5,7 @@ nb.component('multi_lang_form_element_container', function () {
   var $current = null;
   var isShiftDown = false;
   var api = new Object();
+  var firstExecution = true;
 
   $languageBar.find('.prev_button').attr('title', 'CTRL + up');
   $languageBar.find('.next_button').attr('title', 'CTRL + down');
@@ -22,24 +23,29 @@ nb.component('multi_lang_form_element_container', function () {
   });
 
   function showCorrectFormElement() {
-    var $oldCurrent = $current;
-    var langBarApi = $languageBar.data('nb_i18n_language_bar');
-    var langCode = langBarApi ? $languageBar.data('nb_i18n_language_bar').getSelectedLanguage() : false;
-
-    if (langCode) {
+      var $oldCurrent = $current;
+      var langBarApi = $languageBar.data('nb_i18n_language_bar');
+      if(!langBarApi) {
+        return;
+      }
+      var langCode = $languageBar.data('nb_i18n_language_bar').getSelectedLanguage();
       $current = $container.find('.multi_lang_form_element_' + langCode);
-    } else {
-      $current = $elements.find(':first');
-    }
+      if($current.length == 0) {
+        return;
+      }
 
-    function showCurrent() {
-      $current.slideDown().find('input, textarea').focus();
-    }
+      function showCurrent() {
+        var elem = $current.slideDown().find('input, textarea');
+        if (!firstExecution) {
+          elem.focus();
+        }
+        firstExecution = false;
+      }
 
-    if ($oldCurrent) {
-      $oldCurrent.hide();
-    }
-    showCurrent();
+      if ($oldCurrent) {
+        $oldCurrent.hide();
+      }
+      showCurrent();
   }
 
   $languageBar.bind('change', showCorrectFormElement);

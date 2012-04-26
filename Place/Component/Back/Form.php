@@ -32,103 +32,49 @@ use \NetBricks\Common\Component\Form\Address;
 use \NetBricks\Page\Component\Photo\PhotosFormElement;
 use \NetBricks\Common\Component\Link;
 use \NetBricks\Facade as _;
+use \NetBricks\Common\Component\Extended\DefaultForm;
+use \NetBricks\Common\Component\Extended\DefaultForm\ElementContainer;
 
 /**
  * @author: Sel <s@finalclass.net>
  * @date: 23.04.12
  * @time: 16:54
- *
- * @property \NetBricks\Common\Component\Form\Hidden $id;
- * @property \NetBricks\Common\Component\Form\Hidden $rev;
- * @property \NetBricks\Common\Component\Form\TextInput $name
- * @property \NetBricks\Common\Component\Form\Address $address
- * @property \NetBricks\Common\Component\Form\NicEditor $information
- * @property \NetBricks\Common\Component\Form\NicEditor $description
- * @property \NetBricks\Page\Component\Photo\PhotosFormElement $photos
- * @property \NetBricks\Common\Component\Form\Submit $submit
- * @property \NetBricks\Common\Component\Link $cancel
  */
-class Form extends BaseForm
+class Form extends DefaultForm
 {
 
-    public function __construct($options = array())
+    public function construct()
     {
-        $this->id = Hidden::factory()->setName('_id');
-        $this->rev = Hidden::factory()->setName('_rev');
-        $this->name = TextInput::factory()->setName('name');
-        $this->address = Address::factory()->setName('address');
-        $this->information = NicEditor::factory()->setName('information');
-        $this->description = NicEditor::factory()->setName('description');
-        $this->photos = PhotosFormElement::factory()->setName('photos');
-        $this->submit = Submit::factory()->setName('form')->setValue('place');
-        $this->cancel = Link::factory()->addParam('nb_back_place', 'list');
-        parent::__construct($options);
+        $this->setLegend('Places')
+                ->setSubLegend('Fill the form and click "Save"');
+
+        $this->addElement(ElementContainer::factory()
+                    ->setLabel('Name')
+                    ->element(TextInput::factory()->setName('name'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Address')
+                    ->element(Address::factory()->setName('address'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Information')
+                    ->element(NicEditor::factory()->setName('information'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Description')
+                    ->element(NicEditor::factory()->setName('description'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('Photos')
+                    ->element(PhotosFormElement::factory()->setName('photos'))
+        );
+
     }
 
-    public function init()
+    public function redirect()
     {
-        if (_::request()->isPost()) {
-
-            if (_::request()->_id->exists() && _::request()->_rev->exists()) {
-                $out = $this->getService()->put(_::request()->post->getArray())->toArray();
-
-            } else {
-                $out = $this->getService()->post(_::request()->post->getArray())->toArray();
-            }
-            if (empty($out['errors'])) {
-                _::url()->addCurrentParams()->addParam('nb_back_place', 'list')->redirect();
-            }
-            $this->setValues($out->toArray());
-        } else if (_::request()->get->id->exists()) {
-            $this->setValues($this->getService()->get(_::request()->get->getArray())->toArray());
-        }
+        _::url()->addCurrentParams()->addParam('nb_back_place', 'list')->redirect();
     }
 
     public function getService()
     {
         return new \NetBricks\Place\Service\PlaceService();
-    }
-
-    public function render()
-    {
-        ?>
-    <form action="" method="post">
-        <?php echo $this->id; ?>
-        <?php echo $this->rev; ?>
-
-        <dl>
-            <dt><label for="place_name">Name</label></dt>
-            <dd>
-                <?php echo $this->name->setId('place_name'); ?>
-            </dd>
-
-            <dt><label for="">Address</label></dt>
-            <dd>
-                <?php echo $this->address; ?>
-            </dd>
-
-            <dt><label for="place_information">Information</label></dt>
-            <dd>
-                <?php echo $this->information; ?>
-            </dd>
-
-            <dt><label for="place_description">Description</label></dt>
-            <dd>
-                <?php echo $this->description; ?>
-            </dd>
-
-            <dt><label for="place_photos">Photos</label></dt>
-            <dd>
-                <?php echo $this->photos; ?>
-            </dd>
-
-            <?php echo $this->submit->setLabel('Save'); ?>
-            <?php echo $this->cancel->setLabel('Cancel'); ?>
-
-        </dl>
-
-    </form>
-    <?php
     }
 
 }

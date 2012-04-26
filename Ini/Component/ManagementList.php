@@ -24,7 +24,6 @@ class ManagementList extends Container {
     public function invalidateChildren()
     {
         $configModel = new ConfigModel($this->getFilePath());
-        
 
         $this->removeAllChildren();
         

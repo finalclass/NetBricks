@@ -32,13 +32,20 @@ use \NetCore\Configurable\OptionsCollection;
 class StyleSheetsCollection extends OptionsCollection
 {
 
+    private $defaultJQueryUiTheme = 'dark-hive';
+
     /**
      * @param string $value
      * @return \NetBricks\Common\HeaderConfig\StyleSheetsCollection
      */
     public function setDefaultJqueryUiTheme($value)
     {
-        $this->options['default_jquery_ui_theme'] = (string)$value;
+        $has = $this->hasJQueryUi();
+        $this->removeJQueryUi();
+        $this->defaultJQueryUiTheme = (string)$value;
+        if($has) {
+            $this->addJQueryUi();
+        }
         return $this;
     }
 
@@ -47,8 +54,8 @@ class StyleSheetsCollection extends OptionsCollection
      */
     public function getDefaultJqueryUiTheme()
     {
-        return isset($this->options['default_jquery_ui_theme'])
-                ? $this->options['default_jquery_ui_theme'] : 'dark-hive';
+        return isset($this->defaultJQueryUiTheme)
+                ? $this->defaultJQueryUiTheme : 'dark-hive';
     }
 
     /**
@@ -61,6 +68,34 @@ class StyleSheetsCollection extends OptionsCollection
             $theme = $this->getDefaultJqueryUiTheme();
         }
         return $this->append('/NetBricks/Common/css/' . $theme . '/jquery-ui.css');
+    }
+
+    public function hasJQueryUi($theme = null)
+    {
+        if (!$theme) {
+            $theme = $this->getDefaultJqueryUiTheme();
+        }
+        $path = '/NetBricks/Common/css/' . $theme . '/jquery-ui.css';
+        foreach ($this->options as $style) {
+            if ($style == $path) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function removeJQueryUi($theme = null)
+    {
+        if (!$theme) {
+            $theme = $this->getDefaultJqueryUiTheme();
+        }
+        $path = '/NetBricks/Common/css/' . $theme . '/jquery-ui.css';
+        foreach ($this->options as $i => $style) {
+            if ($style == $path) {
+                unset($this->options[$i]);
+            }
+        }
+        return $this;
     }
 
     /**

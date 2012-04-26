@@ -21,25 +21,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-namespace NetBricks\Layout\Admin;
-use \NetBricks\Common\Component\ComponentAbstract;
-
+namespace NetBricks\I18n;
+use \NetCore\Configurable\OptionsAbstract;
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.04.12
- * @time: 21:06
+ * @date: 26.04.12
+ * @time: 13:59
  */
-class Breadcrumb extends ComponentAbstract
+class Config extends OptionsAbstract
 {
 
-    public function __construct($options = array())
-    {
-        parent::__construct($options);
-    }
+    /** @var \NetBricks\I18n\Config\Translator */
+    private $translator;
 
-    public function render()
+    public function getTranslator()
     {
-
+        if(!$this->translator) {
+            $this->translator = new \NetBricks\I18n\Config\Translator();
+        }
+        return $this->translator;
     }
 
 }

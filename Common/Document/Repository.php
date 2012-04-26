@@ -77,6 +77,7 @@ class Repository
 
     /**
      * @param \NetCore\CouchDB\Document|array $document
+     * @throws \NetCore\CouchDB\Exception\InvalidDocumentType
      * @return \NetCore\CouchDB\Document
      */
     public function save($document)

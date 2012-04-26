@@ -21,37 +21,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-namespace NetBricks\Page\Component\Photo;
-use \NetBricks\Common\Component\Document\Html5;
-use \NetBricks\Facade as _;
+namespace NetBricks\I18n\Exception;
+use \NetBricks\I18n\Exception as I18nException;
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.04.12
- * @time: 13:50
+ * @date: 26.04.12
+ * @time: 13:24
  */
-class UploaderPage extends Html5
+class ResourceNotLoaded extends \LogicException implements I18nException
 {
-
-    public function __construct($options = array())
-    {
-        parent::__construct($options);
-    }
-
-    public function init()
-    {
-        switch(_::request()->action->toString()) {
-            case 'list':
-                $this->body->addChild(new \NetBricks\Page\Component\Photo\UploaderPage\UploadComplete());
-                break;
-            default:
-            case 'form':
-                $form = new \NetBricks\Page\Component\Photo\Management\Form();
-                $form->setLegend('Upload photo')
-                    ->setSubLegend("Select photo file and set it's name");
-                $this->body->addChild($form);
-
-                break;
-        }
-    }
 
 }

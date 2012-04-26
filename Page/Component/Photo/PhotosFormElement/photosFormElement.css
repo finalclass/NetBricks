@@ -2,6 +2,10 @@
     display:none;
 }
 
+.nb_page_photo_form_element .photos_form {
+    padding: 1px;
+}
+
 .nb_page_photo_form_element .photos {
     width: 100%;
     overflow: hidden;
@@ -11,11 +15,22 @@
     float:left;
     display:block;
     overflow: hidden;
-    margin: 10px;
+    padding: 13px;
 }
 
 .nb_page_photo_form_element .photos .photo p {
-    margin: 0;
+    margin: 5px 0 0 0;
     padding: 0;
     text-align: center;
+}
+
+
+.nb_page_photo_form_element img {
+    -webkit-box-shadow: 4px 4px 10px 4px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 4px 4px 10px 4px rgba(0, 0, 0, 0.6);
+    box-shadow: 4px 4px 10px 4px rgba(0, 0, 0, 0.6)
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }

@@ -32,7 +32,6 @@ use \NetBricks\Common\Component\Tag;
  * @date: 24.04.12
  * @time: 20:58
  *
- * @property \NetBricks\Layout\Admin\Breadcrumb $breadcrumb
  * @property \NetBricks\Common\Component\UnorderedList $menu
  * @property \NetBricks\Common\Component\Tag $header
  * @property \NetBricks\Layout\Admin\QuickMenu $quickMenu
@@ -45,9 +44,9 @@ class Admin extends Html5
     public function __construct($options = array())
     {
         _::cfg()->getHeader()->getStyleSheets()
+                    ->setDefaultJqueryUiTheme('netbricks')
                     ->addNetBricks();
 
-        $this->breadcrumb = new Admin\Breadcrumb();
         $this->menu = new UnorderedList();
         $this->header = Tag::factory()->setTagName('h1');
         $this->footer = Tag::factory()->setTagName('h3');
@@ -65,20 +64,19 @@ class Admin extends Html5
             <div class="nb-box header">
                 <?php echo $this->header; ?>
             </div>
-            <div class="nb-box nb-right">
+            <div class="nb-right">
                 <?php echo $this->quickMenu->addClass('quick-menu'); ?>
             </div>
         </div>
         <div class="nb-hbox middle">
-            <div class="nb-box menu">
+            <div class="menu">
                 <?php echo $this->menu; ?>
             </div>
-            <div class="nb-box content">
+            <div class="content">
                 <?php echo $this->content; ?>
             </div>
-            <div class="nb-clear"></div>
         </div>
-        <div class="nb-box footer">
+        <div class="footer">
             <?php echo $this->footer; ?>
         </div>
     </div>

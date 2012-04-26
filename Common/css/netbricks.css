@@ -86,6 +86,8 @@
     text-decoration: none;
     position: relative;
     outline: 0 !important;
+    font-family: "Courier New", Courier, sans-serif;
+    font-weight: normal;
 }
 
 .nb-button:hover {

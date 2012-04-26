@@ -16,6 +16,16 @@ nb.component('nb_i18n_language_bar', function () {
     selectedLanguage = getCbApi().getSelectedItem().find('.one_language').data('language');
   });
 
+  if(getCbApi() && getCbApi().isInitialized) {
+    onCBReady();
+  } else {
+    $cb.bind('ready', onCBReady);
+  }
+
+  function onCBReady() {
+    getCbApi().setSelectedIndex(0);
+  }
+
   api = {
 
     /**
@@ -25,6 +35,7 @@ nb.component('nb_i18n_language_bar', function () {
       $next.click(api.nextLanguage);
       $prev.click(api.prevLanguage);
       $this.trigger('initialized');
+      $this.trigger('ready');
     },
 
     /**
@@ -36,7 +47,6 @@ nb.component('nb_i18n_language_bar', function () {
       var current = cbApi.getSelectedIndex();
       current = (current + 1) % totalItems;
       cbApi.setSelectedIndex(current);
-      $this.trigger('ready');
     },
 
     /**

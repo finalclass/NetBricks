@@ -21,37 +21,50 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-namespace NetBricks\Page\Component\Photo;
-use \NetBricks\Common\Component\Document\Html5;
+
+namespace NetBricks\I18n;
+
 use \NetBricks\Facade as _;
+
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.04.12
- * @time: 13:50
+ * @date: 07.02.12
+ * @time: 14:27
+ *
+ * This resource should be run after setting router
  */
-class UploaderPage extends Html5
+class TranslatorResource extends \Zend_Application_Resource_ResourceAbstract
 {
 
-    public function __construct($options = array())
+    /**
+     * @var string
+     */
+    protected $dir = array();
+
+    protected function initConfig()
     {
-        parent::__construct($options);
+        $configArray = $this->getOptions();
+        $this->dir = (string)@$configArray['csv_dir'];
     }
 
     public function init()
     {
-        switch(_::request()->action->toString()) {
-            case 'list':
-                $this->body->addChild(new \NetBricks\Page\Component\Photo\UploaderPage\UploadComplete());
-                break;
-            default:
-            case 'form':
-                $form = new \NetBricks\Page\Component\Photo\Management\Form();
-                $form->setLegend('Upload photo')
-                    ->setSubLegend("Select photo file and set it's name");
-                $this->body->addChild($form);
-
-                break;
+        $this->initConfig();
+        $language = _::languages()->getCurrent();
+        $lang = _::languages()->getCurrent();
+        $path = $this->dir . DIRECTORY_SEPARATOR . $lang . '.csv';
+        if(!file_exists($path)) {
+            $path = _::loader($this)->find('../Model/default_en.csv');
+            $lang = 'en';
         }
-    }
 
+        $translate = new \Zend_Translate(array(
+            'adapter' => 'csv',
+            'disableNotices' => false,
+            'content' => $path,
+            'locale' => $lang
+        ));
+
+        \Zend_Registry::set('Zend_Translate', $translate);
+    }
 }

@@ -1,0 +1,32 @@
+.nb_page_photo_horizontal_gallery {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nb_page_photo_horizontal_gallery li {
+    display: block;
+    float:left;
+    margin: 12px;
+}
+
+.nb_page_photo_horizontal_gallery img {
+    -webkit-box-shadow: 4px 4px 10px 4px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 4px 4px 10px 4px rgba(0, 0, 0, 0.6);
+    box-shadow: 4px 4px 10px 4px rgba(0, 0, 0, 0.6)
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.nb_page_photo_horizontal_gallery img:hover {
+    position:relative;
+    top: 2px;
+    left: 2px;
+    cursor: pointer;
+
+    -webkit-box-shadow:  4px 4px 9px 3px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow:  4px 4px 9px 3px rgba(0, 0, 0, 0.6);
+    box-shadow:  4px 4px 9px 3px rgba(0, 0, 0, 0.6);
+}

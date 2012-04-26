@@ -1,6 +1,22 @@
 (function () {
   window.nb = {
 
+    isCssJQueryUi: function(href) {
+      var fileName = href.split('/').slice(-1)[0]; //get last element in the array with slice(-1)
+      return fileName == 'jquery-ui.css';
+    },
+
+    isJQueryUiCssLoaded: function() {
+      var isLoaded = false;
+      $('head').find('link').each(function () {
+        var $link = $(this);
+        if(nb.isCssJQueryUi($link.attr('href'))) {
+          isLoaded = true;
+        }
+      });
+      return isLoaded;
+    },
+
     addScriptFiles:function (scripts) {
       var $head = $('head');
       $('script').each(function () {
@@ -22,16 +38,19 @@
 
     addStyleFiles:function (links) {
       var $head = $('head');
+      var isUiLoaded = nb.isJQueryUiCssLoaded();
+
       $('link').each(function () {
         var $link = $(this);
-        var pos = links.indexOf($link.attr('href'));
+        var href = $link.attr('href');
+        var pos = links.indexOf(href);
         if (pos != -1) {
           links.splice(pos, 1);
         }
       });
 
       for (var i in links) {
-        if (links.hasOwnProperty(i)) {
+        if (links.hasOwnProperty(i) && !(isUiLoaded && nb.isCssJQueryUi(links[i]))) {
           $head.append(
             $('<link rel="stylesheet" href="' + links[i] + '"/>')
           );

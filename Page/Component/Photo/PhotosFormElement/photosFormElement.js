@@ -27,6 +27,8 @@ nb.component('nb_page_photo_form_element', function () {
       event.preventDefault();
       $.window({
         title:"Select photo",
+        width: 600,
+        height: 500,
         onOpen:function (wnd) {
           nb.loader(
             '/NetBricks/Page/Component/Photo/PhotoSelector',

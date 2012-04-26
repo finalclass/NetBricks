@@ -50,6 +50,8 @@ class PhotoSelector extends Tag
 
         <iframe src="/?stage=/NetBricks/Page/Component/Photo/UploaderPage" frameborder="0"></iframe>
 
+        <hr/>
+        <h3>Or select an existing photo</h3>
         <?php echo $this->horizontalGallery; ?>
 
     </div>

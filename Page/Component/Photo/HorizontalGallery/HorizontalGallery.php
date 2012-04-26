@@ -22,35 +22,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 namespace NetBricks\Page\Component\Photo;
-use \NetBricks\Common\Component\Document\Html5;
-use \NetBricks\Facade as _;
+use \NetBricks\Common\Component\UnorderedList;
 /**
  * @author: Sel <s@finalclass.net>
  * @date: 24.04.12
- * @time: 13:50
+ * @time: 13:19
  */
-class UploaderPage extends Html5
+class HorizontalGallery extends UnorderedList
 {
 
     public function __construct($options = array())
     {
         parent::__construct($options);
+        $this->addClass('nb_page_photo_horizontal_gallery');
     }
 
-    public function init()
+    public function getService()
     {
-        switch(_::request()->action->toString()) {
-            case 'list':
-                $this->body->addChild(new \NetBricks\Page\Component\Photo\UploaderPage\UploadComplete());
-                break;
-            default:
-            case 'form':
-                $form = new \NetBricks\Page\Component\Photo\Management\Form();
-                $form->setLegend('Upload photo')
-                    ->setSubLegend("Select photo file and set it's name");
-                $this->body->addChild($form);
+        return new \NetBricks\Page\Service\Photo();
+    }
 
-                break;
+    public function beforeRender()
+    {
+        foreach($this->getService()->get() as $photo) {
+            $child = new Thumb();
+            $child->setPhotoDocument($photo);
+            $this->addChild($child);
+            //$child->image->addClass('ui-widget ui-widget-content');
         }
     }
 

@@ -51,7 +51,7 @@ class Facade
      * @static
      * @return \NetBricks\Common\Component\Header
      */
-   /* static public function head()
+    /* static public function head()
     {
         if (!isset(static::$options[__FUNCTION__])) {
             static::$options[__FUNCTION__] = static::loader('/NetBricks/Common/Component/Header')->create();
@@ -275,11 +275,11 @@ class Facade
                 array('stage' => '\NetBricks\Common\Component\Document\SingleComponent'));
 
             $r->addRoute('default', '/{stage}/{content}/{action}',
-                            array(
-                                'stage' => 'default',
-                                'content' => 'default',
-                                'action' => 'default'
-                            ));
+                array(
+                    'stage' => 'default',
+                    'content' => 'default',
+                    'action' => 'default'
+                ));
 
             static::$options[__FUNCTION__] = $r;
         }
@@ -342,6 +342,35 @@ class Facade
 
         return static::$options[__FUNCTION__];
     }
+
+    /**
+     * @static
+     *
+     * @param $string
+     * @throws \NetBricks\I18n\Exception\ResourceNotLoaded
+     * @return string
+     */
+    static public function translate($string)
+    {
+        if (!isset(static::$options[__FUNCTION__])) {
+            /**
+             * @var \Zend_Translate $translate
+             */
+            $translate = \Zend_Registry::get('Zend_Translate');
+            if(!$translate) {
+                $resource = new \NetBricks\I18n\TranslatorResource(
+                    self::cfg()->getI18n()->getTranslator()->getOptions());
+                $resource->init();
+                $translate = \Zend_Registry::get('Zend_Translate');
+            }
+            if(!$translate) {
+                return $string;
+            }
+            static::$options[__FUNCTION__] = $translate;
+        }
+        return static::$options[__FUNCTION__]->translate($string);
+    }
+
 
     /**
      * @param array $urlOrOptions

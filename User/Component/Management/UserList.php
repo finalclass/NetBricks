@@ -42,12 +42,14 @@ class UserList extends Table
 
         $editLink = $linkFactory()
                 ->setIconClass('ui-icon ui-icon-wrench')
+                ->addClass('ui-state-default ui-corner-all nb-button')
                 ->addParam('action', 'form')
                 ->addParam('user_id', $user->getId())
                 ->setLabel('Edytuj');
 
         $removeLink = $linkFactory()
                 ->setIconClass('ui-icon ui-icon-trash')
+                ->addClass('ui-state-default ui-corner-all nb-button')
                 ->addParam('action', 'erase')
                 ->addParam('user_id', $user->getId())
                 ->setOnclick("return confirm('Czy jesteś pewien?');")
