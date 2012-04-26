@@ -356,15 +356,17 @@ class Facade
             /**
              * @var \Zend_Translate $translate
              */
-            $translate = \Zend_Registry::get('Zend_Translate');
-            if(!$translate) {
+            if (\Zend_Registry::isRegistered('Zend_Translate')) {
+                $translate = \Zend_Registry::get('Zend_Translate');
+            } else {
                 $resource = new \NetBricks\I18n\TranslatorResource(
                     self::cfg()->getI18n()->getTranslator()->getOptions());
                 $resource->init();
                 $translate = \Zend_Registry::get('Zend_Translate');
-            }
-            if(!$translate) {
-                return $string;
+                if (!$translate) {
+                    return $string;
+                }
+
             }
             static::$options[__FUNCTION__] = $translate;
         }

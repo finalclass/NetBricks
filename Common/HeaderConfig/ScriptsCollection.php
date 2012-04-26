@@ -68,6 +68,9 @@ class ScriptsCollection extends OptionsCollection
                 ->set(-147, '/NetBricks/Common/js/jquery-ui-1.8.19.min.js');
     }
 
+    /**
+     * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
+     */
     public function addJQueryWindow($includeDefaultStyleSheet = true, $jQueryUITheme = null)
     {
         $src = _::env() == 'development' ? 'jquery.window.js' : 'jquery.window.min.js';
@@ -78,6 +81,17 @@ class ScriptsCollection extends OptionsCollection
 
         return $this->addJQueryUi($jQueryUITheme)
                 ->set(-146, '/NetBricks/Common/js/jquery-window-5.03/' . $src);
+    }
+
+    /**
+     * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
+     */
+    public function addJQueryBBQ()
+    {
+        $suffix = _::env() == 'development'
+                ? '.js' : '.min.js';
+        return $this->addJQuery()
+                ->set(-145, '/NetBricks/Common/js/jquery-bbq/jquery-bbq' . $suffix);
     }
 
 }

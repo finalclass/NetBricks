@@ -2,18 +2,18 @@
 /* Box */
 /********/
 .nb-box, .nb-vbox, .nb-hbox {
-    display:block;
-    float:left;
+    display: block;
+    float: left;
     width: 100%;
     height: 100%;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .nb-clear {
     clear: both;
     height: 1px;
     overflow: hidden;
-    font-size:0;
+    font-size: 0;
     margin-top: -1px;
 }
 
@@ -26,9 +26,9 @@
 
 .nb-hbox > * {
     width: auto;
-    float:left;
-    display:block;
-    overflow:hidden;
+    float: left;
+    display: block;
+    overflow: hidden;
     height: 100%;
 }
 
@@ -49,45 +49,40 @@
 
 .nb-vbox > * {
     width: 100%;
-    float:left;
-    display:block;
-    overflow:hidden;
+    float: left;
+    display: block;
+    overflow: hidden;
     height: auto;
 }
 
 .nb-vbox.nb-box-margin > * {
     margin: 12px 0;
 }
+
 .nb-vbox.nb-box-margin-small > * {
     margin: 6px 0;
 }
-
 
 /**********/
 /* Right  */
 /**********/
 .nb-right {
-    float:right;
+    float: right;
 }
 
 /**********/
 /* Left  */
 /**********/
 .nb-left {
-    float:left;
+    float: left;
 }
 
 /**********/
 /* Button */
 /**********/
 .nb-button {
-    font-size: 12px;
     padding: 0 4px 0 20px;
-    text-decoration: none;
     position: relative;
-    outline: 0 !important;
-    font-family: "Courier New", Courier, sans-serif;
-    font-weight: normal;
 }
 
 .nb-button:hover {
@@ -95,7 +90,7 @@
 }
 
 .nb-button .ui-icon {
-    margin: -9px 0 0 0;
+    margin: -8px 0 0 0;
     position: absolute;
     left: 2px;
     top: 50%;

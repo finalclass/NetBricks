@@ -16,11 +16,6 @@ nb.component('nb_i18n_language_bar', function () {
     selectedLanguage = getCbApi().getSelectedItem().find('.one_language').data('language');
   });
 
-  if(getCbApi() && getCbApi().isInitialized) {
-    onCBReady();
-  } else {
-    $cb.bind('ready', onCBReady);
-  }
 
   function onCBReady() {
     getCbApi().setSelectedIndex(0);
@@ -32,6 +27,11 @@ nb.component('nb_i18n_language_bar', function () {
      *
      */
     init:function () {
+      if (getCbApi() && getCbApi().isInitialized) {
+        onCBReady();
+      } else {
+        $cb.bind('ready', onCBReady);
+      }
       $next.click(api.nextLanguage);
       $prev.click(api.prevLanguage);
       $this.trigger('initialized');

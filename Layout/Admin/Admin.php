@@ -27,6 +27,9 @@ use \NetBricks\Common\Component\Container;
 use \NetBricks\Common\Component\UnorderedList;
 use \NetBricks\Facade as _;
 use \NetBricks\Common\Component\Tag;
+use \NetBricks\Common\Component\Image;
+use \NetBricks\Common\Component\Link;
+
 /**
  * @author: Sel <s@finalclass.net>
  * @date: 24.04.12
@@ -37,34 +40,75 @@ use \NetBricks\Common\Component\Tag;
  * @property \NetBricks\Layout\Admin\QuickMenu $quickMenu
  * @property \NetBricks\Common\Component\Tag $footer
  * @property \NetBricks\Common\Component\Container $content
+ * @property \NetBricks\Common\Component\Image $logo
+ * @property \NetBricks\Common\Component\Link $logoLink
+ * @property \NetBricks\Common\Component\Image $ajaxLoader
  */
 class Admin extends Html5
 {
 
+    protected $jsParams = array();
+
     public function __construct($options = array())
     {
+        _::cfg()->getHeader()->getScripts()
+                ->addJQueryBBQ()
+                ->addNetBricks();
+        //->append('http://benalman.com/code/projects/jquery-hashchange/jquery.ba-hashchange.js');
+
         _::cfg()->getHeader()->getStyleSheets()
-                    ->setDefaultJqueryUiTheme('netbricks')
-                    ->addNetBricks();
+                ->setDefaultJqueryUiTheme('netbricks')
+                ->addNetBricks();
+
+        $params = _::request()->getAllParams();
+        unset($params['get']);
+        unset($params['post']);
+
+        $this->jsParams = array(
+            'params' => $params,
+            'animationSpeed' => 200
+        );
 
         $this->menu = new UnorderedList();
         $this->header = Tag::factory()->setTagName('h1');
         $this->footer = Tag::factory()->setTagName('h3');
         $this->quickMenu = new Admin\QuickMenu();
         $this->content = new Container();
+        $this->logoLink = Link::factory()->setHref('/admin');
+        $this->logo = Image::factory()
+                ->setWidth(150)
+                ->setHeight(36)
+                ->setSrc(_::loader(__CLASS__ . '/NB_logo_D.png'));
+        $this->ajaxLoader = Image::factory()
+                ->setWidth(100)
+                ->setHeight(100)
+                ->setSrc(_::loader(__CLASS__ . '/ajax-loader.gif'));
+
 
         parent::__construct($options);
+    }
+
+    public function beforeRender()
+    {
+        foreach ($this->menu->children as $child) {
+            /** @var Link $child */
+            $child->addData('destination', '.nb_layout_admin .content');
+        }
     }
 
     public function render()
     {
         ?>
-    <div class="nb-vbox container">
+    <div class="nb_layout_admin nb-vbox container">
+        <?php echo $this->ajaxLoader->addClass('ajax_loader'); ?>
         <div class="nb-hbox top">
-            <div class="nb-box header">
+            <div class="nb-hbox header">
+                <?php echo $this->logoLink
+                    ->setTitle('Home')
+                    ->setContent($this->logo->setAlt('NetBricks')->addClass('logo')); ?>
                 <?php echo $this->header; ?>
             </div>
-            <div class="nb-right">
+            <div class="nb-box nb-right">
                 <?php echo $this->quickMenu->addClass('quick-menu'); ?>
             </div>
         </div>
@@ -78,6 +122,9 @@ class Admin extends Html5
         </div>
         <div class="footer">
             <?php echo $this->footer; ?>
+        </div>
+        <div class="nb_layout_admin_data">
+            <?php echo \Zend_Json::encode($this->jsParams);?>
         </div>
     </div>
     <?php

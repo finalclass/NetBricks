@@ -67,7 +67,7 @@ class StyleSheetsCollection extends OptionsCollection
         if (!$theme) {
             $theme = $this->getDefaultJqueryUiTheme();
         }
-        return $this->append('/NetBricks/Common/css/' . $theme . '/jquery-ui.css');
+        return $this->append('/NetBricks/Common/css/jquery-ui/' . $theme . '/jquery-ui.css');
     }
 
     public function hasJQueryUi($theme = null)
@@ -75,7 +75,7 @@ class StyleSheetsCollection extends OptionsCollection
         if (!$theme) {
             $theme = $this->getDefaultJqueryUiTheme();
         }
-        $path = '/NetBricks/Common/css/' . $theme . '/jquery-ui.css';
+        $path = '/NetBricks/Common/css/jquery-ui/' . $theme . '/jquery-ui.css';
         foreach ($this->options as $style) {
             if ($style == $path) {
                 return true;
@@ -89,7 +89,7 @@ class StyleSheetsCollection extends OptionsCollection
         if (!$theme) {
             $theme = $this->getDefaultJqueryUiTheme();
         }
-        $path = '/NetBricks/Common/css/' . $theme . '/jquery-ui.css';
+        $path = '/NetBricks/Common/css/jquery-ui/' . $theme . '/jquery-ui.css';
         foreach ($this->options as $i => $style) {
             if ($style == $path) {
                 unset($this->options[$i]);

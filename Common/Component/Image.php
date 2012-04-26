@@ -36,6 +36,17 @@ class Image extends Tag
 
     protected $defaultAttributes = array('src', 'style', 'class', 'id', 'alt', 'width', 'height');
 
+    /**
+     * @static
+     * @param string $optionsOrTagName
+     * @return \NetBricks\Common\Component\Image
+     */
+    static public function factory($optionsOrTagName = 'div')
+    {
+        $class = get_called_class();
+        return new $class($optionsOrTagName);
+    }
+
     public function render()
     {
         return '<img ' . $this->renderTagAttributes($this->defaultAttributes) . ' ' . $this->renderData() . '/>';

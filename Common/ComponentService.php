@@ -35,7 +35,11 @@ class ComponentService
 
     public function get()
     {
-        $component = _::loader(_::request()->get->id->toString())->create();
+        $id = _::request()->component_name->exists()
+                ? _::request()->component_name->toString()
+                : _::request()->id->toString();
+
+        $component = _::loader($id)->create();
         $cfg = _::cfg()->getHeader();
 
         _::stage()->addChild($component);

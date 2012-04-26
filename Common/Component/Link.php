@@ -37,6 +37,11 @@ class Link extends Tag
         return 'a';
     }
 
+    public function beforeRender()
+    {
+        $this->addData('params', \Zend_Json::encode($this->params));
+    }
+
     public function addParam($paramName, $value)
     {
         $this->params[$paramName] = $value;
@@ -65,7 +70,6 @@ class Link extends Tag
     {
         return empty($this->options['route_name']) ? 'default' : $this->options['route_name'];
     }
-
 
     public function addCurrentParams()
     {

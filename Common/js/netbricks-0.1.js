@@ -1,37 +1,74 @@
 (function () {
+
+  $(function () {
+    nb.initializeComponents('body');
+  });
+
   window.nb = {
 
-    isCssJQueryUi: function(href) {
+    loadedScripts:new Array(),
+
+    isCssJQueryUi:function (href) {
       var fileName = href.split('/').slice(-1)[0]; //get last element in the array with slice(-1)
       return fileName == 'jquery-ui.css';
     },
 
-    isJQueryUiCssLoaded: function() {
+    isJQueryUiCssLoaded:function () {
       var isLoaded = false;
       $('head').find('link').each(function () {
         var $link = $(this);
-        if(nb.isCssJQueryUi($link.attr('href'))) {
+        if (nb.isCssJQueryUi($link.attr('href'))) {
           isLoaded = true;
         }
       });
       return isLoaded;
     },
 
-    addScriptFiles:function (scripts) {
-      var $head = $('head');
+    initLoadedScripts:function () {
       $('script').each(function () {
         var $script = $(this);
-        var pos = scripts.indexOf($script.attr('src'));
+        var scriptSrc = $script.attr('src');
+        scriptSrc = nb.removeAfterQuestionMark(scriptSrc);
+        nb.loadedScripts.push(scriptSrc);
+      });
+    },
+
+    removeAfterQuestionMark:function (string) {
+      var questionMarkPos = string.indexOf('?');
+      if (questionMarkPos != -1) {
+        string = string.slice(0, questionMarkPos);
+      }
+      return string;
+    },
+
+    addScriptFiles:function (scripts) {
+      var $head = $('head');
+      var i = 0;
+
+      if(nb.loadedScripts.length == 0) {
+        nb.initLoadedScripts();
+      }
+
+      for (i in scripts) {
+        if (scripts.hasOwnProperty(i)) {
+          scripts[i] = nb.removeAfterQuestionMark(scripts[i]);
+        }
+      }
+
+      $(nb.loadedScripts).each(function () {
+        var scriptSrc = this.toString();
+        var pos = scripts.indexOf(scriptSrc);
         if (pos != -1) {
           scripts.splice(pos, 1);
         }
       });
 
-      for (var i in scripts) {
+      for (i in scripts) {
         if (scripts.hasOwnProperty(i)) {
           $head.append(
             $('<script type="text/javascript" src="' + scripts[i] + '"></script>')
           );
+          nb.loadedScripts.push(scripts[i]);
         }
       }
     },
@@ -59,23 +96,36 @@
     },
 
     /**
-     * @param component String The component name
-     * @param beforeScriptsLoaded Function(html) optional
-     * @param afterScriptsLoaded Function(html) optional
+     * @param {String} component String The component name
+     * @param {Function} [beforeScriptsLoaded] Function(html) optional
      */
-    loader:function (component, beforeScriptsLoaded, afterScriptsLoaded) {
+    loader:function (component, beforeScriptsLoaded) {
       component = component.replace(new RegExp(/\\/g), '/');
-      return $.getJSON('-component/' + component, function (response) {
-        nb.addStyleFiles(response.styles);
-        if (beforeScriptsLoaded) {
-          beforeScriptsLoaded(response.html);
-        }
-        nb.addScriptFiles(response.scripts);
-        if (afterScriptsLoaded) {
-          afterScriptsLoaded(response.html);
-        }
-      });
+
+      return $.getJSON('/-component/?component_name=' + component,
+        function (response) {
+          nb.addStyleFiles(response.styles);
+          var wasNextCalled = false;
+
+          function done(selector) {
+            selector = selector || 'body';
+            if (!wasNextCalled) {
+              wasNextCalled = true;
+              nb.addScriptFiles(response.scripts);
+              nb.initializeComponents(selector);
+            }
+          }
+
+          if (beforeScriptsLoaded) {
+            beforeScriptsLoaded(response.html, done);
+          } else {
+            nb.addScriptFiles(response.scripts);
+          }
+
+        });
     },
+
+    availableComponents:new Array(),
 
     /**
      *
@@ -83,6 +133,7 @@
      * @param definition
      */
     component:function (name, definition) {
+      nb.availableComponents.push(name);
       if (!$.fn[name]) {
         $.fn[name] = function () {
           return this.each(function (options) {
@@ -100,9 +151,21 @@
           });
         }
       }
-      $(function () {
-        $('.' + name)[name]();
-      });
+    },
+
+    initializeComponents:function (selector) {
+      var $root = $(selector).parent();
+      for (var i in nb.availableComponents) {
+        if (nb.availableComponents.hasOwnProperty(i)) {
+          var component = nb.availableComponents[i];
+          $root.find('.' + component).each(function () {
+            var $element = $(this);
+            if (!$element.data(component)) {
+              $element[component]();
+            }
+          });
+        }
+      }
     }
 
   };
