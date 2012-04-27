@@ -33,15 +33,17 @@ nb.component('nb_layout_admin', function () {
       var params = $.bbq.getState();
       var $destination = $(params.destination);
       $ajaxLoaderImage.fadeIn();
-      $destination.animate({'left':2000}, data.animationSpeed);
+      $destination.css('position', 'relative').animate({'left':2000}, data.animationSpeed);
       nb.loader(params.component + '&' + objectToUrlParams(params),
-        animateContentTransition($destination));
+        animateContentTransition($destination), function() {
+          $ajaxLoaderImage.fadeOut();
+        });
     });
 
     $('.nb_layout_admin').delegate('a', 'click', function (event) {
       var $a = $(this);
-      var component = $(this).data('component');
-      var destination = $(this).data('destination');
+      var component = $a.data('component');
+      var destination = $a.data('destination');
       var $destination = $(destination);
       if (!component || !destination || $destination.length == 0) {
         $ajaxLoaderImage.fadeIn();
@@ -104,8 +106,14 @@ nb.component('nb_layout_admin', function () {
         for (var i in data.params) {
           if (data.params.hasOwnProperty(i) && aParams[i] == undefined) {
             aParams[i] = data.params[i];
+            if(aParams[i].length == 0) {
+              delete aParams[i];
+            }
           }
         }
+
+        delete aParams['component'];
+        delete aParams['destination'];
 
         $a.attr('href', getBaseURL() + '?' + objectToUrlParams(aParams));
       });
@@ -119,10 +127,16 @@ nb.component('nb_layout_admin', function () {
       });
     }
 
+    var state = $.bbq.getState();
+    for(var i in state) {
+      if(state.hasOwnProperty(i)) {
+        data.params[i] = state[i];
+      }
+    }
+
+    $.bbq.pushState(data.params);
     $(window).trigger('hashchange');
-
   }
-
 
   return {
     init:function () {

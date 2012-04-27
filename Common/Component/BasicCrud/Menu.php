@@ -38,9 +38,20 @@ use \NetBricks\Common\Component\IconLink;
 class Menu extends UnorderedList
 {
 
+    /**
+     * @static
+     * @param array $options
+     * @return Menu
+     */
+    public static function factory($options = array())
+    {
+        $class = get_called_class();
+        return new $class($options);
+    }
+
     public function __construct($options = array())
     {
-        if(!isset($options['param_to_switch'])) {
+        if (!isset($options['param_to_switch'])) {
             $options['param_to_switch'] = 'action';
         }
 
@@ -48,7 +59,8 @@ class Menu extends UnorderedList
 
         $this->addButton = IconLink::factory()
                 ->setIconClass('plus')
-                ->setLabel('Add');
+                ->setLabel('Add')
+                ->addParam('id', '');
 
         $this->listButton = IconLink::factory()
                 ->setIconClass('list')

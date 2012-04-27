@@ -45,7 +45,7 @@
       var $head = $('head');
       var i = 0;
 
-      if(nb.loadedScripts.length == 0) {
+      if (nb.loadedScripts.length == 0) {
         nb.initLoadedScripts();
       }
 
@@ -99,11 +99,14 @@
      * @param {String} component String The component name
      * @param {Function} [beforeScriptsLoaded] Function(html) optional
      */
-    loader:function (component, beforeScriptsLoaded) {
+    loader:function (component, beforeScriptsLoaded, error) {
       component = component.replace(new RegExp(/\\/g), '/');
 
-      return $.getJSON('/-component/?component_name=' + component,
-        function (response) {
+      return $.ajax({
+        url:'/-component/?component_name=' + component,
+        dataType:'json',
+        data:null,
+        success:function (response) {
           nb.addStyleFiles(response.styles);
           var wasNextCalled = false;
 
@@ -121,8 +124,14 @@
           } else {
             nb.addScriptFiles(response.scripts);
           }
+        },
+        error:function (arg) {
+          if (error) {
+            error(arg);
+          }
+        }
+      });
 
-        });
     },
 
     availableComponents:new Array(),

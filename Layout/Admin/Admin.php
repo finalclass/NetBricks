@@ -54,7 +54,6 @@ class Admin extends Html5
         _::cfg()->getHeader()->getScripts()
                 ->addJQueryBBQ()
                 ->addNetBricks();
-        //->append('http://benalman.com/code/projects/jquery-hashchange/jquery.ba-hashchange.js');
 
         _::cfg()->getHeader()->getStyleSheets()
                 ->setDefaultJqueryUiTheme('netbricks')
@@ -66,7 +65,7 @@ class Admin extends Html5
 
         $this->jsParams = array(
             'params' => $params,
-            'animationSpeed' => 200
+            'animationSpeed' => 300
         );
 
         $this->menu = new UnorderedList();
@@ -86,13 +85,67 @@ class Admin extends Html5
 
 
         parent::__construct($options);
+        $this->resolveContent();
     }
 
-    public function beforeRender()
+    private function resolveContent()
     {
-        foreach ($this->menu->children as $child) {
-            /** @var Link $child */
-            $child->addData('destination', '.nb_layout_admin .content');
+        $content = _::request()->content->toString();
+        foreach ($this->menu->children as /** @var Link $child */
+                 $child) {
+            if ($content == $child->getParam('content')) {
+                $this->switchContentToMenuItem($child);
+                return;
+            }
+        }
+
+        if (isset($this->menu->children[0])) {
+            $this->switchContentToMenuItem($this->menu->children[0]);
+        }
+    }
+
+    private function switchContentToMenuItem(Link $menuItem)
+    {
+        $data = $menuItem->getData();
+        $this->content = new $data['component']();
+    }
+
+    public function addMenuItem($label, $componentName, $contentParamValue = null)
+    {
+        if (!$contentParamValue) {
+            $contentParamValue = $this->generateMenuItemName($componentName);
+        }
+
+        $this->menu->$contentParamValue = Link::factory()
+                ->addParam('content', $contentParamValue)
+                ->setLabel($label)
+                ->addData('component', $componentName)
+                ->addData('destination', '.nb_layout_admin .content');
+
+        return $this;
+    }
+
+    private function generateMenuItemName($componentName, $allNames = array())
+    {
+        if (empty($allNames)) {
+            foreach ($this->menu->children as $child) {
+                $allNames[] = $child->getParam('content');
+            }
+        }
+
+        $paramName = strtolower(join('',
+            array_map(
+                function($item)
+                {
+                    return (string)@$item[0];
+                },
+                explode('\\', $componentName)
+            )));
+
+        if (array_search($paramName, $allNames) === false) {
+            return $paramName;
+        } else {
+            return $this->generateMenuItemName($componentName . '\\-', $allNames);
         }
     }
 
