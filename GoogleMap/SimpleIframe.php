@@ -135,7 +135,7 @@ class SimpleIframe extends ComponentAbstract
     <small>
         <a href="http://maps.google.pl/maps?f=q&amp;source=embed&amp;hl=pl&amp;geocode=&amp;q=<?php echo $q; ?>&amp;aq=&amp;ie=UTF8&amp;hq=&amp;"
            style="color:#0000FF;text-align:left">
-            Wyświetl większą mapę
+            <?php echo _::translate('nb_google_map_simple_iframe_show_big'); ?>
         </a>
     </small>
 
