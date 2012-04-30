@@ -44,22 +44,22 @@ class Back extends Tag
 
         $this->menu = new Menu();
 
-        $this->menu->setParamToSwitch('nb_back_news');
+        $this->menu->setParamToSwitch('nb_news_back');
 
         $this->menu->addButton
                 ->addData('component', '\NetBricks\News\Component\Back\Form')
-                ->addData('destination', '.nb_back_news_container');
+                ->addData('destination', '.nb_news_back_container');
 
         $this->menu->listButton
                 ->addData('component', '\NetBricks\News\Component\Back\Table')
-                ->addData('destination', '.nb_back_news_container');
+                ->addData('destination', '.nb_news_back_container');
 
         $this->resolveContent();
     }
 
     private function resolveContent()
     {
-        switch(_::request()->nb_back_news->toString()) {
+        switch(_::request()->nb_news_back->toString()) {
             default:
             case 'list':
                 $this->content = new \NetBricks\News\Component\Back\Table();
@@ -78,7 +78,7 @@ class Back extends Tag
 
         <?php echo $this->menu; ?>
 
-        <div class="nb_back_news_container">
+        <div class="nb_news_back_container">
             <?php echo $this->content; ?>
         </div>
 

@@ -23,22 +23,183 @@ SOFTWARE.
  */
 namespace NetBricks\News\Model;
 
-use \NetCore\CouchDB\Document;
+use \NetBricks\Common\Document\MultiLangDocument;
 
 /**
  * @author: Sel <s@finalclass.net>
  * @date: 23.04.12
  * @time: 14:28
  */
-class NewsDocument extends Document
+class NewsDocument extends MultiLangDocument
 {
 
     protected $data = array(
         'title_translations' => array(),
         'body_translations' => array(),
+        'main_photo' => array(),
         'photos' => array(),
         'publish_date' => 0,
         'expire_date' => 0
     );
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Title
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string $value
+     * @return \Drobgen\Cooperation\Document\Cooperation
+     */
+    public function setTitle($value)
+    {
+        $this->data['title_translations'][$this->getLanguage()] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return (string)@$this->data['title_translations'][$this->getLanguage()];
+    }
+
+    /**
+     * @return array
+     */
+    public function getTitleTranslations()
+    {
+        return (array)@$this->data['title_translations'];
+    }
+
+    public function setTitleTranslations(array $value)
+    {
+        $this->data['title_translations'] = $this->filterTranslations($value);
+        return $this;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Body
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string $value
+     * @return \Drobgen\Cooperation\Document\Cooperation
+     */
+    public function setBody($value)
+    {
+        $this->data['body_translations'][$this->getLanguage()] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBody()
+    {
+        return (string)@$this->data['body_translations'][$this->getLanguage()];
+    }
+
+    /**
+     * @return array
+     */
+    public function getBodyTranslations()
+    {
+        return (array)@$this->data['body_translations'];
+    }
+
+    public function setBodyTranslations(array $value)
+    {
+        $this->data['body_translations'] = $this->filterTranslations($value);
+        return $this;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Photos
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param array $value
+     * @return \NetBricks\News\Model\NewsDocument
+     */
+    public function setPhotos($value)
+    {
+        $this->data['photos'] = (array)$value;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPhotos()
+    {
+        return (array)@$this->data['photos'];
+    }
+    
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Main Photo
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param array $value
+     * @return \NetBricks\News\Model\NewsDocument
+     */
+    public function setMainPhotos($value)
+    {
+        $this->data['main_photos'] = (array)$value;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMainPhotos()
+    {
+        return (array)@$this->data['main_photos'];
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Publish Date
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param float $value
+     * @return \NetBricks\News\Model\NewsDocument
+     */
+    public function setPublishDate($value)
+    {
+        $this->data['publish_date'] = (float)$value;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPublishDate()
+    {
+        return (int)@$this->data['publish_date'];
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Expire Date
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param float $value
+     * @return \NetBricks\News\Model\NewsDocument
+     */
+    public function setExpireDate($value)
+    {
+        $this->data['expire_date'] = (float)$value;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getExpireDate()
+    {
+        return (int)@$this->data['expire_date'];
+    }
 
 }

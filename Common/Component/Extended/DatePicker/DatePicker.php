@@ -21,36 +21,45 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-namespace NetBricks\News\Component\Back;
-use \NetBricks\Common\Component\Table as BaseTable;
+namespace NetBricks\Common\Component\Extended;
+use \NetBricks\Common\Component\Form\FormElementAbstract;
 use \NetBricks\Facade as _;
-use \NetBricks\Common\Component\Extended\Renderer\Operations;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 29.04.12
- * @time: 12:50
+ * @date: 30.04.12
+ * @time: 10:34
  */
-class Table extends BaseTable
+class DatePicker extends FormElementAbstract
 {
 
     public function __construct($options = array())
     {
         parent::__construct($options);
+        _::cfg()->getHeader()->getScripts()->addJQueryUi()->addNetBricks();
+        $this->addClass('nb_extended_date_picker');
+    }
 
-        $options = Operations::factory()
-                ->setRemoveConfirmText('nb_news_back_remove_confirm_text')
-                ->setStateParam('nb_news_back')
-                ->setServiceName('news');
+    public function getValue()
+    {
+        $val = parent::getValue();
+        if(!$val) {
+            return time() * 1000;
+        }
+        return $val;
+    }
 
-        $options->editButton
-                ->addData('component', '\NetBricks\News\Component\Back\Form')
-                ->addData('destination', '.nb_news_back_container');
-
-        $this->column('title', 'nb_news_back_table_header_title')
-                ->column('operations', 'nb_common_operations', $options)
-                ->setDataProvider(_::services()->newsReader()->get());
-
+    public function render()
+    {
+        ?>
+    <div class="<?php echo $this->getClass(); ?>"
+         id="<?php echo $this->getId(); ?>">
+        <input type="text" value="<?php echo date('Y-m-d', $this->getValue()/ 1000); ?>"/>
+        <input type="hidden"
+               name="<?php echo $this->getName(); ?>"
+               value="<?php echo $this->getValue(); ?>"/>
+    </div>
+    <?php
     }
 
 }

@@ -40,7 +40,8 @@ class NewsReaderService
         if(!isset($params['id'])) {
             return $this->getRepo()->all();
         }
-        return $this->getRepo()->find($params['id']);
+        $out = $this->getRepo()->find($params['id']);
+        return $out;
     }
 
 }

@@ -33,6 +33,17 @@ use \NetBricks\Facade as _;
 class PhotosFormElement extends FormElementAbstract
 {
 
+    /**
+     * @static
+     * @param string $optionsOrTagName
+     * @return \NetBricks\Page\Component\Photo\PhotosFormElement
+     */
+    static public function factory($optionsOrTagName = 'input')
+    {
+        $class = get_called_class();
+        return new $class($optionsOrTagName);
+    }
+
     public function __construct($options = array())
     {
         parent::__construct($options);
@@ -47,17 +58,39 @@ class PhotosFormElement extends FormElementAbstract
                 ->addNetBricks();
     }
 
+    /**
+     * @param int $value
+     * @return \NetBricks\Page\Component\Photo\PhotosFormElement
+     */
+    public function setPhotosLimit($value)
+    {
+        $this->options['photos_limit'] = (int)$value;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPhotosLimit()
+    {
+        return isset($this->options['photos_limit'])
+                ? $this->options['photos_limit'] : 0;
+    }
+
     public function render()
     {
         ?>
     <div <?php echo $this->renderTagAttributes($this->getDefaultAttributes()); ?>>
 
-        <div class="data selected_photos"><?php echo \Zend_Json::encode($this->getValue()); ?></div>
+        <div class="data"
+             data-limit="<?php echo $this->getPhotosLimit(); ?>">
+            <?php echo \Zend_Json::encode($this->getValue()); ?>
+        </div>
 
         <div class="photos_form">
             <a href="#"
                class="nb-button ui-state-default ui-corner-all"
-               data-bind="click: openModalWindow">
+               data-bind="click: openModalWindow, visible: showAddButton">
                 <span class="ui-icon ui-icon-plus"></span>
                 Add photo
             </a>
@@ -71,6 +104,7 @@ class PhotosFormElement extends FormElementAbstract
         <div data-bind="foreach: selectedPhotos" class="photos">
             <div class="photo">
                 <img data-bind="attr: {src: '<?php echo _::couchdb()->getUrl();?>/' + $data + '/thumb.jpg'}">
+
                 <p>
                     <a href="#"
                        class="nb-button ui-state-default ui-corner-all"

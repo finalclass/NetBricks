@@ -1,7 +1,12 @@
 nb.component('nb_page_photo_form_element', function () {
   var $this = $(this);
   var that = this;
-  var selectedPhotos = $.parseJSON($this.find('.data.selected_photos').text());
+  var selectedPhotos = $.parseJSON($this.find('.data').text());
+  var limit = $this.find('.data').data('limit');
+
+  if (!limit) {
+    limit = 0;
+  }
   if (!selectedPhotos) {
     selectedPhotos = new Array();
   }
@@ -20,7 +25,7 @@ nb.component('nb_page_photo_form_element', function () {
         title:"Select photo",
         width:600,
         height:500,
-        onOpen: modalWindow.onWindowOpen
+        onOpen:modalWindow.onWindowOpen
       });
     },
 
@@ -53,27 +58,33 @@ nb.component('nb_page_photo_form_element', function () {
    *
    * @type {Object}
    */
-  var viewModel = {
 
-    selectedPhotos: ko.observableArray(selectedPhotos),
+  var viewModel = new Object();
 
-    removePhoto: function (me, event) {
-      event.preventDefault();
-      var indexOf = viewModel.selectedPhotos.indexOf(me);
-      if (indexOf >= 0) {
-        viewModel.selectedPhotos.splice(indexOf, 1);
-      }
-    },
+  viewModel.selectedPhotos = ko.observableArray(selectedPhotos);
 
-    addPhoto: function (id) {
-      viewModel.selectedPhotos.push(id);
-    },
-
-    openModalWindow: function (me, event) {
-      event.preventDefault();
-      modalWindow.open();
+  viewModel.showAddButton = ko.dependentObservable(function () {
+    if (limit == 0) {
+      return true;
     }
+    return limit > viewModel.selectedPhotos().length;
+  });
 
+  viewModel.removePhoto = function (me, event) {
+    event.preventDefault();
+    var indexOf = viewModel.selectedPhotos.indexOf(me);
+    if (indexOf >= 0) {
+      viewModel.selectedPhotos.splice(indexOf, 1);
+    }
+  };
+
+  viewModel.addPhoto = function (id) {
+    viewModel.selectedPhotos.push(id);
+  };
+
+  viewModel.openModalWindow = function (me, event) {
+    event.preventDefault();
+    modalWindow.open();
   };
 
   /****************************************************************************

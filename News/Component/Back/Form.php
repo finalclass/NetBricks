@@ -27,6 +27,7 @@ use \NetBricks\Common\Component\Extended\DefaultForm\ElementContainer;
 use \NetBricks\Common\Component\Form\MultiLang\TextArea;
 use \NetBricks\Common\Component\Form\MultiLang\TextInput;
 use \NetBricks\Page\Component\Photo\PhotosFormElement;
+use \NetBricks\Common\Component\Extended\DatePicker;
 use \NetBricks\Facade as _;
 
 /**
@@ -46,25 +47,32 @@ class Form extends DefaultForm
                     ->element(TextInput::factory()->setName('title_translations'))
         )->addElement(ElementContainer::factory()
                     ->setLabel('nb_news_back_form_body')
-                    ->element(TextInput::factory()->setName('body_translations'))
+                    ->element(TextArea::factory()->setName('body_translations'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('nb_news_back_form_main_photo')
+                    ->element(PhotosFormElement::factory()->setPhotosLimit(1)->setName('main_photo'))
         )->addElement(ElementContainer::factory()
                     ->setLabel('nb_news_back_form_photos')
                     ->element(PhotosFormElement::factory()->setName('photos'))
         )->addElement(ElementContainer::factory()
                     ->setLabel('nb_news_back_form_publish_date')
-                    ->element(TextInput::factory()->setName('publish_date'))
+                    ->element(DatePicker::factory()->setName('publish_date'))
         )->addElement(ElementContainer::factory()
                     ->setLabel('nb_news_back_form_expire_date')
-                    ->element(TextInput::factory()->setName('expire_date'))
+                    ->element(DatePicker::factory()->setName('expire_date'))
         );
 
         $this->cancel->addData('component', '\NetBricks\News\Component\Back\Table')
-            ->addData('destination', '.nb_back_news_container');
+                ->addData('destination', '.nb_back_news_container');
     }
 
     public function redirect()
     {
-        _::url()->addParam('list', 'nb_news_back')->addCurrentParams()->redirect();
+        _::url()->addCurrentParams()
+                ->addParam('nb_news_back', 'list')
+                ->addParam('component', '')
+                ->addParam('destination', '')
+                ->redirect();
     }
 
     public function getService()

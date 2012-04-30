@@ -39,7 +39,7 @@ class ScriptsCollection extends OptionsCollection
      */
     public function addJQuery()
     {
-        return $this->set(-150, '/NetBricks/Common/js/jquery-1.7.2.js');
+        return $this->set(-150, '/NetBricks/Common/js/jquery-1.7.2.min.js');
     }
 
     /**
@@ -61,20 +61,27 @@ class ScriptsCollection extends OptionsCollection
     }
 
     /**
+     * @param bool $includeDefaultStyleSheet
      * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
      */
-    public function addJQueryUi()
+    public function addJQueryUi($includeDefaultStyleSheet = true)
     {
+        if ($includeDefaultStyleSheet) {
+            _::cfg()->getHeader()->getStyleSheets()->addJQueryWindow();
+        }
+
         return $this->addJQuery()
                 ->set(-147, '/NetBricks/Common/js/jquery-ui-1.8.19.min.js');
     }
 
     /**
+     * @param bool $includeDefaultStyleSheet
+     * @param null $jQueryUITheme
      * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
      */
     public function addJQueryWindow($includeDefaultStyleSheet = true, $jQueryUITheme = null)
     {
-        $src = _::env() == 'development' ? 'jquery.window.js' : 'jquery.window.min.js';
+        $src = _::env()->isDevelopment ? 'jquery.window.js' : 'jquery.window.min.js';
 
         if ($includeDefaultStyleSheet) {
             _::cfg()->getHeader()->getStyleSheets()->addJQueryWindow();
@@ -89,8 +96,7 @@ class ScriptsCollection extends OptionsCollection
      */
     public function addJQueryBBQ()
     {
-        $suffix = _::env() == 'development'
-                ? '.js' : '.min.js';
+        $suffix = _::env()->isDevelopment ? '.js' : '.min.js';
         return $this->addJQuery()
                 ->set(-145, '/NetBricks/Common/js/jquery-bbq/jquery-bbq' . $suffix);
     }
