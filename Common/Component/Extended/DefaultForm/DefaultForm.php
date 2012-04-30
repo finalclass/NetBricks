@@ -49,11 +49,11 @@ abstract class DefaultForm extends AbstractForm
                 ->addNetBricks();
 
         $this->submit = Submit::factory()
-                ->setLabel('Submit')
+                ->setLabel('nb_default_form_submit_label')
                 ->setName('form');
 
         $this->cancel = Link::factory()
-                ->setLabel('Cancel');
+                ->setLabel('nb_default_form_cancel_label');
 
         $this->addClass('nb-default-form');
 
@@ -103,7 +103,7 @@ abstract class DefaultForm extends AbstractForm
      */
     public function setSubLegend($value)
     {
-        $this->options['sub_legend'] = (string)$value;
+        $this->options['sub_legend'] = _::translate((string)$value);
         return $this;
     }
 
@@ -121,7 +121,7 @@ abstract class DefaultForm extends AbstractForm
      */
     public function setLegend($value)
     {
-        $this->options['legend'] = (string)$value;
+        $this->options['legend'] = _::translate((string)$value);
         return $this;
     }
 

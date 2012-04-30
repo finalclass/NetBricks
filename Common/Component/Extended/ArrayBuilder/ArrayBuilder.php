@@ -49,7 +49,7 @@ class ArrayBuilder extends FormElementAbstract
 
     public function setValue($value)
     {
-        $value = array_filter($value);
+        $value = array_filter(@(array)$value);
         parent::setValue($value);
         return $this;
     }

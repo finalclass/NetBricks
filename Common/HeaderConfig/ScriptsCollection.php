@@ -47,7 +47,8 @@ class ScriptsCollection extends OptionsCollection
      */
     public function addKnockout()
     {
-        return $this->set(-149, '/NetBricks/Common/js/knockout-2.1.0rc.js');
+        $min = _::env()->isDevelopment ? '' : '.min';
+        return $this->set(-149, '/NetBricks/Common/js/knockout-2.0.0' . $min . '.js');
     }
 
     /**

@@ -24,7 +24,7 @@ SOFTWARE.
 namespace NetBricks\Common\Component\Extended\DefaultForm;
 use \NetBricks\Common\Component\Container;
 use \NetBricks\Common\Component\Form\FormElementAbstract;
-
+use \NetBricks\Facade as _;
 /**
  * @author: Sel <s@finalclass.net>
  * @date: 25.04.12
@@ -53,7 +53,7 @@ class ElementContainer extends FormElementAbstract
      */
     public function setSubLabel($value)
     {
-        $this->options['sub_label'] = (string)$value;
+        $this->options['sub_label'] = _::translate((string)$value);
         return $this;
     }
 
@@ -71,7 +71,7 @@ class ElementContainer extends FormElementAbstract
      */
     public function setLabel($value)
     {
-        $this->options['label'] = (string)$value;
+        $this->options['label'] = _::translate((string)$value);
         return $this;
     }
 

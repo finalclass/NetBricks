@@ -12,6 +12,17 @@ use \NetBricks\Common\Component\Form\FormElementAbstract;
 class Submit extends FormElementAbstract
 {
 
+    /**
+     * @static
+     * @param string $optionsOrTagName
+     * @return \NetBricks\Common\Component\Form\Submit
+     */
+    static public function factory($optionsOrTagName = 'input')
+    {
+        $class = get_called_class();
+        return new $class($optionsOrTagName);
+    }
+
     private $label;
 
     protected $defaultAttributes = array('type', 'name', 'id', 'class', 'style');
@@ -19,12 +30,12 @@ class Submit extends FormElementAbstract
     public function render()
     {
         ?>
-<input <?php echo $this->renderTagAttributes($this->defaultAttributes); ?>
-    value="<?php echo $this->getLabel(); ?>" />
-<input type="hidden"
-       name="<?php echo $this->getName(); ?>"
-       value="<?php echo $this->getValue(); ?>" />
-        <?php
+    <input <?php echo $this->renderTagAttributes($this->defaultAttributes); ?>
+            value="<?php echo $this->getLabel(); ?>"/>
+    <input type="hidden"
+           name="<?php echo $this->getName(); ?>"
+           value="<?php echo $this->getValue(); ?>"/>
+    <?php
     }
 
     public function getTagName()

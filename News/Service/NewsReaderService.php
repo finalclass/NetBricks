@@ -21,35 +21,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-
-namespace NetBricks\News;
-
-use \NetBricks\Facade as _;
-
+namespace NetBricks\News\Service;
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.02.12
- * @time: 10:05
+ * @date: 23.04.12
+ * @time: 14:32
  */
-class Resource extends \Zend_Application_Resource_ResourceAbstract
+class NewsReaderService
 {
 
-    public function init()
+    protected function getRepo()
     {
-        _::services()->news->setNamespace('\NetBricks\News\Service\NewsService');
-        _::services()->newsReader->setNamespace('\NetBricks\News\Service\NewsReaderService');
-
-        if (_::request()->get->installation->isOneOf(array('installation', 'news'))) {
-            $this->install();
-        }
+        return new \NetBricks\News\Model\NewsRepository();
     }
 
-    private function install()
+    public function get($params = array())
     {
-        $skeletonDoc = new \NetBricks\News\Model\NewsDocument();
-        $skeletonRepo = new \NetBricks\News\Model\NewsRepository();
-        _::couchdb()->initView($skeletonDoc->toArray(), $skeletonRepo->designDocumentId, $skeletonRepo->viewName);
-        return $this;
+        if(!isset($params['id'])) {
+            return $this->getRepo()->all();
+        }
+        return $this->getRepo()->find($params['id']);
     }
 
 }

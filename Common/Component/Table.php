@@ -4,6 +4,7 @@ namespace NetBricks\Common\Component;
 
 use \NetBricks\Common\Component\Tag;
 use \NetCore\Configurable\StaticConfigurator;
+use \NetBricks\Facade as _;
 
 /**
  * Author: Szymon Wygnański
@@ -83,7 +84,11 @@ class Table extends Tag
      */
     public function column($param_name, $header_name, $view = null)
     {
-        $this->columns[] = array('param_name' => $param_name, 'header_name' => $header_name, 'view' => $view);
+        $this->columns[] = array(
+            'param_name' => $param_name,
+            'header_name' => _::translate($header_name),
+            'view' => $view
+        );
         return $this;
     }
 

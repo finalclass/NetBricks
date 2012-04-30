@@ -117,16 +117,18 @@ class Facade
      *
      * @static
      * @param string $value = null
-     * @return mixed
+     * @return \NetCore\ApplicationEnvironment
      */
     static public function env($value = null)
     {
-        if ($value) {
-            static::$options[__FUNCTION__] = strtolower($value);
-        }
         if (!isset(static::$options[__FUNCTION__])) {
-            static::$options[__FUNCTION__] = 'development';
+            static::$options[__FUNCTION__] = new \NetCore\ApplicationEnvironment();
         }
+
+        if ($value) {
+            static::$options[__FUNCTION__]->set($value);
+        }
+
         return static::$options[__FUNCTION__];
     }
 

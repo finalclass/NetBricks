@@ -1,2 +1,14 @@
 # Default translation file
 "nb_powered_by"; "powered by NetBricks"
+"nb_news_back_form_legend"; "News"
+"nb_news_back_form_sub_legend"; "News edit/add form"
+"nb_news_back_form_title"; "Title"
+"nb_news_back_form_body"; "Content"
+"nb_news_back_form_photos"; "Photos",
+"nb_news_back_form_publish_date"; "Publish date"
+"nb_news_back_form_expire_date"; "Expire date"
+"nb_news_back_table_header_title"; "Title"
+"nb_common_operations"; "Operations"
+"nb_news_back_remove_confirm_text"; "Are you sure you want to remove this news?"
+"nb_default_form_submit_label"; "Save"
+"nb_default_form_cancel_label"; "Cancel"

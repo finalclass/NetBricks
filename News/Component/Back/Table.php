@@ -21,35 +21,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-
-namespace NetBricks\News;
-
+namespace NetBricks\News\Component\Back;
+use \NetBricks\Common\Component\Table as BaseTable;
 use \NetBricks\Facade as _;
+use \NetBricks\Common\Component\Extended\Renderer\Operations;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.02.12
- * @time: 10:05
+ * @date: 29.04.12
+ * @time: 12:50
  */
-class Resource extends \Zend_Application_Resource_ResourceAbstract
+class Table extends BaseTable
 {
 
-    public function init()
+    public function __construct($options = array())
     {
-        _::services()->news->setNamespace('\NetBricks\News\Service\NewsService');
-        _::services()->newsReader->setNamespace('\NetBricks\News\Service\NewsReaderService');
+        parent::__construct($options);
+        $this->column('title', 'nb_news_back_table_header_title')
+                ->column('operations', 'nb_common_operations',
+            Operations::factory()
+                    ->setRemoveConfirmText('nb_news_back_remove_confirm_text')
+                    ->setStateParam('nb_back_news')
+                    ->setServiceName('news'));
 
-        if (_::request()->get->installation->isOneOf(array('installation', 'news'))) {
-            $this->install();
-        }
-    }
-
-    private function install()
-    {
-        $skeletonDoc = new \NetBricks\News\Model\NewsDocument();
-        $skeletonRepo = new \NetBricks\News\Model\NewsRepository();
-        _::couchdb()->initView($skeletonDoc->toArray(), $skeletonRepo->designDocumentId, $skeletonRepo->viewName);
-        return $this;
     }
 
 }
