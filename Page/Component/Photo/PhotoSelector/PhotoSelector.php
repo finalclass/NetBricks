@@ -23,7 +23,7 @@ SOFTWARE.
  */
 namespace NetBricks\Page\Component\Photo;
 use \NetBricks\Common\Component\Tag;
-
+use \NetBricks\Facade as _;
 /**
  * @author: Sel <s@finalclass.net>
  * @date: 24.04.12
@@ -40,6 +40,9 @@ class PhotoSelector extends Tag
         parent::__construct($options);
         $this->photoForm = new \NetBricks\Page\Component\Photo\Management\Form();
         $this->horizontalGallery = new HorizontalGallery();
+
+        _::cfg()->getHeader()->getStyleSheets()->addJQueryUi();
+
         $this->addClass('nb_page_photo_selector');
     }
 

@@ -56,7 +56,6 @@ class Admin extends Html5
                 ->addNetBricks();
 
         _::cfg()->getHeader()->getStyleSheets()
-                ->setDefaultJqueryUiTheme('netbricks')
                 ->addNetBricks();
 
         $params = _::request()->getAllParams();

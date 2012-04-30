@@ -34,6 +34,7 @@ class UploaderPage extends Html5
 
     public function __construct($options = array())
     {
+        _::cfg()->getHeader()->getStyleSheets()->addJQueryUi();
         parent::__construct($options);
     }
 
@@ -52,6 +53,15 @@ class UploaderPage extends Html5
 
                 break;
         }
+    }
+
+    public function render()
+    {
+        ?>
+    <div class="ui-widget-content ui-corner-all">
+        <?php echo join(PHP_EOL, $this->children); ?>
+    </div>
+        <?php
     }
 
 }
