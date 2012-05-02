@@ -48,7 +48,17 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
     {
         $skeletonDoc = new \NetBricks\News\Model\NewsDocument();
         $skeletonRepo = new \NetBricks\News\Model\NewsRepository();
-        _::couchdb()->initView($skeletonDoc->toArray(), $skeletonRepo->designDocumentId, $skeletonRepo->viewName);
+        _::couchdb()->initView(
+            $skeletonDoc->toArray(),
+            $skeletonRepo->designDocumentId,
+            $skeletonRepo->viewName);
+
+        _::couchdb()->initView(
+            $skeletonDoc->toArray(),
+            $skeletonRepo->designDocumentId,
+            'by_publish_date',
+            'doc.publish_date');
+
         return $this;
     }
 

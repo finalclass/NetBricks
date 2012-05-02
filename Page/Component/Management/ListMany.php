@@ -27,6 +27,7 @@ namespace NetBricks\Page\Component\Management;
 use \NetBricks\Common\Component\Table;
 use \NetBricks\Page\Document\Page as PageDocument;
 use \NetBricks\Common\Component\BasicCrud\ItemMenu;
+use \NetBricks\Common\Component\Extended\Renderer\Operations;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -46,15 +47,19 @@ class ListMany extends Table
 
     public function __construct($options = array())
     {
+        $op = Operations::factory()
+                ->setRemoveConfirmText('nb_page_management_remove_text')
+                ->setServiceName('page')
+                ->setStateParam('page_management');
+
+        $op->editButton
+                ->addData('component', '\NetBricks\Page\Component\Management\Form')
+                ->addData('destination', '.nb_page_management_container');
+
         $this->setDataProvider($this->getService()->all(array()))
                 ->column('title', 'Title')
-                ->column('operations', 'Operations', function($that, PageDocument $doc)
-        {
-            return ItemMenu::factory()
-                    ->setRecordId($doc->getId())
-                    ->setRev($doc->getRev())
-                    ->setServiceName('page');
-        });
+                ->column('operations', 'Operations', $op);
+
         parent::__construct($options);
     }
 

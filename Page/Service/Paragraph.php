@@ -31,7 +31,7 @@ use \NetBricks\Facade as _;
  * @date: 02.03.12
  * @time: 01:03
  */
-class Paragraph
+class Paragraph extends ParagraphReader
 {
     /**
      * @return \NetBricks\Page\Document\Paragraph\Repository
@@ -52,6 +52,12 @@ class Paragraph
     }
 
     public function post($params)
+    {
+        $repo = $this->getRepo();
+        return $repo->save($params);
+    }
+
+    public function put($params)
     {
         $repo = $this->getRepo();
         return $repo->save($params);

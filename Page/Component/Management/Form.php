@@ -58,7 +58,6 @@ class Form extends DefaultForm
                 ->setSubLegend('Fill the form and click "Save"');
 
         $this->cancel->addParam('page_management', 'list');
-        $this->submit->setLabel('Save');
 
         $this->addElement(ElementContainer::factory()
                     ->setLabel('Title')
@@ -100,23 +99,5 @@ class Form extends DefaultForm
     {
         return _::services()->page();
     }
-
-    /* public function init()
-    {
-        if(_::request()->isPost() && _::request()->post->form == 'page_management') {
-            $data = $this->getService()->post(_::request()->post->getArray());
-            if($data->hasErrors()) {
-                $this->setValues($data);
-                $this->widgetManagement->setDataProvider($data['widhets']);
-            } else {
-                _::url()->addParam('action', 'list')->redirect();
-            }
-        } else if(_::request()->id->exists()){
-            $page = $this->getService()->get(_::request()->get->getArray());
-            $this->setValues($page);
-            $this->widgetManagement->setDataProvider($page->getWidgets());
-        }
-    }*/
-
 
 }

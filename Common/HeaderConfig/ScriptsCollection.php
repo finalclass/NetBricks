@@ -101,4 +101,13 @@ class ScriptsCollection extends OptionsCollection
                 ->set(-145, '/NetBricks/Common/js/jquery-bbq/jquery-bbq' . $suffix);
     }
 
+    /**
+     * @return \NetBricks\Common\HeaderConfig\ScriptsCollection
+     */
+    public function addJQueryTools()
+    {
+        return $this->addJQuery()
+                ->set(-144, '/NetBricks/Common/js/jquery.tools.min.js');
+    }
+
 }

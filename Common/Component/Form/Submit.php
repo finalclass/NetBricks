@@ -3,6 +3,7 @@
 namespace NetBricks\Common\Component\Form;
 
 use \NetBricks\Common\Component\Form\FormElementAbstract;
+use \NetBricks\Facade as _;
 
 /**
  * Author: Szymon Wygnański
@@ -54,7 +55,7 @@ class Submit extends FormElementAbstract
      */
     public function setLabel($value)
     {
-        $this->options['label'] = $value;
+        $this->options['label'] = _::translate($value);
         return $this;
     }
 

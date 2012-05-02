@@ -36,6 +36,7 @@ class NewsDocument extends MultiLangDocument
     protected $data = array(
         'title_translations' => array(),
         'body_translations' => array(),
+        'brief_translations' => array(),
         'main_photo' => array(),
         'photos' => array(),
         'publish_date' => 0,
@@ -48,7 +49,7 @@ class NewsDocument extends MultiLangDocument
 
     /**
      * @param string $value
-     * @return \Drobgen\Cooperation\Document\Cooperation
+     * @return \NetBricks\News\Model\NewsDocument
      */
     public function setTitle($value)
     {
@@ -79,12 +80,48 @@ class NewsDocument extends MultiLangDocument
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
+    // Brief
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string $value
+     * @return \NetBricks\News\Model\NewsDocument
+     */
+    public function setBrief($value)
+    {
+        $this->data['brief_translations'][$this->getLanguage()] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBrief()
+    {
+        return (string)@$this->data['brief_translations'][$this->getLanguage()];
+    }
+
+    /**
+     * @return array
+     */
+    public function getBriefTranslations()
+    {
+        return (array)@$this->data['brief_translations'];
+    }
+
+    public function setBriefTranslations(array $value)
+    {
+        $this->data['brief_translations'] = $this->filterTranslations($value);
+        return $this;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
     // Body
     /////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @param string $value
-     * @return \Drobgen\Cooperation\Document\Cooperation
+     * @return \NetBricks\News\Model\NewsDocument
      */
     public function setBody($value)
     {
@@ -144,18 +181,18 @@ class NewsDocument extends MultiLangDocument
      * @param array $value
      * @return \NetBricks\News\Model\NewsDocument
      */
-    public function setMainPhotos($value)
+    public function setMainPhoto($value)
     {
-        $this->data['main_photos'] = (array)$value;
+        $this->data['main_photo'] = (array)$value;
         return $this;
     }
 
     /**
      * @return array
      */
-    public function getMainPhotos()
+    public function getMainPhoto()
     {
-        return (array)@$this->data['main_photos'];
+        return (array)@$this->data['main_photo'];
     }
 
     /////////////////////////////////////////////////////////////////////////////////////

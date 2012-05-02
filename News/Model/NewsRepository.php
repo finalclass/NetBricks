@@ -35,4 +35,13 @@ class NewsRepository extends Repository
     public $viewName = 'news';
     public $documentClassName = '\NetBricks\News\Model\NewsDocument';
 
+    public function allByPublishDate($untilNow = false, $limit = null)
+    {
+        $startKey = null;
+        if($untilNow) {
+            $startKey = time() * 1000;
+        }
+        return $this->all('by_publish_date', $startKey, null, $limit, true);
+    }
+
 }

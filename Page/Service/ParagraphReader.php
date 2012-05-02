@@ -22,49 +22,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\I18n;
+namespace NetBricks\Page\Service;
 
 use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 07.02.12
- * @time: 14:27
- *
- * This resource should be run after setting router
+ * @date: 02.03.12
+ * @time: 01:03
  */
-class TranslatorResource extends \Zend_Application_Resource_ResourceAbstract
+class ParagraphReader
 {
-
     /**
-     * @var string
+     * @return \NetBricks\Page\Document\Paragraph\Repository
      */
-    protected $dir = array();
-
-    protected function initConfig()
+    private function getRepo()
     {
-        $configArray = $this->getOptions();
-        $this->dir = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, (string)@$configArray['csv_dir']);
+        return new \NetBricks\Page\Document\Paragraph\Repository();
     }
 
-    public function init()
+    public function get($params)
     {
-        $this->initConfig();
-        $lang = _::languages()->getCurrent();
-        $path = $this->dir . DIRECTORY_SEPARATOR . $lang . '.csv';
-
-        if(!file_exists($path)) {
-            $path = _::loader($this)->find('../Model/default_en.csv');
-            $lang = 'en';
+        if(isset($params['id'])) {
+            return $this->getRepo()->find($params['id']);
         }
-
-        $translate = new \Zend_Translate(array(
-            'adapter' => 'csv',
-            'disableNotices' => false,
-            'content' => $path,
-            'locale' => $lang
-        ));
-
-        \Zend_Registry::set('Zend_Translate', $translate);
+        return $this->all($params);
     }
+
+    public function all($params = array())
+    {
+        return $this->getRepo()->all();
+    }
+
 }

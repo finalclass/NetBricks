@@ -214,11 +214,12 @@ class Facade
 
     /**
      * @static
+     * @param bool $forceInit
      * @return \NetCore\Request
      */
-    static public function request()
+    static public function request($forceInit = false)
     {
-        if (!isset(static::$options[__FUNCTION__])) {
+        if (!isset(static::$options[__FUNCTION__]) || $forceInit) {
             $request = new Request();
             $uri = $_SERVER['REQUEST_URI'];
 

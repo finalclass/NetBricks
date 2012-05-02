@@ -109,7 +109,7 @@ class Link extends Tag
      */
     public function setLabel($value)
     {
-        $this->options['label'] = $value;
+        $this->options['label'] = _::translate($value);
         return $this;
     }
 

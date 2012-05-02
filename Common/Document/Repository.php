@@ -55,12 +55,36 @@ class Repository
     }
 
     /**
-     * @return \NetCore\CouchDB\Document[]
+     * @param string $viewName
+     * @param string $startKey
+     * @param string $endKey
+     * @param null $limit
+     * @param bool $descending
      * @throws \NetCore\CouchDB\Exception\ViewNotFound
+     * @internal param array $params
+     * @return \NetCore\CouchDB\Document[]
      */
-    public function all()
+    public function all($viewName = null, $startKey = null, $endKey = null, $limit = null, $descending = false)
     {
-        $response = _::couchdb()->get($this->designDocumentId . '/_view/' . $this->viewName);
+        $params = array();
+        if($startKey) {
+            $params[] = 'startkey=' . $startKey . '';
+        }
+        if($endKey) {
+            $params[] = 'endkey=' . $endKey . '';
+        }
+        if($limit) {
+            $params[] = 'limit=' . $limit;
+        }
+        if($descending) {
+            $params[] = 'descending=true';
+        }
+        $urlParams = '';
+        if(!empty($params)) {
+            $urlParams = '?' . join('&', $params);
+        }
+        $viewName = $viewName ? $viewName : $this->viewName;
+        $response = _::couchdb()->get($this->designDocumentId . '/_view/' . $viewName . $urlParams);
         if (@$response['error'] == 'not_found') {
             $exception = new ViewNotFound('view ' . $this->viewName . ' not found');
             $exception->view = $this->viewName;
@@ -91,7 +115,6 @@ class Repository
             throw new InvalidDocumentType('document ' . get_class($document) . ' shoulb be of type : '
                     . $this->documentClassName);
         }
-
         $array = _::couchdb()->save($document->toArray());
         $document->fromArray($array);
         return $document;

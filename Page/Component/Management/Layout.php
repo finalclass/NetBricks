@@ -43,12 +43,12 @@ class Layout extends Container
     {
         $this->menu = _::loader($this)->find('../Menu')->create();
 
-        switch(_::request()->page_management->toString())
-        {
+        switch (_::request()->page_management->toString()) {
             default:
             case 'list':
                 $this->content = _::loader($this)->find('../ListMany')->create();
                 break;
+            case 'edit':
             case 'add':
                 $this->content = _::loader($this)->find('../Form')->create();
                 break;
@@ -59,10 +59,12 @@ class Layout extends Container
 
     public function render()
     {
-?>
-        <?php echo $this->menu; ?>
+        ?>
+    <?php echo $this->menu; ?>
+    <div class="nb_page_management_container">
         <?php echo $this->content; ?>
-<?php
+    </div>
+    <?php
     }
 
 }

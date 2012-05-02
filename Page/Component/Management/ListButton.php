@@ -38,7 +38,10 @@ class ListButton extends IconLink
     {
         $this->setIconClass('list')
             ->addParam('page_management', 'list')
-            ->setLabel('list');
+            ->setLabel('list')
+            ->addData('component', '\NetBricks\Page\Component\Management\ListMany')
+            ->addData('destination', '.nb_page_management_container');
+
         parent::__construct($options);
     }
 

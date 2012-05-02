@@ -38,6 +38,7 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
     {
         _::services()->page->setNamespace('\NetBricks\Page\Service\Page');
         _::services()->pageWidgetType->setNamespace('\NetBricks\Page\Service\PageWidgetType');
+        _::services()->paragraphReader->setNamespace('\NetBricks\Page\Service\ParagraphReader');
         _::services()->paragraph->setNamespace('\NetBricks\Page\Service\Paragraph');
         _::services()->photo->setNamespace('\NetBricks\Page\Service\Photo');
 

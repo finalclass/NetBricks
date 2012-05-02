@@ -31,8 +31,8 @@ use \NetBricks\Facade as _;
  * @date: 24.02.12
  * @time: 09:53
  *
- * @property \Drobgen\Page\Component\Management\ListButton $list
- * @property \Drobgen\Page\Component\Management\AddButton $add
+ * @property ListButton $list
+ * @property AddButton $add
  */
 class Menu extends UnorderedList
 {
@@ -41,6 +41,7 @@ class Menu extends UnorderedList
     {
         $this->list = _::loader($this)->find('../ListButton')->create();
         $this->add = _::loader($this)->find('../AddButton')->create();
+
         parent::__construct($options);
     }
 

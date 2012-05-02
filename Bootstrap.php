@@ -15,7 +15,7 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
         unset($this->_pluginResources['FrontController']);
     }
 
-    protected function _initLocale()
+    protected function dont_initLocale()
     {
         try {
             $locale = new \Zend_Locale('auto');
@@ -26,7 +26,7 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
         return $locale;
     }
 
-    protected function _initLanguage()
+    protected function dont_initLanguage()
     {
         $this->bootstrap('config')->bootstrap('locale');
         $allLanguages = _::languages()->getAvailableLanguageCodes();

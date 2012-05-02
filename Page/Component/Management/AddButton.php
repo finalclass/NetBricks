@@ -38,8 +38,10 @@ class AddButton extends IconLink
     {
         $this->setIconClass('add')
                 ->addParam('page_management', 'add')
-                ->setLabel('add');
+                ->setLabel('add')
+                ->addData('component', 'NetBricks\Page\Component\Management\Form')
+                ->addData('destination', '.nb_page_management_container');
 
-        parent::__construct($options);
+            parent::__construct($options);
     }
 }
