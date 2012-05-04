@@ -54,6 +54,21 @@ class Repository
         return $this->createDocument($response);
     }
 
+    public function findByKeys($keys)
+    {
+        $response = _::couchdb()->findByKeys($keys);
+
+        if (@$response['error'] == 'not_found') {
+            return null;
+        }
+
+        $documents = array();
+        foreach($response['rows'] as $row) {
+            $documents[] = $this->createDocument(@(array)$row['doc']);
+        }
+        return $documents;
+    }
+
     /**
      * @param string $viewName
      * @param string $startKey
@@ -67,20 +82,20 @@ class Repository
     public function all($viewName = null, $startKey = null, $endKey = null, $limit = null, $descending = false)
     {
         $params = array();
-        if($startKey) {
+        if ($startKey) {
             $params[] = 'startkey=' . $startKey . '';
         }
-        if($endKey) {
+        if ($endKey) {
             $params[] = 'endkey=' . $endKey . '';
         }
-        if($limit) {
+        if ($limit) {
             $params[] = 'limit=' . $limit;
         }
-        if($descending) {
+        if ($descending) {
             $params[] = 'descending=true';
         }
         $urlParams = '';
-        if(!empty($params)) {
+        if (!empty($params)) {
             $urlParams = '?' . join('&', $params);
         }
         $viewName = $viewName ? $viewName : $this->viewName;

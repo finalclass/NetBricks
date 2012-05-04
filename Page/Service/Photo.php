@@ -31,29 +31,8 @@ use \NetBricks\Facade as _;
  * @date: 04.03.12
  * @time: 15:26
  */
-class Photo
+class Photo extends PhotoReader
 {
-
-    /**
-     * @return \NetBricks\Page\Document\Photo\Repository
-     */
-    private function getRepo()
-    {
-        return new \NetBricks\Page\Document\Photo\Repository();
-    }
-
-    public function get($params = array())
-    {
-        if(!isset($params['id'])) {
-            return $this->all();
-        }
-        return $this->getRepo()->find($params['id']);
-    }
-
-    public function all($params = array())
-    {
-        return $this->getRepo()->all();
-    }
 
     public function post($params)
     {

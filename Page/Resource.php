@@ -41,6 +41,7 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
         _::services()->paragraphReader->setNamespace('\NetBricks\Page\Service\ParagraphReader');
         _::services()->paragraph->setNamespace('\NetBricks\Page\Service\Paragraph');
         _::services()->photo->setNamespace('\NetBricks\Page\Service\Photo');
+        _::services()->photoReader->setNamespace('\NetBricks\Page\Service\PhotoReader');
 
         if (_::request()->get->installation == 'installation') {
             $this->installPage();
