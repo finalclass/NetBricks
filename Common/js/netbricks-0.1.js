@@ -34,6 +34,9 @@
     },
 
     removeAfterQuestionMark:function (string) {
+      if(!string) {
+        return '';
+      }
       var questionMarkPos = string.indexOf('?');
       if (questionMarkPos != -1) {
         string = string.slice(0, questionMarkPos);

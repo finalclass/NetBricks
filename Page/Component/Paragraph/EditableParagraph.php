@@ -45,7 +45,10 @@ class EditableParagraph extends Container
     public function __construct($options = array())
     {
         parent::__construct($options);
-        $this->editButton = Link::factory();
+        $this->editButton = Link::factory()
+                ->addParam('stage', 'admin')
+                ->addParam('action', 'edit')
+                ->addParam('content', 'npcpml');
     }
 
     /**
@@ -55,6 +58,7 @@ class EditableParagraph extends Container
     public function setId($value)
     {
         $this->options['id'] = (string)$value;
+        $this->editButton->addParam('id', $value);
         return $this;
     }
 

@@ -37,10 +37,10 @@ class PlaceReaderService
 
     public function get($params = array())
     {
-        if(!isset($params['id'])) {
-            return $this->getRepo()->all();
+        if(isset($params['id'])) {
+            return $this->getRepo()->find($params['id']);
         }
-        return $this->getRepo()->find($params['id']);
+        return $this->getRepo()->all();
     }
 
 }
