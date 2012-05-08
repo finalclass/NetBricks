@@ -43,7 +43,7 @@ class Contact extends Form
     public function __construct($options = array())
     {
         parent::__construct($options);
-        $ns = '/NetCore/Component/Form/';
+        $ns = '/NetBricks/Common/Component/Form/';
         $f = _::factory()->core->form;
         $this->nameInput = _::loader($ns . 'TextInput')->create()->setName('name');
         $this->emailInput = _::loader($ns . 'TextInput')->create()->setName('email');
@@ -52,7 +52,7 @@ class Contact extends Form
                 ->setLabel('Send')
                 ->setName('form')
                 ->setValue('contact');
-        $this->errorsList = _::loader('/NetCore/Component/UnorderedList')->create()->setClass('errors');
+        $this->errorsList = _::loader('/NetBricks/Common/Component/UnorderedList')->create()->setClass('errors');
 
         if(_::request()->isPost() && _::request()->post->form == 'contact') {
             $result = _::services()->contact()->post(_::request()->post->getArray());
