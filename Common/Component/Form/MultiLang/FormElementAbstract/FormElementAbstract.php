@@ -38,6 +38,8 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
 {
     protected $elements = array();
 
+    protected $defaultAttributes = array('id', 'class', 'style');
+
     abstract protected function createElement();
 
     public function __construct($options = array())
@@ -45,6 +47,8 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
         _::cfg()->getHeader()->getScripts()
                 ->addNetBricks()
                 ->addJQuery();
+
+        $this->addClass('multi_lang_form_element_container');
 
         foreach (_::languages()->getAvailable() as $l) {
             $element = $this->createElement();
@@ -81,7 +85,7 @@ abstract class FormElementAbstract extends BaseFormElementAbstract
     public function render()
     {
         ?>
-    <div class="multi_lang_form_element_container">
+    <div <?php echo $this->renderTagAttributes($this->getDefaultAttributes()); ?>>
         <?php foreach ($this->elements as $lang => $element): ?>
         <div class="multi_lang_form_element multi_lang_form_element_<?php echo $lang; ?>">
             <?php echo $element; ?>

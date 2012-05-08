@@ -56,6 +56,9 @@ class Repository
 
     public function findByKeys($keys)
     {
+        if(empty($keys)) {
+            return array();
+        }
         $response = _::couchdb()->findByKeys($keys);
 
         if (@$response['error'] == 'not_found') {

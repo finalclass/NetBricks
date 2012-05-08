@@ -118,11 +118,17 @@ nb.component('nb_layout_admin', function () {
         $a.attr('href', getBaseURL() + '?' + objectToUrlParams(aParams));
       });
 
+      var state = $.bbq.getState();
+      delete state['component'];
+      delete state['destination'];
+
       //Add current params to empty form.action
       $('.nb_layout_admin .content').find('form').each(function () {
         var $form = $(this);
         if ($.trim($form.attr('action')).length == 0) {
-          $form.attr('action', getBaseURL() + '?' + objectToUrlParams(data.params));
+
+
+          $form.attr('action', getBaseURL() + '?' + objectToUrlParams(state));
         }
       });
     }
