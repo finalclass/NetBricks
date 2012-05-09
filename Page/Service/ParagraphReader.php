@@ -36,17 +36,14 @@ class ParagraphReader
     /**
      * @return \NetBricks\Page\Document\Paragraph\Repository
      */
-    private function getRepo()
+    protected function getRepo()
     {
         return new \NetBricks\Page\Document\Paragraph\Repository();
     }
 
     public function get($params)
     {
-        if(isset($params['id'])) {
-            return $this->getRepo()->find($params['id']);
-        }
-        return $this->all($params);
+        return $this->getRepo()->find(@$params['id']);
     }
 
     public function all($params = array())

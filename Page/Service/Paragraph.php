@@ -33,23 +33,7 @@ use \NetBricks\Facade as _;
  */
 class Paragraph extends ParagraphReader
 {
-    /**
-     * @return \NetBricks\Page\Document\Paragraph\Repository
-     */
-    private function getRepo()
-    {
-        return new \NetBricks\Page\Document\Paragraph\Repository();
-    }
 
-    public function get($params)
-    {
-        return $this->getRepo()->find(@$params['id']);
-    }
-
-    public function all($params = array())
-    {
-        return $this->getRepo()->all();
-    }
 
     public function post($params)
     {

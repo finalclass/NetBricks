@@ -48,6 +48,9 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
         _::services()->paragraph
                 ->setNamespace('\NetBricks\Page\Service\Paragraph')
                 ->setAllowed('page_admin');
+        _::services()->paragraphReader
+                ->setNamespace('\NetBricks\Page\Service\ParagraphReader')
+                ->setAllowed('reader');
         _::services()->photo
                 ->setNamespace('\NetBricks\Page\Service\Photo')
                 ->setAllowed('page_admin');

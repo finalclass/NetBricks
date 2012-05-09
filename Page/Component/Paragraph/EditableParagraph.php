@@ -97,11 +97,11 @@ class EditableParagraph extends Container
     }
 
     /**
-     * @return \NetBricks\Page\Service\Paragraph
+     * @return \NetBricks\Page\Service\ParagraphReader
      */
     public function getService()
     {
-        return _::services()->paragraph();
+        return _::services()->paragraphReader();
     }
 
     public function render()
