@@ -106,4 +106,113 @@ class Photo extends OptionsAbstract
         return empty($this->options['big_width']) ? 800 : $this->options['big_width'];
     }
 
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setIconHeight($value)
+    {
+        $this->options['icon_height'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIconHeight()
+    {
+        return empty($this->options['icon_height']) ? 16 : $this->options['icon_height'];
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setIconWidth($value)
+    {
+        $this->options['icon_width'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIconWidth()
+    {
+        return empty($this->options['icon_width']) ? 16 : $this->options['icon_width'];
+    }
+
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setTinyHeight($value)
+    {
+        $this->options['tiny_height'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTinyHeight()
+    {
+        return empty($this->options['tiny_height']) ? 160 : $this->options['tiny_height'];
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setTinyWidth($value)
+    {
+        $this->options['tiny_width'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTinyWidth()
+    {
+        return empty($this->options['tiny_width']) ? 120 : $this->options['tiny_width'];
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setMiddleHeight($value)
+    {
+        $this->options['middle_height'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMiddleHeight()
+    {
+        return empty($this->options['middle_height']) ? 400 : $this->options['middle_height'];
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setMiddleWidth($value)
+    {
+        $this->options['middle_width'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMiddleWidth()
+    {
+        return empty($this->options['middle_width']) ? 300 : $this->options['middle_width'];
+    }
+
 }

@@ -34,6 +34,11 @@ use \NetBricks\Facade as _;
 class Photo extends PhotoReader
 {
 
+    public function delete($params)
+    {
+        return _::couchdb()->delete($params['id'], $params['rev']);
+    }
+
     public function post($params)
     {
         $repo = $this->getRepo();
@@ -49,14 +54,46 @@ class Photo extends PhotoReader
         }
 
         if (@$_FILES['photo']['tmp_name']) {
-            $bigPath = $this->createBigImage($_FILES['photo']['tmp_name']);
-            $thumbPath = $this->createThumbImage($_FILES['photo']['tmp_name']);
-
             $doc->addAttachment('original.jpg', $_FILES['photo']['tmp_name']);
-            $doc->addAttachment('big.jpg', $bigPath);
-            $doc->addAttachment('thumb.jpg', $thumbPath);
+
+            $bigPath = $this->createBigImage($_FILES['photo']['tmp_name']);
+            list($x, $y) = $this->getSize($bigPath);
+            $doc->setBigWidth($x)
+                    ->setBigHeight($y)
+                    ->addAttachment('big.jpg', $bigPath);
+
+            $thumbPath = $this->createThumbImage($_FILES['photo']['tmp_name']);
+            list($x, $y) = $this->getSize($thumbPath);
+            $doc->setThumbWidth($x)
+                    ->setThumbHeight($y)
+                    ->addAttachment('thumb.jpg', $thumbPath);
+
+            $iconPath = $this->createIconImage($_FILES['photo']['tmp_name']);
+            list($x, $y) = $this->getSize($iconPath);
+            $doc->setIconWidth($x)
+                    ->setIconHeight($y)
+                    ->addAttachment('icon.jpg', $iconPath);
+
+            $tinyPath = $this->createTinyImage($_FILES['photo']['tmp_name']);
+            list($x, $y) = $this->getSize($tinyPath);
+            $doc->setTinyWidth($x)
+                    ->setTinyHeight($y)
+                    ->addAttachment('tiny.jpg', $tinyPath);
+
+            $middlePath = $this->createMiddleImage($_FILES['photo']['tmp_name']);
+            list($x, $y) = $this->getSize($middlePath);
+            $doc->setMiddleWidth($x)
+                    ->setMiddleHeight($y)
+                    ->addAttachment('middle.jpg', $middlePath);
+
         }
         return $repo->save($doc);
+    }
+
+    private function getSize($path)
+    {
+        list($width, $height, $type, $attr) = getimagesize($path);
+        return array($width, $height);
     }
 
     private function createBigImage($sourceFilePath)
@@ -94,9 +131,55 @@ class Photo extends PhotoReader
         return $destinationPath;
     }
 
-    public function delete($params)
+    private function createIconImage($sourceFilePath)
     {
-        return _::couchdb()->delete($params['id'], $params['rev']);
+        $cfg = _::cfg()->getPage()->getPhoto();
+        $img = new \NetCore\Image();
+        $img->getConfig()
+                ->setSource($sourceFilePath)
+                ->setWidth($cfg->getIconWidth())
+                ->setRatioHeight(true)
+                ->setRatioNoZoomIn(true)
+                ->setAutoConvertByExtension(false)
+                ->setConvertTo('jpg');
+
+        $destinationPath = tempnam(_::cfg()->getTempDir(), 'icon');
+        $img->save($destinationPath);
+        return $destinationPath;
+    }
+
+    private function createTinyImage($sourceFilePath)
+    {
+        $cfg = _::cfg()->getPage()->getPhoto();
+        $img = new \NetCore\Image();
+        $img->getConfig()
+                ->setSource($sourceFilePath)
+                ->setWidth($cfg->getTinyWidth())
+                ->setRatioHeight(true)
+                ->setRatioNoZoomIn(true)
+                ->setAutoConvertByExtension(false)
+                ->setConvertTo('jpg');
+
+        $destinationPath = tempnam(_::cfg()->getTempDir(), 'tiny');
+        $img->save($destinationPath);
+        return $destinationPath;
+    }
+
+    private function createMiddleImage($sourceFilePath)
+    {
+        $cfg = _::cfg()->getPage()->getPhoto();
+        $img = new \NetCore\Image();
+        $img->getConfig()
+                ->setSource($sourceFilePath)
+                ->setWidth($cfg->getMiddleWidth())
+                ->setRatioHeight(true)
+                ->setRatioNoZoomIn(true)
+                ->setAutoConvertByExtension(false)
+                ->setConvertTo('jpg');
+
+        $destinationPath = tempnam(_::cfg()->getTempDir(), 'middle');
+        $img->save($destinationPath);
+        return $destinationPath;
     }
 
 }

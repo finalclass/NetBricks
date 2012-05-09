@@ -1,0 +1,33 @@
+.nb_page_photo_manage_many .photo_box {
+    float:left;
+    display:block;
+    padding: 20px;
+    overflow: hidden;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.nb_page_photo_manage_many .photo_box:hover {
+    background-color: #eee;
+}
+
+.nb_page_photo_manage_many ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align:center;
+}
+
+.nb_page_photo_manage_many li {
+    display:inline;
+}
+
+.nb_page_photo_manage_many .img {
+    margin-bottom: 22px;
+}
+.nb_page_photo_manage_many img {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 1);
+    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 1);
+}

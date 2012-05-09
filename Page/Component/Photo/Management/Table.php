@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace NetBricks\Page\Component\Photo\Management;
 
-use \NetBricks\Common\Component\Table;
+use \NetBricks\Common\Component\Table as BaseTable;
 use \NetBricks\Facade as _;
 use \NetBricks\Page\Document\Photo as PhotoDocument;
 use \NetBricks\Page\Service\Photo as PhotoService;
@@ -35,7 +35,7 @@ use \NetBricks\Common\Component\BasicCrud\ItemMenu;
  * @date: 04.03.12
  * @time: 15:42
  */
-class ManageMany extends Table
+class Table extends BaseTable
 {
 
     /**

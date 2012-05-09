@@ -40,8 +40,64 @@ class Photo extends MultiLangDocument
         'big_height' => 600,
         'thumb_width' => 120,
         'thumb_height' => 80,
+        'icon_width' => 16,
+        'icon_height' => 16,
+        'tiny_width' => 160,
+        'tiny_height' => 120,
+        'middle_width' => 400,
+        'middle_height' => 300,
         'name_translations' => array(),
     );
+
+
+    ////////////////////////////////////////////////////////////////
+    // Icon
+    ////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Document\Photo
+     */
+    public function setIconHeight($value)
+    {
+        $this->data['icon_height'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIconHeight()
+    {
+        return $this->data['icon_height'];
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Document\Photo
+     */
+    public function setIconWidth($value)
+    {
+        $this->data['icon_width'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIconWidth()
+    {
+        return $this->data['icon_width'];
+    }
+
+    public function getIconSrc()
+    {
+        return _::couchdb()->getUrl() . '/' . $this->getId() . '/icon.jpg';
+    }
+
+    ////////////////////////////////////////////////////////////////
+    // Thumb
+    ////////////////////////////////////////////////////////////////
 
     /**
      * @param string $value
@@ -78,6 +134,105 @@ class Photo extends MultiLangDocument
     {
         return $this->data['thumb_width'];
     }
+
+    public function getThumbSrc()
+    {
+        return _::couchdb()->getUrl() . '/' . $this->getId() . '/thumb.jpg';
+    }
+
+    ////////////////////////////////////////////////////////////////
+    // Tiny
+    ////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Document\Photo
+     */
+    public function setTinyHeight($value)
+    {
+        $this->data['tiny_height'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTinyHeight()
+    {
+        return $this->data['tiny_height'];
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Document\Photo
+     */
+    public function setTinyWidth($value)
+    {
+        $this->data['tiny_width'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTinyWidth()
+    {
+        return $this->data['tiny_width'];
+    }
+
+    public function getTinySrc()
+    {
+        return _::couchdb()->getUrl() . '/' . $this->getId() . '/tiny.jpg';
+    }
+
+    ////////////////////////////////////////////////////////////////
+    // Middle
+    ////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Document\Photo
+     */
+    public function setMiddleHeight($value)
+    {
+        $this->data['middle_height'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMiddleHeight()
+    {
+        return $this->data['middle_height'];
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Page\Document\Photo
+     */
+    public function setMiddleWidth($value)
+    {
+        $this->data['middle_width'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMiddleWidth()
+    {
+        return $this->data['middle_width'];
+    }
+
+    public function getMiddleSrc()
+    {
+        return _::couchdb()->getUrl() . '/' . $this->getId() . '/middle.jpg';
+    }
+
+    ////////////////////////////////////////////////////////////////
+    // Big
+    ////////////////////////////////////////////////////////////////
 
     /**
      * @param string $value
@@ -121,10 +276,11 @@ class Photo extends MultiLangDocument
         return _::couchdb()->getUrl() . '/' . $this->getId() . '/big.jpg';
     }
 
-    public function getThumbSrc()
-    {
-        return _::couchdb()->getUrl() . '/' . $this->getId() . '/thumb.jpg';
-    }
+
+    ////////////////////////////////////////////////////////////////
+    // Original
+    ////////////////////////////////////////////////////////////////
+
 
     public function getOriginalSrc()
     {

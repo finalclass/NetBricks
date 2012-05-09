@@ -44,6 +44,9 @@ use \NetBricks\Common\Component\Form\File;
  */
 class Form extends DefaultForm
 {
+
+    private $existingPhotoSrc = '';
+
     public function construct()
     {
         $this->setLegend('Photos')
@@ -62,11 +65,20 @@ class Form extends DefaultForm
                     ->setSubLabel('Select file from your harddrive')
                     ->element(File::factory()->setName('photo'))
         );
+
+        $this->existingPhoto = new \NetBricks\Page\Component\Photo\Thumb();
+
     }
 
     protected function getService()
     {
         return _::services()->photo();
+    }
+
+    public function setValues($values)
+    {
+        parent::setValues($values);
+        $this->existingPhotoSrc = _::couchdb()->getUrl() . '/' . $values['_id'] . '/thumb.jpg';
     }
 
     public function redirect()
@@ -76,6 +88,14 @@ class Form extends DefaultForm
                 ->addParam('action', 'list')
                 ->addParam('new_photo_id', @$values['_id'])
                 ->redirect();
+    }
+
+    public function render()
+    {
+        if($this->existingPhotoSrc) {
+            echo '<img src="' . $this->existingPhotoSrc . '" />';
+        }
+        return parent::render();
     }
 
 }
