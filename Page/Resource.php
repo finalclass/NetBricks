@@ -36,12 +36,24 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
 
     public function init()
     {
-        _::services()->page->setNamespace('\NetBricks\Page\Service\Page');
-        _::services()->pageWidgetType->setNamespace('\NetBricks\Page\Service\PageWidgetType');
-        _::services()->paragraphReader->setNamespace('\NetBricks\Page\Service\ParagraphReader');
-        _::services()->paragraph->setNamespace('\NetBricks\Page\Service\Paragraph');
-        _::services()->photo->setNamespace('\NetBricks\Page\Service\Photo');
-        _::services()->photoReader->setNamespace('\NetBricks\Page\Service\PhotoReader');
+        _::services()->page
+                ->setNamespace('\NetBricks\Page\Service\Page')
+                ->setAllowed('page_admin');
+        _::services()->pageWidgetType
+                ->setNamespace('\NetBricks\Page\Service\PageWidgetType')
+                ->setAllowed(array('page_super_admin'));
+        _::services()->paragraphReader
+                ->setNamespace('\NetBricks\Page\Service\ParagraphReader')
+                ->setAllowed('reader');
+        _::services()->paragraph
+                ->setNamespace('\NetBricks\Page\Service\Paragraph')
+                ->setAllowed('page_admin');
+        _::services()->photo
+                ->setNamespace('\NetBricks\Page\Service\Photo')
+                ->setAllowed('page_admin');
+        _::services()->photoReader
+                ->setNamespace('\NetBricks\Page\Service\PhotoReader')
+                ->setAllowed('reader');
 
         if (_::request()->get->installation == 'installation') {
             $this->installPage();

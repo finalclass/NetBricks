@@ -22,6 +22,7 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
         $cfg = $this->getOptions();
         _::services()->contact
             ->setNamespace('\NetBricks\Contact\Service\Contact')
+            ->setAllowed('guest')
             ->setOptions($cfg);
     }
 

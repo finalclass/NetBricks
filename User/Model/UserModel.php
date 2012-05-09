@@ -2,8 +2,8 @@
 
 namespace NetBricks\User\Model;
 
-use \NetBricks\User\Model\UserModel;
 use \NetCore\FileSystem\Model;
+use NetBricks\Facade as _;
 
 /**
  * UserModel
@@ -17,6 +17,11 @@ class UserModel extends Model {
     public function __construct() {
 
         parent::__construct();
+    }
+
+    static public function getDir()
+    {
+        return _::cfg()->getUser()->getSavePath();
     }
 
     protected function getFieldToGenerateId() {
@@ -35,7 +40,6 @@ class UserModel extends Model {
      * @return UserModel|null User found by specified $email and $password
      */
     static public function findByEmailAndPassword($email, $password) {
-
         $usersArray = static::findAll();
         foreach ($usersArray as $user) {
             /**

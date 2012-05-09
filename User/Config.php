@@ -22,33 +22,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\User\Service;
-use \NetBricks\Facade as _;
-use \NetBricks\User\Model\CurrentUser;
+namespace NetBricks\User;
 
-/*
+use \NetCore\Configurable\OptionsAbstract;
+
+/**
  * @author: Sel <s@finalclass.net>
- * @date: 29.12.11
- * @time: 23:35
+ * @date: 04.03.12
+ * @time: 15:29
  */
-class Login
+class Config extends OptionsAbstract
 {
 
-    public function login($params)
+    /**
+     * @param string $value
+     * @return \NetBricks\User\Config
+     */
+    public function setSavePath($value)
     {
-        return $this->post($params);
+        $this->options['save_path'] = (string)$value;
+        return $this;
     }
 
-    public function post($params)
+    /**
+     * @return string
+     */
+    public function getSavePath()
     {
-        $u = CurrentUser::getInstance();
-        $u->login($params['email'], $params['password']);
-        $out = $u->toArray();
-        $out['email'] = $params['email'];
-        if(!$u->isLogged()) {
-            $out['errors'] = array('Wrong username or password');
-        }
-        return $out;
+        return (string)@$this->options['save_path'];
     }
 
 }

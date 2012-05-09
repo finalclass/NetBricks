@@ -46,6 +46,9 @@ class Config extends ConfigurableContainer
     /** @var \NetBricks\I18n\Config */
     private $i18n;
 
+    /** @var \NetBricks\User\Config */
+    private $user;
+
     /** @return \NetCore\CouchDB\Config */
     public function getCouchdb()
     {
@@ -99,6 +102,14 @@ class Config extends ConfigurableContainer
             $this->i18n = new \NetBricks\I18n\Config((array)@$this->options['i18n']);
         }
         return $this->i18n;
+    }
+
+    public function getUser()
+    {
+        if(!$this->user) {
+            $this->user = new \NetBricks\User\Config((array)@$this->options['user']);
+        }
+        return $this->user;
     }
 
 }

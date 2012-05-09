@@ -10,19 +10,23 @@ use \NetBricks\Facade as _;
  *
  * Author: MMP
  */
-class Resource extends \Zend_Application_Resource_ResourceAbstract {
+class Resource extends \Zend_Application_Resource_ResourceAbstract
+{
 
-    public function init() {
+    public function init()
+    {
 
         $cnf = $this->getOptions();
 
-        if(!empty($cnf['users_dir'])) {
-            UserModel::setDir($cnf['users_dir']);
+        if (!empty($cnf['save_path'])) {
+            _::cfg()->getUser()->setSavePath($cnf['save_path']);
         }
 
         _::loader()->setRoles(_::user()->getRoles());
 
-        _::services()->login->setNamespace('\NetBricks\User\Service\Login');
+        _::services()->login
+                ->setNamespace('\NetBricks\User\Service\Login')
+                ->setAllowed('guest');
 
         _::stage()->addCase('login', '\NetBricks\User\Component\Login\LoginPage')
                 ->addCase('logout', '\NetBricks\User\Component\Login\Logout');

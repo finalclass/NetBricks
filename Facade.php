@@ -7,7 +7,7 @@ use \NetCore\Configurable\DynamicObject\Reader;
 use \NetCore\Configurable\DynamicObject\Writer;
 use \NetCore\Request;
 use \NetBricks\Common\Component\Stage;
-use \NetCore\Factory\Factory;
+use \NetCore\Factory;
 use \NetBricks\User\Model\CurrentUser;
 use NetCore\Router\Router;
 use \NetBricks\I18n\Model\Languages;
@@ -21,9 +21,9 @@ use \NetBricks\I18n\Model\Languages;
  * @property \NetCore\Configurable\DynamicObject\Writer $session
  * @property \NetCore\Configurable\DynamicObject\Reader $config
  * @property \NetCore\Request $request
- * @property \NetCore\Factory\Factory $factory
+ * @property \NetCore\Factory $factory
  * @property \NetBricks\User\Model\CurrentUser $user
- * @property \NetBricks\Factory\Factory $services
+ * @property \NetCore\Factory $services
  * @property \NetCore\Router\Router $router
  * @property \NetCore\Router\Router $mail
  * @property \NetCore\Loader $loader
@@ -155,7 +155,7 @@ class Facade
 
     /**
      * @static
-     * @return \NetCore\Factory\Factory
+     * @return \NetCore\Factory
      */
     static public function services()
     {
@@ -297,10 +297,10 @@ class Facade
     static public function session()
     {
         if (!isset(static::$options[__FUNCTION__])) {
+            session_start();
             static::$options[__FUNCTION__] = new Writer($_SESSION);
         }
-        ;
-        return static::$options[__FUNCTION__];
+        return static::$options[__FUNCTION__]->setTarget($_SESSION);
     }
 
     /**

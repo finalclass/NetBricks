@@ -36,8 +36,12 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
 
     public function init()
     {
-        _::services()->news->setNamespace('\NetBricks\News\Service\NewsService');
-        _::services()->newsReader->setNamespace('\NetBricks\News\Service\NewsReaderService');
+        _::services()->news
+                ->setNamespace('\NetBricks\News\Service\NewsService')
+                ->setAllowed(array('news_admin', 'journalist'));
+        _::services()->newsReader
+                ->setNamespace('\NetBricks\News\Service\NewsReaderService')
+                ->setAllowed('reader');
 
         if (_::env()->isDevelopment) {
             if (_::request()->get->installation->isOneOf(array('installation', 'news'))) {

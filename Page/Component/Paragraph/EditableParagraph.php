@@ -59,6 +59,14 @@ class EditableParagraph extends Container
     {
         $this->options['id'] = (string)$value;
         $this->editButton->addParam('id', $value);
+
+        $this->document = $this->getService()->get(array('id' => $this->getId()));
+        if (!$this->document) {
+            $paragraph = new \NetBricks\Page\Document\Paragraph();
+            $paragraph->setId($this->getId());
+            $this->document = $this->getService()->put($paragraph);
+        }
+
         return $this;
     }
 
@@ -94,16 +102,6 @@ class EditableParagraph extends Container
     public function getService()
     {
         return _::services()->paragraph();
-    }
-
-    public function beforeRender()
-    {
-        $this->document = $this->getService()->get(array('id' => $this->getId()));
-        if (!$this->document) {
-            $paragraph = new \NetBricks\Page\Document\Paragraph();
-            $paragraph->setId($this->getId());
-            $this->document = $this->getService()->put($paragraph);
-        }
     }
 
     public function render()

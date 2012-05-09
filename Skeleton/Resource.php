@@ -36,8 +36,12 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
 
     public function init()
     {
-        _::services()->skeleton->setNamespace('\NetBricks\Place\Service\SkeletonService');
-        _::services()->skeletonReader->setNamespace('\NetBricks\Place\Service\SkeletonReaderService');
+        _::services()->skeleton
+                ->setNamespace('\NetBricks\Place\Service\SkeletonService')
+                ->setAllowed('skeleton_admin');
+        _::services()->skeletonReader
+                ->setNamespace('\NetBricks\Place\Service\SkeletonReaderService')
+                ->setAllowed('reader');
 
         if (_::request()->get->installation->isOneOf(array('installation', 'skeleton'))) {
             $this->install();

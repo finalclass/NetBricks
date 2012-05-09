@@ -17,6 +17,7 @@ class CurrentUser extends UserModel {
 
     public function __construct() {
         $id = _::session()->currentUser->id->getString();
+
         $user = UserModel::find($id);
         if (!$user) {
             $user = $this->createGuest();
@@ -45,10 +46,11 @@ class CurrentUser extends UserModel {
 
     public function login($email, $password) {
         $u = UserModel::findByEmailAndPassword((string)$email, (string)$password);
-        
-        if ($u == null)
+
+        if ($u == null) {
             $u = $this->createGuest();
-        
+        }
+
         _::session()->currentUser->id = $u->getId();
         $this->setData($u->getData());
         return $this;

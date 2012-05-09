@@ -23,8 +23,12 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
             ArticleModel::setDir($cnf['articles_dir']);
         }
 
-        _::services()->article->setNamespace('\NetBricks\Article\Service\Article');
-        _::services()->articleReader->setNamespace('\NetBricks\Article\Service\ArticleReader');
+        _::services()->article
+                ->setNamespace('\NetBricks\Article\Service\Article')
+                ->setAllowed('article_admin');
+        _::services()->articleReader
+                ->setNamespace('\NetBricks\Article\Service\ArticleReader')
+                ->setAllowed(array('reader'));
     }
 
 }

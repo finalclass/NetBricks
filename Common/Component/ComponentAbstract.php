@@ -113,12 +113,34 @@ abstract class ComponentAbstract extends ConfigurableEventDispatcher
     }
 
     /**
+     * @param boolean $value
+     * @return \NetBricks\Common\Component\ComponentAbstract
+     */
+    public function setNoRender($value = true)
+    {
+        $this->options['no_render'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getNoRender()
+    {
+        return (boolean)@$this->options['no_render'];
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
+
         $this->dispatchEvent(new ComponentEvent(ComponentEvent::BEFORE_RENDER));
         $this->beforeRender();
+        if ($this->getNoRender()) {
+            return '';
+        }
         $view = $this->renderVariable(array($this, 'getView'));
         $out = '';
         if ($view) {

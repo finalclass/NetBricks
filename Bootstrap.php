@@ -5,7 +5,7 @@ namespace NetBricks;
 use \NetBricks\Facade as _;
 use \NetBricks\Common\Component\Event\ComponentEvent;
 use \NetCore\AutoLoader;
-use \NetBricks\Event\BootstrapEvent;
+use \NetBricks\Common\Event\BootstrapEvent;
 
 class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
 {
@@ -62,11 +62,6 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
     protected function _initStaticResource()
     {
 
-    }
-
-    protected function _initSession()
-    {
-        session_start();
     }
 
     protected function _initDate()
@@ -135,11 +130,9 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
                 _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_BEFORE_RENDER));
                 echo _::stage();
                 _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_AFTER_RENDER));
-
-            } catch (\NetCore\Factory\Exception\NotAllowed $e) {
-                //deprecated
-                echo _::factory()->netBricks->user->component->login->loginPage();
             } catch (\NetCore\Loader\Exception\NotAllowed $e) {
+                echo _::loader('/NetBricks/User/Component/Login/LoginPage')->create();
+            } catch(\NetCore\Factory\Exception\NotAllowed $e) {
                 echo _::loader('/NetBricks/User/Component/Login/LoginPage')->create();
             }
         }

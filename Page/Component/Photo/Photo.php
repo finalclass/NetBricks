@@ -34,6 +34,7 @@ use \NetBricks\Common\Component\Image;
  * @author: Sel <s@finalclass.net>
  * @date: 15.03.12
  * @time: 15:02
+ *
  * @property \NetBricks\Common\Component\Image $image
  */
 class Photo extends ComponentAbstract
@@ -50,9 +51,11 @@ class Photo extends ComponentAbstract
     {
         $doc = $this->getPhotoDocument();
         if (!$doc) {
-            $photo = $this->getService()->get();
+            $photo = $this->getService()->get(array('id' => $this->getPhotoDocumentId()));
             if($photo) {
                 $this->setPhotoDocument($photo);
+            } else {
+                $this->setNoRender(true);
             }
         }
     }

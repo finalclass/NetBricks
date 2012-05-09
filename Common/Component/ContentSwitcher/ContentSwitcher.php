@@ -4,7 +4,7 @@ namespace NetBricks\Common\Component;
 
 use \NetBricks\Common\Component\ComponentAbstract;
 use \NetBricks\Common\Component\Event\ComponentEvent;
-use \NetBricks\Event\ContentSwitcherEvent;
+use \NetBricks\Common\Event\ContentSwitcherEvent;
 use \NetBricks\Common\Component\Container;
 use \NetCore\Factory\Factory;
 use \NetBricks\Facade as _;

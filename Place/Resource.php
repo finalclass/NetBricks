@@ -36,8 +36,12 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
 
     public function init()
     {
-        _::services()->place->setNamespace('\NetBricks\Place\Service\PlaceService');
-        _::services()->placeReader->setNamespace('\NetBricks\Place\Service\PlaceReaderService');
+        _::services()->place
+                ->setNamespace('\NetBricks\Place\Service\PlaceService')
+                ->setAllowed('place_admin');
+        _::services()->placeReader
+                ->setNamespace('\NetBricks\Place\Service\PlaceReaderService')
+                ->setAllowed('reader');
 
         if (_::request()->get->installation->isOneOf(array('installation', 'place'))) {
             $this->installPlace();

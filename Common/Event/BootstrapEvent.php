@@ -1,6 +1,6 @@
 <?php
 
-namespace NetBricks\Event;
+namespace NetBricks\Common\Event;
 
 use \NetCore\Event\Event;
 
