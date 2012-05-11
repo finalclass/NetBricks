@@ -49,6 +49,14 @@ class Paragraph extends ParagraphReader
 
     public function delete($params)
     {
+        /** @var $paragraph \NetBricks\Page\Document\Paragraph */
+        $paragraph = $this->get($params);
+        if(! ($paragraph instanceof \NetBricks\Page\Document\Paragraph) ) {
+            return array('error' => 'not_found');
+        }
+        if($paragraph->getIsDeletable() == false) {
+            return array('error' => 'not deletable');
+        }
         return _::couchdb()->delete($params['id'], $params['rev']);
     }
 

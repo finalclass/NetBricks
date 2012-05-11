@@ -31,7 +31,7 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
         $this->bootstrap('config')->bootstrap('locale');
         $allLanguages = _::languages()->getAvailableLanguageCodes();
         $detectedLanguage = \Zend_Registry::get('Zend_Locale')->getLanguage();
-        if(array_search($detectedLanguage, $allLanguages) === false) {
+        if (array_search($detectedLanguage, $allLanguages) === false) {
             $detectedLanguage = $allLanguages[0];
         }
         _::languages()->setCurrent($detectedLanguage);
@@ -122,21 +122,27 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
         $currentStage = _::request()->getParam('stage', 'default');
         if (!empty($currentStage)) {
             try {
-                _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_BEFORE_CONSTRUCTION));
-                _::stage()->switchTo($currentStage);
-                _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_AFTER_CONSTRUCTION));
-
-                //Rendering
-                _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_BEFORE_RENDER));
-                echo _::stage();
-                _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_AFTER_RENDER));
+                $this->dispatch($currentStage);
             } catch (\NetCore\Loader\Exception\NotAllowed $e) {
                 echo _::loader('/NetBricks/User/Component/Login/LoginPage')->create();
-            } catch(\NetCore\Factory\Exception\NotAllowed $e) {
+            } catch (\NetCore\Factory\Exception\NotAllowed $e) {
                 echo _::loader('/NetBricks/User/Component/Login/LoginPage')->create();
+            } catch (\NetBricks\Common\Component\Exception\NotAComponent $e) {
+                $this->dispatch('error404');
             }
         }
+    }
 
+    private function dispatch($stage)
+    {
+        _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_BEFORE_CONSTRUCTION));
+        _::stage()->switchTo($stage);
+        _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_AFTER_CONSTRUCTION));
+
+        //Rendering
+        _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_BEFORE_RENDER));
+        echo _::stage();
+        _::dispatcher()->dispatchEvent(new BootstrapEvent(BootstrapEvent::LAYOUT_AFTER_RENDER));
     }
 
 }

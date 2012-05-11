@@ -60,11 +60,12 @@ class EditableParagraph extends Container
         $this->options['id'] = (string)$value;
         $this->editButton->addParam('id', $value);
 
-        $this->document = $this->getService()->get(array('id' => $this->getId()));
+        $this->document = $this->getReaderService()->get(array('id' => $this->getId()));
         if (!$this->document) {
             $paragraph = new \NetBricks\Page\Document\Paragraph();
             $paragraph->setId($this->getId());
-            $this->document = $this->getService()->put($paragraph);
+            $paragraph->setIsDeletable(false);
+            $this->document = $this->getWriterService()->put($paragraph);
         }
 
         return $this;
@@ -97,9 +98,17 @@ class EditableParagraph extends Container
     }
 
     /**
+     * @return \NetBricks\Page\Service\Paragraph
+     */
+    public function getWriterService()
+    {
+        return _::services()->paragraph();
+    }
+
+    /**
      * @return \NetBricks\Page\Service\ParagraphReader
      */
-    public function getService()
+    public function getReaderService()
     {
         return _::services()->paragraphReader();
     }
@@ -111,7 +120,7 @@ class EditableParagraph extends Container
         <?php echo $this->document->getText(); ?>
         <?php if ($this->getShowEditButton()): ?>
         <?php echo $this->editButton
-                ->setLabel('nb_page_paragrpah_editable_edit_button')
+                ->setLabel('nb_page_paragraph_editable_edit_button')
                 ->addClass('nb_page_paragraph_editable_edit_button'); ?>
         <?php endif ?>
     </div>

@@ -80,6 +80,12 @@ class UrlBuilder extends OptionsAbstract
         return $this;
     }
 
+    public function removeParam($paramName)
+    {
+        unset($this->params[$paramName]);
+        return $this;
+    }
+
     public function addParams(array $params)
     {
         $this->params = array_merge($this->params, $params);
@@ -133,6 +139,11 @@ class UrlBuilder extends OptionsAbstract
             $params = @(array)http_build_query($this->params, '&amp');
             return _::request()->getBaseUrl() . '?' . join('&', $params);
         }
+    }
+
+    public function encode()
+    {
+        return urlencode((string)$this);
     }
 
     public function redirect()

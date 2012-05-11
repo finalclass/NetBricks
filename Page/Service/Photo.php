@@ -53,41 +53,47 @@ class Photo extends PhotoReader
             $doc->fromArray($params);
         }
 
-        if (@$_FILES['photo']['tmp_name']) {
-            $doc->addAttachment('original.jpg', $_FILES['photo']['tmp_name']);
+        try {
+            if (@$_FILES['photo']['tmp_name']) {
+                $doc->addAttachment('original.jpg', $_FILES['photo']['tmp_name']);
 
-            $bigPath = $this->createBigImage($_FILES['photo']['tmp_name']);
-            list($x, $y) = $this->getSize($bigPath);
-            $doc->setBigWidth($x)
-                    ->setBigHeight($y)
-                    ->addAttachment('big.jpg', $bigPath);
+                $bigPath = $this->createBigImage($_FILES['photo']['tmp_name']);
+                list($x, $y) = $this->getSize($bigPath);
+                $doc->setBigWidth($x)
+                        ->setBigHeight($y)
+                        ->addAttachment('big.jpg', $bigPath);
 
-            $thumbPath = $this->createThumbImage($_FILES['photo']['tmp_name']);
-            list($x, $y) = $this->getSize($thumbPath);
-            $doc->setThumbWidth($x)
-                    ->setThumbHeight($y)
-                    ->addAttachment('thumb.jpg', $thumbPath);
+                $thumbPath = $this->createThumbImage($_FILES['photo']['tmp_name']);
+                list($x, $y) = $this->getSize($thumbPath);
+                $doc->setThumbWidth($x)
+                        ->setThumbHeight($y)
+                        ->addAttachment('thumb.jpg', $thumbPath);
 
-            $iconPath = $this->createIconImage($_FILES['photo']['tmp_name']);
-            list($x, $y) = $this->getSize($iconPath);
-            $doc->setIconWidth($x)
-                    ->setIconHeight($y)
-                    ->addAttachment('icon.jpg', $iconPath);
+                $iconPath = $this->createIconImage($_FILES['photo']['tmp_name']);
+                list($x, $y) = $this->getSize($iconPath);
+                $doc->setIconWidth($x)
+                        ->setIconHeight($y)
+                        ->addAttachment('icon.jpg', $iconPath);
 
-            $tinyPath = $this->createTinyImage($_FILES['photo']['tmp_name']);
-            list($x, $y) = $this->getSize($tinyPath);
-            $doc->setTinyWidth($x)
-                    ->setTinyHeight($y)
-                    ->addAttachment('tiny.jpg', $tinyPath);
+                $tinyPath = $this->createTinyImage($_FILES['photo']['tmp_name']);
+                list($x, $y) = $this->getSize($tinyPath);
+                $doc->setTinyWidth($x)
+                        ->setTinyHeight($y)
+                        ->addAttachment('tiny.jpg', $tinyPath);
 
-            $middlePath = $this->createMiddleImage($_FILES['photo']['tmp_name']);
-            list($x, $y) = $this->getSize($middlePath);
-            $doc->setMiddleWidth($x)
-                    ->setMiddleHeight($y)
-                    ->addAttachment('middle.jpg', $middlePath);
+                $middlePath = $this->createMiddleImage($_FILES['photo']['tmp_name']);
+                list($x, $y) = $this->getSize($middlePath);
+                $doc->setMiddleWidth($x)
+                        ->setMiddleHeight($y)
+                        ->addAttachment('middle.jpg', $middlePath);
 
+            }
+            $repo->save($doc);
+        } catch(\NetCore\Image\Exception\WrongSourceType $e) {
+            $doc->setErrors(array('photo' => array(_::translate('nb_page_photo_error_wrong_source_type'))));
         }
-        return $repo->save($doc);
+
+        return $doc;
     }
 
     private function getSize($path)
@@ -104,10 +110,17 @@ class Photo extends PhotoReader
         $img->getConfig()
                 ->setSource($sourceFilePath)
                 ->setWidth($cfg->getBigWidth())
-                ->setRatioHeight(true)
+                ->setHeight($cfg->getBigHeight())
                 ->setRatioNoZoomIn(true)
                 ->setAutoConvertByExtension(false)
                 ->setConvertTo('jpg');
+
+        if($cfg->getBigRatioWidth()) {
+            $img->getConfig()->setRatioWidth(true);
+        }
+        if($cfg->getBigRatioHeight()) {
+            $img->getConfig()->setRatioHeight(true);
+        }
 
         $destinationPath = tempnam(_::cfg()->getTempDir(), 'thumb');
         $img->save($destinationPath);
@@ -121,10 +134,17 @@ class Photo extends PhotoReader
         $img->getConfig()
                 ->setSource($sourceFilePath)
                 ->setWidth($cfg->getThumbWidth())
-                ->setRatioHeight(true)
+                ->setHeight($cfg->getThumbHeight())
                 ->setRatioNoZoomIn(true)
                 ->setAutoConvertByExtension(false)
                 ->setConvertTo('jpg');
+
+        if($cfg->getThumbRatioWidth()) {
+            $img->getConfig()->setRatioWidth(true);
+        }
+        if($cfg->getThumbRatioHeight()) {
+            $img->getConfig()->setRatioHeight(true);
+        }
 
         $destinationPath = tempnam(_::cfg()->getTempDir(), 'thumb');
         $img->save($destinationPath);
@@ -138,10 +158,17 @@ class Photo extends PhotoReader
         $img->getConfig()
                 ->setSource($sourceFilePath)
                 ->setWidth($cfg->getIconWidth())
-                ->setRatioHeight(true)
+                ->setHeight($cfg->getIconHeight())
                 ->setRatioNoZoomIn(true)
                 ->setAutoConvertByExtension(false)
                 ->setConvertTo('jpg');
+
+        if($cfg->getIconRatioWidth()) {
+            $img->getConfig()->setRatioWidth(true);
+        }
+        if($cfg->getIconRatioHeight()) {
+            $img->getConfig()->setRatioHeight(true);
+        }
 
         $destinationPath = tempnam(_::cfg()->getTempDir(), 'icon');
         $img->save($destinationPath);
@@ -155,10 +182,17 @@ class Photo extends PhotoReader
         $img->getConfig()
                 ->setSource($sourceFilePath)
                 ->setWidth($cfg->getTinyWidth())
-                ->setRatioHeight(true)
+                ->setHeight($cfg->getTinyHeight())
                 ->setRatioNoZoomIn(true)
                 ->setAutoConvertByExtension(false)
                 ->setConvertTo('jpg');
+
+        if($cfg->getTinyRatioWidth()) {
+            $img->getConfig()->setRatioWidth(true);
+        }
+        if($cfg->getTinyRatioHeight()) {
+            $img->getConfig()->setRatioHeight(true);
+        }
 
         $destinationPath = tempnam(_::cfg()->getTempDir(), 'tiny');
         $img->save($destinationPath);
@@ -172,10 +206,17 @@ class Photo extends PhotoReader
         $img->getConfig()
                 ->setSource($sourceFilePath)
                 ->setWidth($cfg->getMiddleWidth())
-                ->setRatioHeight(true)
+                ->setHeight($cfg->getMiddleHeight())
                 ->setRatioNoZoomIn(true)
                 ->setAutoConvertByExtension(false)
                 ->setConvertTo('jpg');
+
+        if($cfg->getMiddleRatioWidth()) {
+            $img->getConfig()->setRatioWidth(true);
+        }
+        if($cfg->getMiddleRatioHeight()) {
+            $img->getConfig()->setRatioHeight(true);
+        }
 
         $destinationPath = tempnam(_::cfg()->getTempDir(), 'middle');
         $img->save($destinationPath);

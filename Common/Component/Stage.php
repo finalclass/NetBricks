@@ -34,6 +34,14 @@ use NetBricks\Common\Component\ContentSwitcher;
 class Stage extends ContentSwitcher
 {
 
+    public function __construct($options = array())
+    {
+        parent::__construct($options);
+        if(!isset($this->options['cases']['error404'])) {
+            $this->addCase('error404', '\NetBricks\Common\Component\PageNotFound');
+        }
+    }
+
     public function getStage()
     {
         return $this;

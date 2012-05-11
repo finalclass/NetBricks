@@ -95,3 +95,12 @@
     left: 2px;
     top: 50%;
 }
+
+.nb-operations, .nb-buttons {
+    list-style-type:none;
+}
+
+.nb-operations li, .nb-buttons li {
+    display: inline;
+    margin: 0 5px;
+}

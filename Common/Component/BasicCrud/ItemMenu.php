@@ -33,8 +33,8 @@ use \NetBricks\Facade as _;
  * @date: 02.03.12
  * @time: 09:20
  *
- * @property \NetBricks\Common\Component\Link $editButton
- * @property \NetBricks\Common\Component\Link $removeButton
+ * @property \NetBricks\Common\Component\IconLink $editButton
+ * @property \NetBricks\Common\Component\IconLink $removeButton
  * @property string $stateParam
  */
 class ItemMenu extends UnorderedList
@@ -59,42 +59,29 @@ class ItemMenu extends UnorderedList
 
     public function __construct($options = array())
     {
-        $this->setClass('operations');
+        parent::__construct($options);
+
+        _::cfg()->getHeader()->getStyleSheets()->addJQueryUi()->addNetBricks();
+
+        $this->addClass('nb-operations');
 
         $this->editButton = IconLink::factory()
-                ->setIconClass('edit')
-                ->setLabel('edit');
+                ->setIconClass('ui-icon ui-icon-pencil')
+                ->setLabel('edit')
+                ->setClass('ui-state-default ui-corner-all nb-button');
 
         $this->removeButton = IconLink::factory()
-                ->setIconClass('trash')
-                ->setLabel('delete');
+                ->setIconClass('ui-icon ui-icon-trash')
+                ->setLabel('delete')
+                ->addParam('redirect', urlencode(_::request()->getCurrentUrlFull()))
+                ->addClass('ui-state-default ui-corner-all nb-button');
 
-        parent::__construct($options);
-    }
-
-    public function beforeRender()
-    {
-        if(!$this->editButton->getParam('id')) {
-            $this->editButton->addParam('id', $this->getRecordId())
-            ->addParam($this->stateParam(), 'edit');
-        }
-
-        $service = $this->getServiceName();
-        if($service) {
-            $rev = $this->getRev() ? '&rev=' . $this->getRev() : '';
-            $redirect = '&redirect=' . urlencode(_::request()->getCurrentUrlFull());
-            $this->removeButton->setHref('/-' . $this->getServiceName() . '-delete?'
-                    . 'id=' . $this->getRecordId() . $rev . $redirect);
-        }
-
-        if(!$this->removeButton->getOnclick()) {
-            $this->removeButton->setOnclick('return confirm("' . $this->getRemoveConfirmText() . '")');
-        }
     }
 
     public function setServiceName($name)
     {
         $this->serviceName = (string)$name;
+        $this->removeButton->addParam('service', $name . '-delete');
         return $this;
     }
 
@@ -110,12 +97,15 @@ class ItemMenu extends UnorderedList
 					? 'action' : $this->options['state_param'];
 		}
 		$this->options['state_param'] = $value;
+        $this->editButton->addParam($this->stateParam(), 'edit');
 		return $this;
 	}
 
     public function setRecordId($id)
     {
         $this->recordId = (string)$id;
+        $this->editButton->addParam('id', $id);
+        $this->removeButton->addParam('id', $id);
         return $this;
     }
 
@@ -131,6 +121,7 @@ class ItemMenu extends UnorderedList
     public function setRev($value)
     {
         $this->options['rev'] = $value;
+        $this->removeButton->addParam('rev', $value);
         return $this;
     }
 
@@ -151,6 +142,7 @@ class ItemMenu extends UnorderedList
     public function setRemoveConfirmText($text)
     {
         $this->removeConfirmText = (string)$text;
+        $this->removeButton->setOnclick("return confirm('" . $text . "')");
         return $this;
     }
 

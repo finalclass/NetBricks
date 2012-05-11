@@ -96,6 +96,42 @@ abstract class DefaultForm extends AbstractForm
         return $this;
     }
 
+    public function getErrors()
+    {
+        $out = array();
+        foreach ($this->children as $child) {
+            if ($child instanceof DefaultForm\ElementContainer) {
+                $element = $child->element;
+            } else if ($child instanceof FormElementAbstract) {
+                $element = $child;
+            } else {
+                continue;
+            }
+            $out[$element->getName()] = $element->getErrors();
+        }
+        return $out;
+    }
+
+
+    public function setErrors($errors)
+    {
+        foreach ($this->children as $child) {
+            if ($child instanceof DefaultForm\ElementContainer) {
+                $element = $child->element;
+            } else if ($child instanceof FormElementAbstract) {
+                $element = $child;
+            } else {
+                continue;
+            }
+            $err = empty($errors[$element->getName()])
+                    ? '' : $errors[$element->getName()];
+            if (!empty($err)) {
+                $element->setErrors($err);
+            }
+        }
+        return $this;
+    }
+
 
     /**
      * @param string $value

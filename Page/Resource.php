@@ -55,9 +55,13 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
                 ->setNamespace('\NetBricks\Page\Service\PhotoReader')
                 ->setAllowed('reader');
 
-        if (_::request()->get->installation == 'installation') {
+        if (_::request()->get->installation->isOneOf(array('installation', 'page'))) {
             $this->installPage();
+        }
+        if (_::request()->get->installation->isOneOf(array('installation', 'page', 'paragraph'))) {
             $this->installParagraph();
+        }
+        if (_::request()->get->installation->isOneOf(array('installation', 'page', 'photo'))) {
             $this->installPhoto();
         }
     }
@@ -73,7 +77,7 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
     private function installParagraph()
     {
         $paragraphDoc = new \NetBricks\Page\Document\Paragraph();
-        $paragraphRepo = new \Netbricks\Page\Document\Paragraph\Repository();
+        $paragraphRepo = new \NetBricks\Page\Document\Paragraph\Repository();
         _::couchdb()->initView($paragraphDoc->toArray(), $paragraphRepo->designDocumentId, $paragraphRepo->viewName);
         return $this;
     }

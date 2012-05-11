@@ -87,6 +87,10 @@ class ElementContainer extends FormElementAbstract
     {
         $id = \NetCore\Utils\Words::generateWord();
         $element = @(string)$this->element->setId($id);
+        $errors = @(array)$this->element->getErrors();
+        if(!empty($errors)) {
+            $element->addClass('error');
+        }
         $tip = $this->getSubLabel();
         ?>
     <div class="nb-hbox">
@@ -99,6 +103,9 @@ class ElementContainer extends FormElementAbstract
 
         <div class="nb-form-element">
             <?php echo $element; ?>
+            <?php foreach($errors as $err): ?>
+                <p class="error"><?php echo $err; ?></p>
+            <?php endforeach; ?>
         </div>
     </div>
     <?php

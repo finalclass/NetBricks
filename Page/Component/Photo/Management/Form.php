@@ -41,6 +41,7 @@ use \NetBricks\Common\Component\Form\File;
  * @property \NetBricks\Common\Component\Form\MultiLang\TextInput $name
  * @property \NetBricks\Common\Component\Form\File $file
  * @property \NetBricks\Common\Component\Form\Submit $submit
+ * @property \NetBricks\Page\Component\Photo\Thumb $existingPhoto
  */
 class Form extends DefaultForm
 {
@@ -78,7 +79,9 @@ class Form extends DefaultForm
     public function setValues($values)
     {
         parent::setValues($values);
-        $this->existingPhotoSrc = _::couchdb()->getUrl() . '/' . $values['_id'] . '/thumb.jpg';
+        if(isset($values['_id'])) {
+            $this->existingPhotoSrc = _::couchdb()->getUrl() . '/' . $values['_id'] . '/thumb.jpg';
+        }
     }
 
     public function redirect()

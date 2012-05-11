@@ -65,4 +65,27 @@ abstract class FormElementAbstract extends Tag
         return isset($_POST[$name]) ? $_POST[$name] : $value;
     }
 
+    /**
+     * @param array $value
+     * @return \NetBricks\Common\Component\Form\FormElementAbstract
+     */
+    public function setErrors($value)
+    {
+        $this->options['errors'] = (array)$value;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrors()
+    {
+        return (array)@$this->options['errors'];
+    }
+
+    public function hasErrors()
+    {
+        return !empty($this->options['errors']);
+    }
+
 }

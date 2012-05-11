@@ -40,18 +40,18 @@ class Layout extends Container
 
     public function __construct($options = array())
     {
-        $this->menu = _::loader('\NetBricks\Common\Component\BasicCrud\Menu')->create();
+        $this->menu = new \NetBricks\Common\Component\BasicCrud\Menu();
 
         switch(_::request()->get->action) {
             default:
             case 'list':
-                $this->content = _::loader($this)->find('../ManageMany')->create();
+                $this->content = _::loader(__CLASS__)->find('../ManageMany')->create();
                 break;
             case 'add':
-                $this->content = _::loader($this)->find('../Form')->create();
+                $this->content = _::loader(__CLASS__)->find('../Form')->create();
                 break;
             case 'edit':
-                $this->content = _::loader($this)->find('../Form')->create();
+                $this->content = _::loader(__CLASS__)->find('../Form')->create();
                 break;
         }
 

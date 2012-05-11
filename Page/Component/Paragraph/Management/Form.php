@@ -31,6 +31,7 @@ use \NetBricks\Common\Component\Form\Hidden;
 use \NetBricks\Common\Component\Form\Submit;
 use \NetBricks\Common\Component\Extended\DefaultForm;
 use \NetBricks\Common\Component\Extended\DefaultForm\ElementContainer;
+use \NetBricks\Common\Component\Form\CheckBox;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -53,6 +54,9 @@ class Form extends DefaultForm
         $this->addElement(ElementContainer::factory()
                     ->setLabel('Text')
                     ->element(TextArea::factory()->setName('text_translations'))
+        )->addElement(ElementContainer::factory()
+                    ->setLabel('nb_page_paragraph_is_deletable')
+                    ->element(CheckBox::factory()->setName('is_deletable'))
         );
     }
 

@@ -50,6 +50,18 @@ form.nb-default-form, .nb-default-form form {
 .nb-default-form .nb-form-element {
     overflow:hidden;
     float:none;
+    text-align:left;
+}
+
+.nb-default-form .nb-form-element label {
+    text-align: left;
+}
+
+.nb-default-form .nb-form-element dt {
+}
+
+.nb-default-form .nb-form-element dd {
+    margin: 0;
 }
 
 .nb-default-form legend {
@@ -69,4 +81,8 @@ form.nb-default-form, .nb-default-form form {
 
 .nb-default-form textarea {
     width:600px;
+}
+
+.nb-default-form .nb_common_form_nic_editor {
+    height: 400px;
 }

@@ -47,6 +47,7 @@ class UploaderPage extends Html5
             default:
             case 'form':
                 $form = new \NetBricks\Page\Component\Photo\Management\Form();
+                $form->cancel->setNoRender(true);
                 $form->setLegend('Upload photo')
                     ->setSubLegend("Select photo file and set it's name");
                 $this->body->addChild($form);

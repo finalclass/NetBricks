@@ -21,29 +21,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-namespace NetBricks\Common\Component\Form;
-use \NetBricks\Common\Component\Form\TextArea;
-use \NetBricks\Facade as _;
+namespace NetBricks\Common\Component;
+use \NetBricks\Common\Component\Document\Html5;
 /**
  * @author: Sel <s@finalclass.net>
- * @date: 24.04.12
- * @time: 09:07
+ * @date: 11.05.12
+ * @time: 11:21
  */
-class NicEditor extends TextArea
+class PageNotFound extends Html5
 {
 
-    public function __construct($options = array())
+    public function render()
     {
-        parent::__construct($options);
-        _::cfg()->getHeader()->getScripts()->append('/NetBricks/Common/Component/Form/NicEditor/nicEdit.js');
-        $this->addClass('nb_common_form_nic_editor');
-    }
-
-    public function beforeRender()
-    {
-        if(!$this->getId()) {
-            $this->setId(\NetCore\Utils\Words::generateWord(12));
-        }
+        ?>
+        <h1>404 Page Not Found</h1>
+        <?php
     }
 
 }

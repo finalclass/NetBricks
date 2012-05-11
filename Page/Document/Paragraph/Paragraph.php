@@ -35,8 +35,27 @@ class Paragraph extends MultiLangDocument
 {
 
     protected $data = array(
-        'text_translations' => array()
+        'text_translations' => array(),
+        'is_deletable' => true,
     );
+
+    /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Document\Paragraph
+     */
+    public function setIsDeletable($value)
+    {
+        $this->data['is_deletable'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsDeletable()
+    {
+        return isset($this->data['is_deletable']) ? $this->data['is_deletable'] : true;
+    }
 
     /**
      * @param string $value

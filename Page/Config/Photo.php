@@ -71,6 +71,42 @@ class Photo extends OptionsAbstract
     }
 
     /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setThumbRatioWidth($value)
+    {
+        $this->options['thumb_ratio_width'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getThumbRatioWidth()
+    {
+        return (boolean)@$this->options['thumb_ratio_width'];
+    }
+
+    /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setThumbRatioHeight($value)
+    {
+        $this->options['thumb_ratio_height'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getThumbRatioHeight()
+    {
+        return (boolean)@$this->options['thumb_ratio_height'];
+    }
+
+    /**
      * @param string $value
      * @return \NetBricks\Page\Config\Photo
      */
@@ -107,6 +143,43 @@ class Photo extends OptionsAbstract
     }
 
     /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setBigRatioWidth($value)
+    {
+        $this->options['big_ratio_width'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getBigRatioWidth()
+    {
+        return (boolean)@$this->options['big_ratio_width'];
+    }
+
+    /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setBigRatioHeight($value)
+    {
+        $this->options['big_ratio_height'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getBigRatioHeight()
+    {
+        return (boolean)@$this->options['big_ratio_height'];
+    }
+
+
+    /**
      * @param string $value
      * @return \NetBricks\Page\Config\Photo
      */
@@ -122,6 +195,42 @@ class Photo extends OptionsAbstract
     public function getIconHeight()
     {
         return empty($this->options['icon_height']) ? 16 : $this->options['icon_height'];
+    }
+
+    /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setIconRatioWidth($value)
+    {
+        $this->options['icon_ratio_width'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIconRatioWidth()
+    {
+        return (boolean)@$this->options['icon_ratio_width'];
+    }
+
+    /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setIconRatioHeight($value)
+    {
+        $this->options['icon_ratio_height'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIconRatioHeight()
+    {
+        return (boolean)@$this->options['icon_ratio_height'];
     }
 
     /**
@@ -180,6 +289,42 @@ class Photo extends OptionsAbstract
     }
 
     /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setTinyRatioWidth($value)
+    {
+        $this->options['tiny_ratio_width'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getTinyRatioWidth()
+    {
+        return (boolean)@$this->options['tiny_ratio_width'];
+    }
+
+    /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setTinyRatioHeight($value)
+    {
+        $this->options['tiny_ratio_height'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getTinyRatioHeight()
+    {
+        return (boolean)@$this->options['tiny_ratio_height'];
+    }
+
+    /**
      * @param string $value
      * @return \NetBricks\Page\Config\Photo
      */
@@ -213,6 +358,42 @@ class Photo extends OptionsAbstract
     public function getMiddleWidth()
     {
         return empty($this->options['middle_width']) ? 300 : $this->options['middle_width'];
+    }
+
+    /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setMiddleRatioWidth($value)
+    {
+        $this->options['middle_ratio_width'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getMiddleRatioWidth()
+    {
+        return (boolean)@$this->options['middle_ratio_width'];
+    }
+
+    /**
+     * @param boolean $value
+     * @return \NetBricks\Page\Config\Photo
+     */
+    public function setMiddleRatioHeight($value)
+    {
+        $this->options['middle_ratio_height'] = (boolean)$value;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getMiddleRatioHeight()
+    {
+        return (boolean)@$this->options['middle_ratio_height'];
     }
 
 }

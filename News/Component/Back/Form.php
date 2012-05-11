@@ -28,6 +28,7 @@ use \NetBricks\Common\Component\Form\MultiLang\TextArea;
 use \NetBricks\Common\Component\Form\MultiLang\TextInput;
 use \NetBricks\Page\Component\Photo\PhotosFormElement;
 use \NetBricks\Common\Component\Extended\DatePicker;
+use \NetBricks\Common\Component\Form\MultiLang\NicEditor;
 use \NetBricks\Facade as _;
 
 /**
@@ -47,7 +48,7 @@ class Form extends DefaultForm
                     ->element(TextInput::factory()->setName('title_translations'))
         )->addElement(ElementContainer::factory()
                     ->setLabel('nb_news_back_form_body')
-                    ->element(TextArea::factory()->setName('body_translations'))
+                    ->element(NicEditor::factory()->setName('body_translations'))
         )->addElement(ElementContainer::factory()
                     ->setLabel('nb_news_back_form_brief')
                     ->element(TextArea::factory()->setName('brief_translations'))
@@ -66,7 +67,8 @@ class Form extends DefaultForm
         );
 
         $this->cancel->addData('component', '\NetBricks\News\Component\Back\Table')
-                ->addData('destination', '.nb_back_news_container');
+                ->addData('destination', '.nb_news_back_container')
+                ->addParam('nb_news_back', 'list');
     }
 
     public function redirect()

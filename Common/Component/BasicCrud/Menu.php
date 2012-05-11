@@ -26,6 +26,7 @@ namespace NetBricks\Common\Component\BasicCrud;
 
 use \NetBricks\Common\Component\UnorderedList;
 use \NetBricks\Common\Component\IconLink;
+use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -51,20 +52,23 @@ class Menu extends UnorderedList
 
     public function __construct($options = array())
     {
+        _::cfg()->getHeader()->getStyleSheets()->addJQueryUi()->addNetBricks();
         if (!isset($options['param_to_switch'])) {
             $options['param_to_switch'] = 'action';
         }
 
-        $this->setClass('buttons');
-
-        $this->addButton = IconLink::factory()
-                ->setIconClass('plus')
-                ->setLabel('Add')
-                ->addParam('id', '');
+        $this->setClass('nb-buttons');
 
         $this->listButton = IconLink::factory()
-                ->setIconClass('list')
-                ->setLabel('List');
+                ->setIconClass('ui-icon ui-icon-note')
+                ->setLabel('List')
+                ->addClass('ui-state-default ui-corner-all nb-button add');
+
+        $this->addButton = IconLink::factory()
+                ->setIconClass('ui-icon ui-icon-plus')
+                ->setLabel('Add')
+                ->addParam('id', '')
+                ->addClass('ui-state-default ui-corner-all nb-button add');
 
         parent::__construct($options);
     }

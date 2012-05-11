@@ -57,7 +57,7 @@ class PhotoBox extends Tag
         $this->removeButton->setIconClass('ui-icon ui-icon-trash')
                 ->setLabel('nb_page_photo_remove')
                 ->setOnclick("return confirm('" . _::translate('nb_page_photo_remove_confirm') . "');")
-                ->addClass('nb-button ui-state-default ui-corner-all');
+                ->addClass('nb-button ui-state-default ui-corner-all remove');
     }
 
     /**
@@ -69,12 +69,11 @@ class PhotoBox extends Tag
         $this->options['document'] = $value;
         $this->img->setPhotoDocument($value);
         $this->editButton->addParam('id', $value->getId());
-        $url = urlencode(_::url()->addCurrentParams()->addParam('action', 'list'));
+
         $this->removeButton
                 ->addParam('service', 'photo-delete')
                 ->addParam('id', $value->getId())
-                ->addParam('rev', $value->getId())
-                ->addParam('redirect', $url);
+                ->addParam('rev', $value->getRev());
         return $this;
     }
 

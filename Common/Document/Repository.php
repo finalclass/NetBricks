@@ -67,6 +67,9 @@ class Repository
 
         $documents = array();
         foreach($response['rows'] as $row) {
+            if(@$row['value']['deleted']) {
+                continue;
+            }
             $documents[] = $this->createDocument(@(array)$row['doc']);
         }
         return $documents;

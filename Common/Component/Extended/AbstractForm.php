@@ -38,6 +38,7 @@ abstract class AbstractForm extends BaseForm
 {
 
     abstract protected function getService();
+
     abstract public function redirect();
 
     public function __construct($options = array())
@@ -57,20 +58,47 @@ abstract class AbstractForm extends BaseForm
                 $out = $this->getService()->post(_::request()->post->getArray())->toArray();
             }
 
-            if($out) {
+            if ($out) {
                 $this->setValues($out);
             }
 
             if (empty($out['errors'])) {
                 $this->redirect();
             }
-
+            $this->setErrors($out['errors']);
         } else if (_::request()->get->id->exists()) {
             $document = $this->getService()->get(_::request()->get->getArray());
-            if($document) {
+            if ($document) {
                 $this->setValues($document->toArray());
             }
         }
+    }
+
+    /**
+     * @param $errors
+     * @return \NetBricks\Common\Component\Extended\AbstractForm
+     */
+    public function setErrors($errors)
+    {
+        $this->options['errors'] = (array)$errors;
+        foreach ($this->children as $child) {
+            if ($child instanceof \NetBricks\Common\Component\Form\FormElementAbstract) {
+                /** @var $child \NetBricks\Common\Component\Form\FormElementAbstract */
+                $err = empty($errors[$child->getName()]) ? '' : $errors[$child->getName()];
+                if (!empty($err)) {
+                    $child->setErrors($err);
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrors()
+    {
+        return (array)@$this->options['errors'];
     }
 
     public function formStart()
