@@ -42,7 +42,7 @@ class Html5 extends Container
     {
         //In case someone will overrdie __construct and add custom components
         $this->head = $this->head ? $this->head : new \NetBricks\Common\Component\Head();
-        $this->body = $this->body ? $this->body : _::loader('/NetBricks/Common/Component/Tag')->create(array('tagName' => 'body'));
+        $this->body = $this->body ? $this->body : \NetBricks\Common\Component\Tag::factory('body');
         parent::__construct($options);
     }
 

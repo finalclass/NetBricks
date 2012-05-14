@@ -39,6 +39,9 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
         _::services()->page
                 ->setNamespace('\NetBricks\Page\Service\Page')
                 ->setAllowed('page_admin');
+        _::services()->pageReader
+                ->setNamespace('\NetBricks\Page\Service\Page')
+                ->setAllowed('reader');
         _::services()->pageWidgetType
                 ->setNamespace('\NetBricks\Page\Service\PageWidgetType')
                 ->setAllowed(array('page_super_admin'));

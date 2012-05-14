@@ -38,11 +38,15 @@ class Title
         $this->title = $title;
     }
 
-    public function setSeparator($seprarator)
+    /**
+     * @param $separator
+     * @return Title
+     */
+    public function setSeparator($separator)
     {
         //First explode current title by old separator
         $exploded = explode($this->separator, $this->title);
-        $this->separator = $seprarator;
+        $this->separator = $separator;
         //Now join with the new glue:
         $this->title = join($this->separator, $exploded);
         return $this;
@@ -53,13 +57,26 @@ class Title
         return $this->separator;
     }
 
+    /**
+     * @param $titlePart
+     * @return Title
+     */
     public function add($titlePart)
     {
-        $exploded = explode($this->separator, $this->title);
+        if(empty($this->title)) {
+            $exploded = array();
+        } else {
+            $exploded = explode($this->separator, $this->title);
+        }
         $exploded[] = $titlePart;
-        $this->title = join($this->separator, $this->title);
+        $this->title = join($this->separator, $exploded);
+        return $this;
     }
 
+    /**
+     * @param $title
+     * @return Title
+     */
     public function set($title)
     {
         $this->title = $title;
@@ -68,14 +85,18 @@ class Title
 
     public function get()
     {
-        return $this->title;
+        return @(string)$this->title;
     }
 
     public function __toString()
     {
-        return $this->title;
+        return $this->get();
     }
 
+    /**
+     * @param $title
+     * @return Title
+     */
     public function setOptions($title)
     {
         $this->title = $title;

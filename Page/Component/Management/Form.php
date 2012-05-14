@@ -59,13 +59,15 @@ class Form extends DefaultForm
 
         $this->cancel->addParam('page_management', 'list');
 
+        /*$this->addElement(ElementContainer::factory()
+                            ->setLabel('Title')
+                            ->element(TextInput::factory()->setName('title_translations'))
+                )->addElement(ElementContainer::factory()
+                            ->setLabel('Brief')
+                            ->element(TextInput::factory()->setName('brief_translations'))
+                )*/
+
         $this->addElement(ElementContainer::factory()
-                    ->setLabel('Title')
-                    ->element(TextInput::factory()->setName('title_translations'))
-        )->addElement(ElementContainer::factory()
-                    ->setLabel('Brief')
-                    ->element(TextInput::factory()->setName('brief_translations'))
-        )->addElement(ElementContainer::factory()
                     ->setLabel('Index by robots')
                     ->element(CheckBox::factory()->setname('robots_index'))
         )->addElement(ElementContainer::factory()
@@ -80,9 +82,6 @@ class Form extends DefaultForm
         )->addElement(ElementContainer::factory()
                     ->setLabel('Meta description')
                     ->element(TextArea::factory()->setName('meta_description_translations'))
-        )->addElement(ElementContainer::factory()
-                    ->setLabel('Widget management')
-                    ->element(WidgetManagement::factory())
         );
     }
 

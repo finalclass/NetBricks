@@ -22,27 +22,42 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-namespace NetBricks\Page\Component\Management;
-
-use \NetBricks\Common\Component\IconLink;
+namespace NetBricks\Page\Service;
+use \NetBricks\Facade as _;
+use \NetBricks\Page\Document\Page as PageModel;
 
 /**
  * @author: Sel <s@finalclass.net>
  * @date: 24.02.12
- * @time: 09:58
+ * @time: 10:04
  */
-class ListButton extends IconLink
+class PageReader
 {
 
-    public function __construct($options = array())
+    /**
+     * @return \NetBricks\Page\Document\Page\Repository
+     */
+    public function getRepo()
     {
-        $this->setIconClass('list')
-            ->addParam('page_management', 'list')
-            ->setLabel('list')
-            ->addData('component', '\NetBricks\Page\Component\Management\ListMany')
-            ->addData('destination', '.nb_page_management_container');
+        return new \NetBricks\Page\Document\Page\Repository();
+    }
 
-        parent::__construct($options);
+    /**
+     * @param $params
+     * @return \NetBricks\Page\Document\Page[]
+     */
+    public function all($params = array())
+    {
+        return $this->getRepo()->all();
+    }
+
+    /**
+     * @param $params
+     * @return \NetBricks\Page\Document\Page
+     */
+    public function get($params)
+    {
+        return $this->getRepo()->find($params['id']);
     }
 
 }

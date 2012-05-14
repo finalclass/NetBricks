@@ -31,34 +31,8 @@ use \NetBricks\Page\Document\Page as PageModel;
  * @date: 24.02.12
  * @time: 10:04
  */
-class Page
+class Page extends PageReader
 {
-
-    /**
-     * @return \NetBricks\Page\Document\Page\Repository
-     */
-    private function getRepo()
-    {
-        return new \NetBricks\Page\Document\Page\Repository();
-    }
-
-    /**
-     * @param $params
-     * @return \NetBricks\Page\Document\Page[]
-     */
-    public function all($params = array())
-    {
-        return $this->getRepo()->all();
-    }
-
-    /**
-     * @param $params
-     * @return \NetBricks\Page\Document\Page
-     */
-    public function get($params)
-    {
-        return $this->getRepo()->find($params['id']);
-    }
 
     /**
      * @param $params
@@ -66,7 +40,12 @@ class Page
      */
     public function post($params)
     {
+        return $this->getRepo()->save($params);
+    }
 
+    public function put($params)
+    {
+        return $this->getRepo()->save($params);
     }
 
 }

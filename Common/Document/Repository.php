@@ -54,6 +54,33 @@ class Repository
         return $this->createDocument($response);
     }
 
+    /**
+     * Finds or creates the record. Depends on $params['_id'] variable
+     *
+     * @param $params
+     * @return Document
+     */
+    public function findOrCreate($params)
+    {
+        $id = $params['_id'];
+        $record = null;
+        if($id) {
+            $record = $this->getView()->find($id);
+        }
+        if($record) {
+            $record = array_merge($record, $params);
+        } else {
+            $record = _::couchdb()->save($params);
+        }
+
+        return $this->createDocument($record);
+    }
+
+    public function getView()
+    {
+        return new \NetCore\CouchDB\View($this->viewName, _::couchdb());
+    }
+
     public function findByKeys($keys)
     {
         if(empty($keys)) {

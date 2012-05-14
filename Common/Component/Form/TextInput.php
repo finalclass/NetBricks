@@ -37,6 +37,13 @@ class TextInput extends FormElementAbstract
              . '/>';
     }
 
-    
+    public function setValue($value)
+    {
+        if(is_array($value)) {
+            $value = join(', ', $value);
+        }
+        return parent::setValue($value);
+    }
+
 
 }

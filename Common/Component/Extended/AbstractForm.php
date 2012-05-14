@@ -52,7 +52,7 @@ abstract class AbstractForm extends BaseForm
     final public function makeAction()
     {
         if (_::request()->isPost()) {
-            if (_::request()->_id->exists() && _::request()->_rev->exists()) {
+            if (_::request()->post->_id->exists() && _::request()->post->_rev->exists()) {
                 $out = $this->getService()->put(_::request()->post->getArray())->toArray();
             } else {
                 $out = $this->getService()->post(_::request()->post->getArray())->toArray();

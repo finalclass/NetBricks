@@ -109,7 +109,7 @@ class Admin extends Html5
         $this->content = new $data['component']();
     }
 
-    public function addMenuItem($label, $componentName, $contentParamValue = null)
+    public function addMenuItem($label, $componentName, $contentParamValue = null, $customParams = array())
     {
         if (!$contentParamValue) {
             $contentParamValue = $this->generateMenuItemName($componentName);
@@ -117,6 +117,7 @@ class Admin extends Html5
 
         $this->menu->$contentParamValue = Link::factory()
                 ->addParam('content', $contentParamValue)
+                ->addParams($customParams)
                 ->setLabel($label)
                 ->addData('component', $componentName)
                 ->addData('destination', '.nb_layout_admin .content');

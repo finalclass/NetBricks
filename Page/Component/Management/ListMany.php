@@ -57,7 +57,8 @@ class ListMany extends Table
                 ->addData('destination', '.nb_page_management_container');
 
         $this->setDataProvider($this->getService()->all(array()))
-                ->column('title', 'Title')
+                ->column('id', 'Id')
+                ->column('meta_title', 'Title')
                 ->column('operations', 'Operations', $op);
 
         parent::__construct($options);

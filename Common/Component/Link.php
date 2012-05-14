@@ -48,6 +48,14 @@ class Link extends Tag
         return $this;
     }
 
+    public function addParams(array $params)
+    {
+        foreach($params as $key=>$val) {
+            $this->addParam($key, $val);
+        }
+        return $this;
+    }
+
     public function getParam($paramName)
     {
         return (string)@$this->params[$paramName];

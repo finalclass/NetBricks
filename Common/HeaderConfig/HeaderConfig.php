@@ -81,6 +81,12 @@ class HeaderConfig extends ConfigurableContainer
         return $this->title;
     }
 
+    public function setTitle($value)
+    {
+        $this->getTitle()->set($value);
+        return $this;
+    }
+
     /**
      * @param string $value
      * @return \NetBricks\Common\HeaderConfig
@@ -115,6 +121,24 @@ class HeaderConfig extends ConfigurableContainer
     public function getRobots()
     {
         return isset($this->options['robots']) ? $this->options['robots'] : 'index, follow';
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\Common\HeaderConfig
+     */
+    public function setAuthor($value)
+    {
+        $this->options['author'] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return (string)@$this->options['author'];
     }
 
     /**

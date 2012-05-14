@@ -32,16 +32,26 @@ use \NetBricks\Facade as _;
  * @date: 24.02.12
  * @time: 09:50
  *
- * @property \NetBricks\Page\Component\Management\Menu $menu
+ * @property \NetBricks\Common\Component\BasicCrud\Menu $menu
  * @property \NetBricks\Common\Component\Container $content
  */
 class Layout extends Container
 {
 
-
     public function __construct($options = array())
     {
-        $this->menu = _::loader($this)->find('../Menu')->create();
+        $this->menu = new \NetBricks\Common\Component\BasicCrud\Menu();
+        $this->menu->addButton
+                ->addParam('page_management', 'add')
+                ->setLabel('add')
+                ->addData('component', 'NetBricks\Page\Component\Management\Form')
+                ->addData('destination', '.nb_page_management_container');
+
+        $this->menu->listButton
+                ->addParam('page_management', 'list')
+                ->setLabel('list')
+                ->addData('component', '\NetBricks\Page\Component\Management\ListMany')
+                ->addData('destination', '.nb_page_management_container');
 
         switch (_::request()->page_management->toString()) {
             default:

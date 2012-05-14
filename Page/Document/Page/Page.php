@@ -148,8 +148,11 @@ class Page extends MultiLangDocument
         $all = array();
         foreach ($keywordsByLanguage as $language => $keywords) {
             $unique = array();
+            if (!is_array($keywords)) {
+                $keywords = explode(',', $keywords);
+            }
             foreach ($keywords as $k) {
-                $unique[$k] = $k;
+                $unique[$k] = trim($k);
             }
             $all[$language] = $unique;
         }
@@ -246,7 +249,7 @@ class Page extends MultiLangDocument
      */
     public function getMetaTitle()
     {
-        return (array)@$this->data['meta_title_translations'][$this->getLanguage()];
+        return (string)@$this->data['meta_title_translations'][$this->getLanguage()];
     }
 
     /**
@@ -358,7 +361,7 @@ class Page extends MultiLangDocument
      */
     public function getTitle()
     {
-        return (array)@$this->data['title_translations'][$this->getLanguage()];
+        return (string)@$this->data['title_translations'][$this->getLanguage()];
     }
 
     public function getTitleTranslations()
