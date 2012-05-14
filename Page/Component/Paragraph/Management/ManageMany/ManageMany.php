@@ -57,7 +57,10 @@ class ManageMany extends Table
                 $menu = new ItemMenu();
                 $menu->setRecordId($record->getId())
                         ->setRev($record->getRev())
+                        ->stateParam('action')
                         ->setServiceName('paragraph');
+
+                $menu->editButton->addParam('action', 'edit');
 
                 $menu->setRemoveConfirmText('nb_page_paragraph_remove_confirm');
 

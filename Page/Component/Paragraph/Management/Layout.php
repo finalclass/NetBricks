@@ -63,7 +63,7 @@ class Layout extends Container
 ?>
 <div class="NetBricks_Page_Paragraph_Management">
     <?php echo $this->menu; ?>
-    <div class="action_content">
+    <div class="action_content nb_page_paragraph_management">
         <?php echo $this->content; ?>
     </div>
 </div>
