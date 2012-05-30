@@ -26,6 +26,10 @@ namespace NetBricks\Contact\Component;
 
 use \NetBricks\Facade as _;
 use \NetBricks\Common\Component\Form\Form;
+use \NetBricks\Common\Component\Form\TextInput;
+use \NetBricks\Common\Component\Form\Submit;
+use \NetBricks\Common\Component\UnorderedList;
+use \NetBricks\Common\Component\Form\TextArea;
 
 /**
  * @property \NetBricks\Common\Component\Form\TextInput $nameInput
@@ -44,15 +48,16 @@ class Contact extends Form
     {
         parent::__construct($options);
         $ns = '/NetBricks/Common/Component/Form/';
-        $f = _::factory()->core->form;
-        $this->nameInput = _::loader($ns . 'TextInput')->create()->setName('name');
-        $this->emailInput = _::loader($ns . 'TextInput')->create()->setName('email');
-        $this->bodyTextArea = _::loader($ns . 'TextArea')->create()->setName('body');
-        $this->submitButton = _::loader($ns . 'Submit')->create()
+        //$f = _::factory()->core->form;
+        $this->nameInput = TextInput::factory()->setName('name');
+        $this->emailInput = TextInput::factory()->setName('email');
+        $this->bodyTextArea = TextArea::factory()->setName('body');
+        $this->submitButton = Submit::factory()
                 ->setLabel('Send')
                 ->setName('form')
                 ->setValue('contact');
-        $this->errorsList = _::loader('/NetBricks/Common/Component/UnorderedList')->create()->setClass('errors');
+
+        $this->errorsList = UnorderedList::factory()->setClass('errors');
 
         if(_::request()->isPost() && _::request()->post->form == 'contact') {
             $result = _::services()->contact()->post(_::request()->post->getArray());
@@ -61,9 +66,9 @@ class Contact extends Form
                 $this->isSent = true;
             } else {
                 $this->hasErrors = true;
+                $this->setErrors($result['errors']);
                 $this->errorsList->setArrayAsContent($result['errors']);
             }
-
         }
     }
 

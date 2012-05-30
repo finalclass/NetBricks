@@ -22,3 +22,7 @@
 "nb_page_photo_remove_confirm"; "Are you sure you want to remove this image?"
 "nb_page_photo_remove"; "remove"
 "nb_page_photo_error_wrong_source_type"; "Not supported file format"
+
+"nb_contact_send_failed"; "Send mail failed"
+"nb_contact_email_invalid"; "Email address invalid"
+"nb_contact_body_too_short"; "Please insert at least 10 characters"

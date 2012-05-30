@@ -32,10 +32,10 @@ class Form extends Tag
         return isset($this->options['enctype']) ? $this->options['enctype'] : '';
     }
 
-   /**
-    * @param $value
-    * @return Form
-    */
+    /**
+     * @param $value
+     * @return Form
+     */
     public function setMethod($value)
     {
         $this->options['method'] = $value;
@@ -77,8 +77,8 @@ class Form extends Tag
     public function getValues()
     {
         $out = array();
-        foreach($this->children as $child) {
-            if($child instanceof FormElementAbstract) {
+        foreach ($this->children as $child) {
+            if ($child instanceof FormElementAbstract) {
                 $out[$child->getName()] = $child->getValue();
             }
         }
@@ -88,14 +88,55 @@ class Form extends Tag
 
     public function setValues($values)
     {
-        foreach($this->children as $child) {
-            if($child instanceof FormElementAbstract) {
+        foreach ($this->children as $child) {
+            /** @var $child FormElementAbstract */
+            if ($child instanceof FormElementAbstract) {
                 $val = empty($values[$child->getName()]) ? '' : $values[$child->getName()];
-                if($val) {
+                if ($val) {
                     $child->setValue($val);
                 }
             }
         }
+        return $this;
+    }
+
+    public function setErrors($errors)
+    {
+        if(!is_array($errors)) {
+            return $this;
+        }
+        foreach ($this->children as $child) {
+            if ($child instanceof FormElementAbstract) {
+                /** @var $child FormElementAbstract */
+                $name = $child->getName();
+                $val = empty($errors[$name]) ? array() : $errors[$name];
+                if ($val) {
+                    $child->setErrors($val);
+                }
+            }
+        }
+        return $this;
+    }
+
+    public function getErrors()
+    {
+        $errors = array();
+        foreach ($this->children as $child) {
+            if (!($child instanceof FormElementAbstract)) {
+                continue;
+            }
+            /** @var $child FormElementAbstract */
+            $name = $child->getName();
+            if (empty($name)) {
+                continue;
+            }
+            $childErrors = $child->getErrors();
+            if (empty($childErrors)) {
+                $childErrors = array();
+            }
+            $errors[$name] = $childErrors;
+        }
+        return $errors;
     }
 
 }

@@ -44,10 +44,11 @@ class Contact extends \NetCore\Configurable\OptionsAbstract
         $body = $data['body'];
         $headers = 'From: ' . $data['name'] . ' <' . $data['email'] . '>' . "\r\n";
 
-        $result = @mail($to, $subject, $body, $headers);
-
-        if(!$result) {
-            $data['errors']['mail'] = 'Send mail failed';
+        if (empty($data['errors'])) {
+            $result = @mail($to, $subject, $body, $headers);
+            if (!$result) {
+                $data['errors']['mail'] = 'nb_contact_send_failed';
+            }
         }
 
         return $data;
@@ -61,18 +62,18 @@ class Contact extends \NetCore\Configurable\OptionsAbstract
         $strLenValidator = new \Zend_Validate_StringLength(array('min' => 10));
         $filter = new \Zend_Filter();
         $filter->addFilter(new \Zend_Filter_StringTrim())
-            ->addFilter(new \Zend_Filter_StripTags());
+                ->addFilter(new \Zend_Filter_StripTags());
 
         $data['email'] = $filter->filter(@(string)$post['email']);
         $data['name'] = $filter->filter(@(string)$post['name']);
         $data['body'] = $filter->filter(@(string)$post['body']);
         $data['errors'] = array();
 
-        if(!$emailValidator->isValid($data['email'])) {
-            $data['errors']['email'] = 'Email address invalid';
+        if (!$emailValidator->isValid($data['email'])) {
+            $data['errors']['email'] = 'nb_contact_email_invalid';
         }
-        if(!$strLenValidator->isValid($data['body'])) {
-            $data['errors']['body'] = 'Please insert at least 10 characters';
+        if (!$strLenValidator->isValid($data['body'])) {
+            $data['errors']['body'] = 'nb_contact_body_too_short';
         }
         return $data;
     }

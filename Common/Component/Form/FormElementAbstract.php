@@ -3,6 +3,7 @@
 namespace NetBricks\Common\Component\Form;
 
 use \NetBricks\Common\Component\Tag;
+use \NetBricks\Facade as _;
 
 /**
  * Author: Szymon Wygnański
@@ -71,7 +72,18 @@ abstract class FormElementAbstract extends Tag
      */
     public function setErrors($value)
     {
-        $this->options['errors'] = (array)$value;
+        if(!is_array($value)) {
+            $value = array($value);
+        }
+
+        foreach($value as $key=>$val) {
+            $value[$key] = _::translate($val);
+        }
+
+        $this->options['errors'] = $value;
+        if(!empty($value)) {
+            $this->addClass($this->getErrorClassName());
+        }
         return $this;
     }
 
@@ -86,6 +98,27 @@ abstract class FormElementAbstract extends Tag
     public function hasErrors()
     {
         return !empty($this->options['errors']);
+    }
+
+    /**
+     * @param string $errorClassName
+     * @return FormElementAbstract
+     */
+    public function setErrorClassName($errorClassName)
+    {
+        $this->options['error_class_name'] = $errorClassName;
+        if($this->hasErrors()) {
+            $this->addClass($errorClassName);
+        }
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorClassName()
+    {
+        return (string)@$this->options['error_class_name'];
     }
 
 }
