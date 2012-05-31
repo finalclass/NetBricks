@@ -82,7 +82,6 @@ class Admin extends Html5
                 ->setHeight(100)
                 ->setSrc(_::loader(__CLASS__ . '/ajax-loader.gif'));
 
-
         parent::__construct($options);
         $this->resolveContent();
     }

@@ -104,7 +104,7 @@ nb.component('nb_layout_admin', function () {
         var paramsPairs = new Array();
 
         for (var i in data.params) {
-          if (data.params.hasOwnProperty(i) && aParams[i] == undefined) {
+          if (data.params.hasOwnProperty(i) && !aParams[i] == undefined) {
             aParams[i] = data.params[i];
             if(aParams[i].length == 0) {
               delete aParams[i];

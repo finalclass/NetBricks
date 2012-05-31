@@ -223,16 +223,17 @@ class Facade
             $request = new Request();
             $uri = $_SERVER['REQUEST_URI'];
 
-            $uriWithoutParams = $uri;
+            /* $uriWithoutParams = $uri;
             $questionMarkPosition = strpos($uri, '?');
             if ($questionMarkPosition !== false) {
                 $uriWithoutParams = substr($uri, 0, $questionMarkPosition);
-            }
+            }*/
 
             $router = static::router();
             $route = $router->findRouteByUri($uri);
             if ($route) {
-                $get = array_merge($route->getParamsForUri($uriWithoutParams), $_GET);
+                //$get = array_merge($route->getParamsForUri($uriWithoutParams), $_GET);
+                $get = array_merge($route->getParamsForUri($uri), $_GET);
                 $params = static::createParams($get);
             } else {
                 $params = static::createParams($_GET);
@@ -274,10 +275,22 @@ class Facade
 
             $r->addRoute('service', '/-{service}');
             $r->addRoute('service_with_id', '/-{service}/{id}');
+            $r->addRoute('service_with_params', '/-{service}?{params}');
+
             $r->addRoute('component', '/component={component}',
                 array('stage' => '\NetBricks\Common\Component\Document\SingleComponent'));
 
+            $r->addRoute('component_with_params', '/component={component}?{params}',
+                            array('stage' => '\NetBricks\Common\Component\Document\SingleComponent'));
+
             $r->addRoute('default', '/{stage}/{content}/{action}',
+                array(
+                    'stage' => 'default',
+                    'content' => 'default',
+                    'action' => 'default'
+                ));
+
+            $r->addRoute('default_with_params', '/{stage}/{content}/{action}?{params}',
                 array(
                     'stage' => 'default',
                     'content' => 'default',
