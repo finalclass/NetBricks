@@ -48,6 +48,12 @@ class Link extends Tag
         return $this;
     }
 
+    public function removeParam($paramName)
+    {
+        unset($this->params[$paramName]);
+        return $this;
+    }
+
     public function addParams(array $params)
     {
         foreach($params as $key=>$val) {

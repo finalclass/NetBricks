@@ -126,8 +126,6 @@ nb.component('nb_layout_admin', function () {
       $('.nb_layout_admin .content').find('form').each(function () {
         var $form = $(this);
         if ($.trim($form.attr('action')).length == 0) {
-
-
           $form.attr('action', getBaseURL() + '?' + objectToUrlParams(state));
         }
       });

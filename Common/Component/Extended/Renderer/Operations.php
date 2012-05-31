@@ -53,6 +53,7 @@ class Operations extends Renderer
                 ->setLabel('edit');
 
         $this->removeButton = IconLink::factory()
+                ->addClass('delete')
                 ->setIconClass('trash')
                 ->setLabel('delete');
     }
@@ -63,7 +64,13 @@ class Operations extends Renderer
      */
     public function setStateParam($value)
     {
-        $this->options['state_param'] = (string)$value;
+        $old = $this->getStateParam();
+        if($old) {
+            $this->editButton->removeParam($old);
+        }
+        $value = (string)$value;
+        $this->options['state_param'] = $value;
+        $this->editButton->addParam($value, 'edit');
         return $this;
     }
 
@@ -81,7 +88,9 @@ class Operations extends Renderer
      */
     public function setServiceName($value)
     {
-        $this->options['service_name'] = (string)$value;
+        $value = (string)$value;
+        $this->options['service_name'] = $value;
+        $this->removeButton->addParam('service', $value . '-delete');
         return $this;
     }
 
@@ -99,7 +108,9 @@ class Operations extends Renderer
      */
     public function setRemoveConfirmText($value)
     {
-        $this->options['remove_confirm_text'] = (string)$value;
+        $value = (string)$value;
+        $this->options['remove_confirm_text'] = $value;
+        $this->removeButton->setOnclick("return confirm('" . $value . "')");
         return $this;
     }
 
@@ -113,20 +124,11 @@ class Operations extends Renderer
 
     protected function prepare()
     {
-        $this->editButton->addParam('id', $this->getId())
-                ->addParam($this->getStateParam(), 'edit');
+        $this->editButton->addParam('id', $this->getId());
 
-        $service = $this->getServiceName();
-        if ($service) {
-            $rev = $this->getRev() ? '&rev=' . $this->getRev() : '';
-            $redirect = '&redirect=' . urlencode(_::request()->getCurrentUrlFull());
-            $this->removeButton->setHref('/-' . $this->getServiceName() . '-delete?'
-                    . 'id=' . $this->getId() . $rev . $redirect);
-        }
-
-        if (!$this->removeButton->getOnclick()) {
-            $this->removeButton->setOnclick("return confirm('" . $this->getRemoveConfirmText() . "')");
-        }
+        $this->removeButton->addParam('id', $this->getId())
+            ->addParam('rev', $this->getRev())
+            ->addParam('redirect', urlencode(_::request()->getCurrentUrlFull()));
     }
 
     public function setData($data)
