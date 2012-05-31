@@ -98,8 +98,10 @@ class Admin extends Html5
             }
         }
 
-        if (isset($this->menu->children[0])) {
-            $this->switchContentToMenuItem($this->menu->children[0]);
+        $first = reset($this->menu->children);
+
+        if ($first) {
+            $this->switchContentToMenuItem($first);
         }
     }
 
