@@ -28,6 +28,7 @@ use \NetBricks\Common\Component\Table;
 use \NetBricks\Page\Document\Page as PageDocument;
 use \NetBricks\Common\Component\BasicCrud\ItemMenu;
 use \NetBricks\Common\Component\Extended\Renderer\Operations;
+use \NetBricks\Facade as _;
 
 /**
  * @author: Sel <s@finalclass.net>
@@ -47,6 +48,8 @@ class ListMany extends Table
 
     public function __construct($options = array())
     {
+        _::cfg()->getHeader()->getScripts()->addJQuery()->addNetBricks();
+        $this->addClass('nb_page_list_many');
         $op = Operations::factory()
                 ->setRemoveConfirmText('nb_page_management_remove_text')
                 ->setServiceName('page')

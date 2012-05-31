@@ -48,4 +48,9 @@ class Page extends PageReader
         return $this->getRepo()->save($params);
     }
 
+    public function delete($params)
+    {
+        return _::couchdb()->delete($params['id'], $params['rev']);
+    }
+
 }

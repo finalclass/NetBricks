@@ -64,6 +64,7 @@ abstract class AbstractForm extends BaseForm
 
             if (empty($out['errors'])) {
                 $this->redirect();
+                die('you should be redirected');
             }
             $this->setErrors($out['errors']);
         } else if (_::request()->get->id->exists()) {
