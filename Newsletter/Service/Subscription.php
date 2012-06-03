@@ -19,15 +19,17 @@ class Subscription
         return new \NetBricks\Newsletter\Document\Repository();
     }
 
-    public function put($params)
+    public function post($params = array())
     {
-        $params = $this->getFilteredAndValidateData($params);
-        return $this->getRepo()->save($params);
-    }
-
-    public function post($params)
-    {
-        return $this->put($params);
+        $params = $this->getFilteredAndValidateData($params['post']);
+        $document = new \NetBricks\Newsletter\Document\NewsletterUser();
+        $document->setEmail($params['email'])
+            ->setLanguage($params['language'])
+            ->setErrors((array)@$params['errors']);
+        if(empty($params['errors'])) {
+            return $this->getRepo()->save($params);
+        }
+        return $document;
     }
 
     public function getFilteredAndValidateData($params)
@@ -37,19 +39,25 @@ class Subscription
         $filter->addFilter(new \Zend_Filter_StringTrim())
             ->addFilter(new \Zend_Filter_StripTags());
 
-        if(isset($params['email']) && ! isset($params['_id'])) {
-            $params['_id'] = $params['email'];
+        $emailErrors = array();
+
+        $params['email'] = $filter->filter($params['email']);
+
+        $existing = $this->getRepo()->findByEmail($params['email']);
+        if($existing) {
+            $emailErrors[] = _::translate('nb_newsletter_email_exists');
         }
 
-        $params['_id'] = $filter->filter(@(string)$params['_id']);
-
-        if (!$emailValidator->isValid($params['_id'])) {
-            $params['errors']['_id'] = 'nb_newsletter_email_invalid';
-            $params['errors']['email'] = 'nb_newsletter_email_invalid';
+        if (!$emailValidator->isValid($params['email'])) {
+            $emailErrors[] = _::translate('nb_newsletter_email_invalid');
         }
 
         if(!isset($params['language'])) {
             $params['language'] = _::languages()->getCurrent();
+        }
+
+        if(!empty($emailErrors)) {
+            $params['errors']['email'] = $emailErrors;
         }
 
         return $params;

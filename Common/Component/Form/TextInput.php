@@ -34,7 +34,7 @@ class TextInput extends FormElementAbstract
     public function render()
     {
         echo '<input type="text" '
-             . $this->renderTagAttributes(array('name', 'class', 'id', 'value', 'style', 'placeholder'))
+             . $this->renderTagAttributes(array('size', 'name', 'class', 'id', 'value', 'style', 'placeholder'))
              . '/>';
     }
 
@@ -44,6 +44,24 @@ class TextInput extends FormElementAbstract
             $value = join(', ', $value);
         }
         return parent::setValue($value);
+    }
+
+    /**
+     * @param $value
+     * @return TextInput
+     */
+    public function setSize($value)
+    {
+        $this->options['size'] = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSize()
+    {
+        return (string)@$this->options['size'];
     }
 
 

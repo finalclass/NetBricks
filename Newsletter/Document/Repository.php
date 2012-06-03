@@ -35,8 +35,16 @@ use \NetBricks\Common\Document\Repository as BaseRepository;
 class Repository extends BaseRepository
 {
 
-    public $designDocumentId = '_design/common';
+    public $designDocumentId = '_design/newsletter';
     public $viewName = 'newsletter_users';
     public $documentClassName = '\NetBricks\Newsletter\Document\NewsletterUser';
+
+
+    public function findByEmail($email)
+    {
+        $docs = $this->all('by_email', null, null, 1);
+        return reset($docs);
+    }
+
 
 }

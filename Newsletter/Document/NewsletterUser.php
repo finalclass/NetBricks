@@ -26,7 +26,7 @@ class NewsletterUser extends Document
 
     /**
      * @param boolean $value
-     * @return \NetBricks\Newsletter\Document
+     * @return \NetBricks\Newsletter\Document\NewsletterUser
      */
     public function setEmail($value)
     {
@@ -49,7 +49,7 @@ class NewsletterUser extends Document
 
     /**
      * @param boolean $value
-     * @return \NetBricks\Newsletter\Document
+     * @return \NetBricks\Newsletter\Document\NewsletterUser
      */
     public function setNewsletterChannels($value)
     {
@@ -71,7 +71,7 @@ class NewsletterUser extends Document
 
     /**
      * @param boolean $value
-     * @return \NetBricks\Newsletter\Document
+     * @return \NetBricks\Newsletter\Document\NewsletterUser
      */
     public function setLanguage($value)
     {

@@ -102,13 +102,13 @@
      * @param {String} component String The component name
      * @param {Function} [beforeScriptsLoaded] Function(html) optional
      */
-    loader:function (component, beforeScriptsLoaded, error) {
+    loader:function (component, beforeScriptsLoaded, error, data) {
       component = component.replace(new RegExp(/\\/g), '/');
 
       return $.ajax({
         url:'/-component/?component_name=' + component,
         dataType:'json',
-        data:null,
+        data:data,
         success:function (response) {
           nb.addStyleFiles(response.styles);
           var wasNextCalled = false;

@@ -25,7 +25,7 @@ class AddUserForm extends AbstractForm
 
     public function __construct($params = array())
     {
-        $this->email = TextInput::factory()->setName('_id');
+        $this->email = TextInput::factory()->setName('email');
         $this->submit = Submit::factory()->setName('form')->setValue('newsletter_subscription');
         parent::__construct($params);
     }
