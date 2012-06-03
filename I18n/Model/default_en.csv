@@ -26,3 +26,5 @@
 "nb_contact_send_failed"; "Send mail failed"
 "nb_contact_email_invalid"; "Email address invalid"
 "nb_contact_body_too_short"; "Please insert at least 10 characters"
+
+"nb_newsletter_email_invalid"; "E-mail address is invalid"

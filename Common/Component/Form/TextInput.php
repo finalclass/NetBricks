@@ -3,6 +3,7 @@
 namespace NetBricks\Common\Component\Form;
 
 use \NetBricks\Common\Component\Form\FormElementAbstract;
+use \NetBricks\Facade as _;
 
 /**
  * Author: Szymon Wygnański
@@ -18,7 +19,7 @@ class TextInput extends FormElementAbstract
      */
     public function setPlaceholder($value)
     {
-        $this->options['placeholder'] = $value;
+        $this->options['placeholder'] = _::translate($value);
         return $this;
     }
 
