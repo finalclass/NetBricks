@@ -61,10 +61,11 @@ class Contact extends Form
 
         if(_::request()->isPost() && _::request()->post->form == 'contact') {
             $result = _::services()->contact()->post(_::request()->post->getArray());
-            $this->setValues($result);
+
             if(empty($result['errors'])) {
                 $this->isSent = true;
             } else {
+                $this->setValues($result);
                 $this->hasErrors = true;
                 $this->setErrors($result['errors']);
                 $this->errorsList->setArrayAsContent($result['errors']);

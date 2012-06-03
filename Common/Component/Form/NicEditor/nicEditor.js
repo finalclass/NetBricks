@@ -1,5 +1,9 @@
 nb.component('nb_common_form_nic_editor', function() {
 
-  new nicEditor().panelInstance(this);
+  var that = this;
+
+  setTimeout(function() {
+    new nicEditor().panelInstance(that);
+  }, 100)
 
 });

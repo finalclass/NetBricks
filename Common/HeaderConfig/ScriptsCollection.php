@@ -110,4 +110,10 @@ class ScriptsCollection extends OptionsCollection
                 ->set(-144, '/NetBricks/Common/js/jquery.tools.min.js');
     }
 
+    public function addJQueryBlink()
+    {
+        return $this->addJQuery()
+            ->set(-143, '/NetBricks/Common/js/jquery.blink.js');
+    }
+
 }
