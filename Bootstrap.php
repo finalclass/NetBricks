@@ -114,8 +114,30 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
                 exit;
             }
 
-            header('Content-type: application/json');
-            echo \Zend_Json::prettyPrint(\Zend_Json::encode($response));
+            header("Pragma: no-cache");
+            header("Expires: 0");
+            $format = _::request()->getParam('format', 'json');
+            header('Content-disposition: attachment; filename=' . date('Y-m-d') . '.' . $format);
+            switch($format) {
+                default:
+                case 'json':
+                    header('Content-type: application/json');
+                    echo \Zend_Json::prettyPrint(\Zend_Json::encode($response));
+                    break;
+                case 'csv':
+                    header("Content-type: application/csv");
+
+                    //Header:
+                    $first = reset($response);
+                    $keys = null;
+                    if($first) {
+                        $keys = array_keys($first);
+                    }
+
+                    //Send csv
+                    echo \NetCore\Utils\Csv::arrayToCsv($response, $keys, ';');
+                    break;
+            }
             return;
         }
 

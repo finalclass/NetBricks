@@ -12,6 +12,7 @@ namespace NetBricks\Newsletter\Component;
 use \NetBricks\Common\Component\Tag;
 use \NetBricks\Common\Component\BasicCrud\Menu;
 use \NetBricks\Facade as _;
+use \NetBricks\Common\Component\IconLink;
 
 /**
  * @property \NetBricks\Common\Component\BasicCrud\Menu $menu
@@ -30,6 +31,13 @@ class Management extends Tag
         $this->menu->listButton
                 ->addData('destination', '.nb_newsletter_management')
                 ->addData('component', '\NetBricks\Newsletter\Component\Management\Table');
+
+        $this->menu->csvButton = IconLink::factory()
+                ->addParam('service', 'nb_newsletter_user-get')
+                ->addParam('format', 'csv')
+                ->setIconClass('ui-icon ui-icon-mail-closed')
+                ->setLabel('CSV')
+                ->addClass('ui-state-default ui-corner-all nb-button add');
 
         switch (_::request()->nb_newsletter_management->toString()) {
             default:
