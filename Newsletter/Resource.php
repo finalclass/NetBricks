@@ -26,6 +26,10 @@ class Resource extends \Zend_Application_Resource_ResourceAbstract
             ->setNamespace('\NetBricks\Newsletter\Service\Subscription')
             ->setAllowed('guest');
 
+        _::services()->nb_newsletter_user
+            ->setNamespace('\NetBricks\Newsletter\Service\NewsletterUser')
+            ->setAllowed('admin');
+
         if (_::request()->get->installation->isOneOf(
             array('installation', 'newsletter_user', 'newsletter'))
         ) {

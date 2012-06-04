@@ -231,13 +231,14 @@ class Facade
 
             $router = static::router();
             $route = $router->findRouteByUri($uri);
+            $get = array();
             if ($route) {
-                //$get = array_merge($route->getParamsForUri($uriWithoutParams), $_GET);
                 $get = array_merge($route->getParamsForUri($uri), $_GET);
-                $params = static::createParams($get);
             } else {
-                $params = static::createParams($_GET);
+                $get = $_GET;
             }
+
+            $params = static::createParams($get);
 
             $request->setUri($uri);
             $request->setParams($params);
@@ -254,11 +255,14 @@ class Facade
         switch (strtolower($_SERVER['REQUEST_METHOD'])) {
             case 'put':
                 parse_str(file_get_contents("php://input"), $putVars);
+                $params = array_merge($params, $putVars);
                 $params['put'] = $putVars;
                 break;
             default:
             case 'post':
-                $params['post'] = $post == null ? $_POST : $post;
+                $post = $post === null ? $_POST : $post;
+                $params = array_merge($params, $post);
+                $params['post'] = $post;
                 break;
         }
         return $params;
