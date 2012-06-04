@@ -141,7 +141,8 @@ class ItemMenu extends UnorderedList
      */
     public function setRemoveConfirmText($text)
     {
-        $this->removeConfirmText = (string)$text;
+        $text = _::translate((string)$text);
+        $this->removeConfirmText = $text;
         $this->removeButton->setOnclick("return confirm('" . $text . "')");
         return $this;
     }

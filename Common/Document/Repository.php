@@ -43,15 +43,27 @@ class Repository
 
     /**
      * @param $id
+     * @param null $viewName
      * @return \NetCore\CouchDB\Document
      */
-    public function find($id)
+    public function find($id, $viewName = null)
     {
-        $response = _::couchdb()->get($id);
-        if (@$response['error'] == 'not_found') {
-            return null;
+        if ($viewName) {
+            $urlParams = '?' . 'key=' . urlencode('"' . $id . '"') . '&limit=1';
+            $response = _::couchdb()->get($this->designDocumentId . '/_view/' . $viewName . $urlParams);
+            $rows = $response['rows'];
+            $first = reset($response['rows']);
+            if(!$first) {
+                return null;
+            }
+            return $this->createDocument($first['value']);
+        } else {
+            $response = _::couchdb()->get($id);
+            if (@$response['error'] == 'not_found') {
+                return null;
+            }
+            return $this->createDocument($response);
         }
-        return $this->createDocument($response);
     }
 
     /**
@@ -64,10 +76,10 @@ class Repository
     {
         $id = $params['_id'];
         $record = null;
-        if($id) {
+        if ($id) {
             $record = $this->getView()->find($id);
         }
-        if($record) {
+        if ($record) {
             $record = array_merge($record, $params);
         } else {
             $record = _::couchdb()->save($params);
@@ -83,7 +95,7 @@ class Repository
 
     public function findByKeys($keys)
     {
-        if(empty($keys)) {
+        if (empty($keys)) {
             return array();
         }
         $response = _::couchdb()->findByKeys($keys);
@@ -93,8 +105,8 @@ class Repository
         }
 
         $documents = array();
-        foreach($response['rows'] as $row) {
-            if(@$row['value']['deleted']) {
+        foreach ($response['rows'] as $row) {
+            if (@$row['value']['deleted']) {
                 continue;
             }
             $documents[] = $this->createDocument(@(array)$row['doc']);
@@ -140,8 +152,10 @@ class Repository
         }
 
         $documents = array();
-        foreach ($response['rows'] as $record) {
-            $documents[] = $this->createDocument((array)@$record['value']);
+        if (!empty($response['rows'])) {
+            foreach ($response['rows'] as $record) {
+                $documents[] = $this->createDocument((array)@$record['value']);
+            }
         }
 
         return $documents;

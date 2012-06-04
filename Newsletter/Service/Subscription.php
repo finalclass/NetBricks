@@ -72,7 +72,7 @@ class Subscription
 
     public function subscribe($params)
     {
-        return $this->put($post);
+        return $this->post($params);
     }
 
     public function unsubscribe($params)

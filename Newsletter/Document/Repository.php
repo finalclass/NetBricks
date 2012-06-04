@@ -42,8 +42,7 @@ class Repository extends BaseRepository
 
     public function findByEmail($email)
     {
-        $docs = $this->all('by_email', null, null, 1);
-        return reset($docs);
+        return $this->find($email, 'by_email');
     }
 
 

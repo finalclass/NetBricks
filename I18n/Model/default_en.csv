@@ -29,3 +29,4 @@
 
 "nb_newsletter_email_invalid"; "E-mail address is invalid"
 "nb_newsletter_email_exists"; "E-mail already exists in our database"
+"nb_newsletter_user_remove_confirm"; "Are you sure you want to remove this user from newsletter?"
