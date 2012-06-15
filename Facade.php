@@ -231,6 +231,7 @@ class Facade
 
             $router = static::router();
             $route = $router->findRouteByUri($uri);
+
             $get = array();
             if ($route) {
                 $get = array_merge($route->getParamsForUri($uri), $_GET);
