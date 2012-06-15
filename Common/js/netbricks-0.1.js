@@ -106,7 +106,7 @@
       component = component.replace(new RegExp(/\\/g), '/');
 
       return $.ajax({
-        url:'/-component/?component_name=' + component,
+        url:'/-component?component_name=' + component,
         dataType:'json',
         data:data,
         success:function (response) {
