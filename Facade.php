@@ -279,8 +279,8 @@ class Facade
             $r = new Router();
 
             $r->addRoute('service', '/-{service}');
-            $r->addRoute('service_with_id', '/-{service}/{id}');
             $r->addRoute('service_with_params', '/-{service}?{params}');
+            $r->addRoute('service_with_id', '/-{service}/{id}');
 
             $r->addRoute('component', '/component={component}',
                 array('stage' => '\NetBricks\Common\Component\Document\SingleComponent'));
