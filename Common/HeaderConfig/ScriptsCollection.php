@@ -116,4 +116,11 @@ class ScriptsCollection extends OptionsCollection
             ->set(-143, '/NetBricks/Common/js/jquery.blink.js');
     }
 
+    public function addBrickAutoloader()
+    {
+        return $this->addJQuery()
+                ->addNetBricks()
+                ->set(-142, '/NetBricks/Common/js/jquery-brick_autoloader-v0.0.1.js');
+    }
+
 }
