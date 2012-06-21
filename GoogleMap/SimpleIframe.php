@@ -116,11 +116,53 @@ class SimpleIframe extends ComponentAbstract
         return isset($this->options['zoom']) ? $this->options['zoom'] : 16;
     }
 
+    /**
+     * @param string $value
+     * @return \NetBricks\GoogleMap\SimpleIframe
+     */
+    public function setLongitudes($value)
+    {
+        $this->options['longitudes'] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLongitudes()
+    {
+        return (string)@$this->options['longitudes'];
+    }
+
+    /**
+     * @param string $value
+     * @return \NetBricks\GoogleMap\SimpleIframe
+     */
+    public function setLatitudes($value)
+    {
+        $this->options['latitudes'] = (string)$value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLatitudes()
+    {
+        return (string)@$this->options['latitudes'];
+    }
+
     public function render()
     {
         $q = str_replace(' ', '+', $this->getAddress());
         $hl = _::languages()->getCurrent();
         $z = $this->getZoom();
+
+        $ll = '';
+        if($this->getLatitudes() && $this->getLongitudes()) {
+            $ll = '&amp;ll=' . $this->getLatitudes() . ',' . $this->getLongitudes();
+        }
+
         ?>
     <iframe width="<?php echo $this->getWidth(); ?>"
             height="<?php echo $this->getHeight(); ?>"
@@ -128,12 +170,12 @@ class SimpleIframe extends ComponentAbstract
             scrolling="no"
             marginheight="0"
             marginwidth="0"
-            src="http://maps.google.pl/maps?q=<?php echo $q; ?>&amp;ie=UTF8&amp;z=<?php echo $z; ?>&amp;output=embed&amp;hl=<?php echo $hl; ?>">
+            src="http://maps.google.pl/maps?q=<?php echo $q; ?><?php echo $ll; ?>&amp;ie=UTF8&amp;z=<?php echo $z; ?>&amp;output=embed&amp;hl=<?php echo $hl; ?>">
 
     </iframe>
     <br/>
     <small>
-        <a href="http://maps.google.pl/maps?f=q&amp;source=embed&amp;hl=pl&amp;geocode=&amp;q=<?php echo $q; ?>&amp;aq=&amp;ie=UTF8&amp;hq=&amp;"
+        <a href="http://maps.google.pl/maps?f=q<?php echo $ll; ?>&amp;source=embed&amp;hl=pl&amp;geocode=&amp;q=<?php echo $q; ?>&amp;aq=&amp;ie=UTF8&amp;hq=&amp;"
            style="color:#0000FF;text-align:left">
             <?php echo _::translate('nb_google_map_simple_iframe_show_big'); ?>
         </a>

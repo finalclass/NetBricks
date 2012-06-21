@@ -1,3 +1,6 @@
+/**
+ * The difference between 0.1 and 0.2 is that this version does not trim scripts after '?' before loading it
+ */
 (function () {
 
   $(function () {
@@ -34,7 +37,7 @@
     },
 
     removeAfterQuestionMark:function (string) {
-      if(!string) {
+      if (!string) {
         return '';
       }
       var questionMarkPos = string.indexOf('?');
@@ -52,15 +55,20 @@
         nb.initLoadedScripts();
       }
 
-      for (i in scripts) {
-        if (scripts.hasOwnProperty(i)) {
-          scripts[i] = nb.removeAfterQuestionMark(scripts[i]);
+      function scriptPosition(script) {
+        for (var i in scripts) {
+          if (scripts.hasOwnProperty(i)) {
+            if (nb.removeAfterQuestionMark(script) == scripts[i]) {
+              return i;
+            }
+          }
         }
+        return -1;
       }
 
       $(nb.loadedScripts).each(function () {
         var scriptSrc = this.toString();
-        var pos = scripts.indexOf(scriptSrc);
+        var pos = scriptPosition(scriptSrc);
         if (pos != -1) {
           scripts.splice(pos, 1);
         }
@@ -71,7 +79,7 @@
           $head.append(
             $('<script type="text/javascript" src="' + scripts[i] + '"></script>')
           );
-          nb.loadedScripts.push(scripts[i]);
+          nb.loadedScripts.push(nb.removeAfterQuestionMark(scripts[i]));
         }
       }
     },

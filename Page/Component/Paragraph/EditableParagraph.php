@@ -52,6 +52,17 @@ class EditableParagraph extends Container
     }
 
     /**
+     * @static
+     * @param array $options
+     * @return EditableParagraph
+     */
+    static public function factory($options = array())
+    {
+        $class = get_called_class();
+        return new $class($options);
+    }
+
+    /**
      * @param string $value
      * @return \NetBricks\Page\Component\Paragraph\EditableParagraph
      */
