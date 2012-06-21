@@ -23,6 +23,6 @@ nb.component('brick_autoloader', function() {
       return false;
     });
 
-  $(this).find('a[href="' + window.location.hash.substr(1) + '"]').click();
+  $(this).find('a[href="' + window.location.hash.substr(1) + '"]').first().click();
 
 });
