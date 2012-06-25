@@ -50,21 +50,33 @@ class ListMany extends Table
     {
         _::cfg()->getHeader()->getScripts()->addJQuery()->addNetBricks();
         $this->addClass('nb_page_list_many');
-        $op = Operations::factory()
-                ->setRemoveConfirmText('nb_page_management_remove_text')
-                ->setServiceName('page')
-                ->setStateParam('page_management');
-
-        $op->editButton
-                ->addData('component', '\NetBricks\Page\Component\Management\Form')
-                ->addData('destination', '.nb_page_management_container');
 
         $this->setDataProvider($this->getService()->all(array()))
                 ->column('id', 'Id')
                 ->column('meta_title', 'Title')
-                ->column('operations', 'Operations', $op);
+                ->column('operations', 'Operations', array($this, 'renderOperations'));
 
         parent::__construct($options);
+    }
+
+    public function renderOperations(ListMany $that, PageDocument $record)
+    {
+        $menu = new ItemMenu();
+        $menu->setRecordId($record->getId())
+                ->setRev($record->getRev())
+                ->stateParam('action')
+                ->setServiceName('page');
+
+        $menu->editButton
+                ->addParam('action', 'edit')
+                ->addData('component', '\NetBricks\Page\Component\Management\Form')
+                ->addData('destination', '.nb_page_management_container');
+
+        $menu->setRemoveConfirmText('nb_page_remove_confirm');
+
+        $menu->removeButton->addClass('remove');
+
+        return $menu;
     }
 
 }
