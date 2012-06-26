@@ -64,7 +64,7 @@ class ListMany extends Table
         $menu = new ItemMenu();
         $menu->setRecordId($record->getId())
                 ->setRev($record->getRev())
-                ->stateParam('action')
+                ->stateParam('page_management')
                 ->setServiceName('page');
 
         $menu->editButton
@@ -74,7 +74,7 @@ class ListMany extends Table
 
         $menu->setRemoveConfirmText('nb_page_remove_confirm');
 
-        $menu->removeButton->addClass('remove');
+        $menu->removeButton->addClass('delete');
 
         return $menu;
     }

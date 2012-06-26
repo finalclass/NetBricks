@@ -151,6 +151,8 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
                 echo _::loader('/NetBricks/User/Component/Login/LoginPage')->create();
             } catch (\NetBricks\Common\Component\Exception\NotAComponent $e) {
                 $this->dispatch('error404');
+            } catch(\NetBricks\Page\Exception\PageNotFoundException $e) {
+                $this->dispatch('error404');
             }
         }
     }

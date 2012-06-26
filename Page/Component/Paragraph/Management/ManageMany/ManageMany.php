@@ -43,13 +43,16 @@ class ManageMany extends Table
         _::cfg()->getHeader()->getScripts()->addJQuery()->addNetBricks();
         $this->addClass('nb_page_paragraph_manage_many');
         $data = _::services()->paragraph()->all();
-        $filter = new \NetCore\Filter\ShrinkText();
+
+        $filter = new \Zend_Filter();
+        $filter->addFilter(new \Zend_Filter_StripTags())
+                ->addFilter(new \NetCore\Filter\ShrinkText());
+
         $this->setDataProvider($data)
                 ->column('id', 'Id')
                 ->column('text', 'Text', function($that, ParagraphDocument $record) use($filter)
         {
-
-            return $filter->filter($record->getText(_::languages()->getCurrent()));
+            return $filter->filter($record->getText());
         })
                 ->column('operations', 'Operations',
             function(ManageMany $that, ParagraphDocument $record)

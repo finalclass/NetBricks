@@ -55,8 +55,11 @@ class PageReader
      * @param $params
      * @return \NetBricks\Page\Document\Page
      */
-    public function get($params)
+    public function get($params = null)
     {
+        if(!$params || !isset($params['id'])) {
+            return $this->all();
+        }
         return $this->getRepo()->find($params['id']);
     }
 
