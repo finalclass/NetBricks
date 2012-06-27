@@ -1,3 +1,8 @@
+var hash = window.location.hash.substr(1)
+if(hash.length > 0) {
+  window.location = hash;
+}
+
 nb.component('brick_autoloader', function () {
 
   $(this).delegate('a', 'click', function (event) {
@@ -26,6 +31,6 @@ nb.component('brick_autoloader', function () {
     return false;
   });
 
-  $(this).find('a[href="' + window.location.hash.substr(1) + '"]').first().click();
+  //$(this).find('a[href="' + window.location.hash.substr(1) + '"]').first().click();
 
 });
